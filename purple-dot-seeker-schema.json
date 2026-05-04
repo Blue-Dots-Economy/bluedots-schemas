@@ -1,0 +1,409 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Purple Dot Seeker Profile Schema",
+  "description": "Complete profile schema for a Purple Dot Seeker (Person with Disability)",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "title": "Role",
+      "default": "Purple Dot Seeker",
+      "ui:widget": "hidden",
+      "ui:disabled": true
+    },
+    "whoIAm": {
+      "type": "object",
+      "title": "Who I Am",
+      "description": "Personal and location details",
+      "properties": {
+        "beneficiaryName": {
+          "type": "string",
+          "title": "Beneficiary Name",
+          "description": "Enter your full name",
+          "required": true,
+          "pii": true,
+          "pii_visibility": "hidden_until_connection_accepted",
+          "ui:widget": "text",
+          "ui:placeholder": "Enter your full name",
+          "ui:disabled": false
+        },
+        "mobileNumber": {
+          "type": "string",
+          "title": "Mobile Number",
+          "description": "Your contact mobile number",
+          "required": true,
+          "pii": true,
+          "pii_visibility": "hidden_until_connection_accepted",
+          "pattern": "^[0-9]{10}$",
+          "ui:widget": "tel",
+          "ui:placeholder": "Enter mobile number",
+          "ui:disabled": false
+        },
+        "age": {
+          "type": "integer",
+          "title": "Age",
+          "required": true,
+          "minimum": 1,
+          "maximum": 120,
+          "ui:widget": "number",
+          "ui:placeholder": "Enter your age",
+          "ui:disabled": false
+        },
+        "gender": {
+          "type": "string",
+          "title": "Gender",
+          "required": true,
+          "enum": [
+            "Male",
+            "Female",
+            "Others"
+          ],
+          "enumNames": [
+            "Male",
+            "Female",
+            "Others"
+          ],
+          "ui:widget": "radio",
+          "ui:disabled": false
+        },
+        "persona": {
+          "type": "array",
+          "title": "Persona",
+          "description": "Select all that apply to you",
+          "required": true,
+          "items": {
+            "type": "string"
+          },
+          "enum": [
+            "Student",
+            "Job Seeker",
+            "Senior Citizen",
+            "Care Taker"
+          ],
+          "enumNames": [
+            "Student",
+            "Job Seeker",
+            "Senior Citizen",
+            "Care Taker"
+          ],
+          "ui:widget": "multiselect-matrix",
+          "ui:placeholder": "Select persona(s)",
+          "ui:disabled": false
+        },
+        "above18Confirmation": {
+          "type": "boolean",
+          "title": "Above 18 Confirmation",
+          "description": "I confirm that I am 18 years of age or above",
+          "required": true,
+          "enum": [
+            true,
+            false
+          ],
+          "enumNames": [
+            "Yes",
+            "No"
+          ],
+          "ui:widget": "radio",
+          "ui:disabled": false
+        },
+        "location": {
+          "type": "object",
+          "title": "Location",
+          "properties": {
+            "address": {
+              "type": "string",
+              "title": "Address",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "ui:widget": "geo",
+              "ui:placeholder": "Enter your address",
+              "ui:hasLocationButton": true,
+              "ui:disabled": false
+            },
+            "state": {
+              "type": "string",
+              "title": "State",
+              "required": true,
+              "ui:widget": "select",
+              "ui:placeholder": "Select state",
+              "ui:disabled": false
+            },
+            "district": {
+              "type": "string",
+              "title": "District",
+              "required": true,
+              "ui:widget": "select",
+              "ui:placeholder": "Select district",
+              "ui:dependsOn": "state",
+              "ui:disabled": false
+            },
+            "block": {
+              "type": "string",
+              "title": "Block",
+              "required": false,
+              "ui:widget": "select",
+              "ui:placeholder": "Select block",
+              "ui:dependsOn": "district",
+              "ui:disabled": false
+            },
+            "cityOrVillage": {
+              "type": "string",
+              "title": "City or Village",
+              "required": true,
+              "ui:widget": "select",
+              "ui:placeholder": "Select city or village",
+              "ui:dependsOn": "district",
+              "ui:disabled": false
+            },
+            "pincode": {
+              "type": "string",
+              "title": "Pincode",
+              "required": false,
+              "pattern": "^[0-9]{6}$",
+              "ui:widget": "number",
+              "ui:placeholder": "Enter pincode",
+              "ui:disabled": false
+            }
+          },
+          "required": [
+            "address",
+            "state",
+            "district",
+            "cityOrVillage"
+          ],
+          "ui": {
+            "order": [
+              "address",
+              "state",
+              "district",
+              "block",
+              "cityOrVillage",
+              "pincode"
+            ]
+          }
+        }
+      },
+      "required": [
+        "beneficiaryName",
+        "mobileNumber",
+        "age",
+        "gender",
+        "persona",
+        "above18Confirmation",
+        "location"
+      ],
+      "ui": {
+        "order": [
+          "beneficiaryName",
+          "mobileNumber",
+          "age",
+          "gender",
+          "persona",
+          "above18Confirmation",
+          "location"
+        ],
+        "description": "Enter your personal and location details"
+      }
+    },
+    "whatIHave": {
+      "type": "object",
+      "title": "What I Have",
+      "description": "Disability details and available documents",
+      "properties": {
+        "disabilityType": {
+          "type": "array",
+          "title": "Disability Type",
+          "description": "Select all applicable disability types",
+          "required": true,
+          "items": {
+            "type": "string"
+          },
+          "enum": [
+            "Locomotor Disability",
+            "Low Vision",
+            "Blindness"
+          ],
+          "enumNames": [
+            "Locomotor Disability",
+            "Low Vision",
+            "Blindness"
+          ],
+          "ui:widget": "multiselect-matrix",
+          "ui:placeholder": "Select disability type(s)",
+          "ui:disabled": false
+        },
+        "disabilityPercentage": {
+          "type": "number",
+          "title": "Disability Percentage",
+          "description": "Enter your certified disability percentage",
+          "required": true,
+          "minimum": 0,
+          "maximum": 100,
+          "ui:widget": "percentage",
+          "ui:placeholder": "Enter disability percentage",
+          "ui:disabled": false
+        },
+        "documentAvailable": {
+          "type": "array",
+          "title": "Documents Available / Updated",
+          "description": "Select documents you currently have",
+          "required": true,
+          "items": {
+            "type": "string"
+          },
+          "ui:widget": "multiselect-dropdown",
+          "ui:placeholder": "Select available documents",
+          "ui:disabled": false
+        }
+      },
+      "required": [
+        "disabilityType",
+        "disabilityPercentage",
+        "documentAvailable"
+      ],
+      "ui": {
+        "order": [
+          "disabilityType",
+          "disabilityPercentage",
+          "documentAvailable"
+        ],
+        "description": "Tell us about your disability and the documents you have"
+      }
+    },
+    "whatIWant": {
+      "type": "object",
+      "title": "What I Want",
+      "description": "The support or services you are looking for",
+      "properties": {
+        "servicesLookingFor": {
+          "type": "array",
+          "title": "What are you looking for?",
+          "description": "Select all types of support you need",
+          "required": true,
+          "items": {
+            "type": "string"
+          },
+          "enum": [
+            "Assistive Devices",
+            "Health & Rehabilitation",
+            "Training & Skill Building",
+            "Application Support",
+            "Counselling & Mentorship",
+            "Accessibility Support",
+            "Employment Opportunities",
+            "Scholarships",
+            "Financial Products (Loans/Insurance)",
+            "Other"
+          ],
+          "enumNames": [
+            "Assistive Devices",
+            "Health & Rehabilitation",
+            "Training & Skill Building",
+            "Application Support",
+            "Counselling & Mentorship",
+            "Accessibility Support",
+            "Employment Opportunities",
+            "Scholarships",
+            "Financial Products (Loans/Insurance)",
+            "Other"
+          ],
+          "ui:widget": "multiselect-matrix",
+          "ui:placeholder": "Select service(s) needed",
+          "ui:hasOther": true,
+          "ui:disabled": false
+        },
+        "details": {
+          "type": "string",
+          "title": "Details",
+          "description": "Provide any additional details about what you are looking for",
+          "required": true,
+          "ui:widget": "textarea",
+          "ui:placeholder": "Describe your needs in more detail",
+          "ui:disabled": false
+        }
+      },
+      "required": [
+        "servicesLookingFor",
+        "details"
+      ],
+      "ui": {
+        "order": [
+          "servicesLookingFor",
+          "details"
+        ],
+        "description": "Tell us what kind of support you are looking for"
+      }
+    },
+    "consent": {
+      "type": "object",
+      "title": "Consent",
+      "description": "Consent and data usage agreement",
+      "properties": {
+        "consentToCreateAndDisplay": {
+          "type": "boolean",
+          "title": "Consent to Create and Display",
+          "description": "I consent to my profile being created and displayed on the network",
+          "required": true,
+          "ui:widget": "checkbox",
+          "ui:disabled": false
+        },
+        "consentCheck": {
+          "type": "boolean",
+          "title": "Consent Check",
+          "description": "I confirm that the information provided is accurate and I agree to the terms",
+          "required": true,
+          "enum": [
+            true,
+            false
+          ],
+          "enumNames": [
+            "I agree",
+            "I do not agree"
+          ],
+          "ui:widget": "radio",
+          "ui:disabled": false
+        }
+      },
+      "required": [
+        "consentToCreateAndDisplay",
+        "consentCheck"
+      ],
+      "ui": {
+        "order": [
+          "consentToCreateAndDisplay",
+          "consentCheck"
+        ],
+        "description": "Review and confirm your consent"
+      }
+    }
+  },
+  "ui": {
+    "steps": [
+      {
+        "id": "whoIAm",
+        "title": "Who I Am",
+        "description": "Personal and location details",
+        "icon": "User"
+      },
+      {
+        "id": "whatIHave",
+        "title": "What I Have",
+        "description": "Disability details and documents",
+        "icon": "FileText"
+      },
+      {
+        "id": "whatIWant",
+        "title": "What I Want",
+        "description": "Support and services needed",
+        "icon": "Target"
+      },
+      {
+        "id": "consent",
+        "title": "Consent",
+        "description": "Review and confirm consent",
+        "icon": "CheckCircle"
+      }
+    ]
+  }
+}

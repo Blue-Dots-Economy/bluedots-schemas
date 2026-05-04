@@ -1,0 +1,258 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Any Role Profile Schema",
+  "description": "Complete profile schema for Any role",
+  "type": "object",
+  "properties": {
+     "role": {
+      "type": "string",
+      "title": "Role",
+      "description": "Enter your role or job title",
+      "required": false,
+      "ui:widget": "text",
+      "ui:placeholder": "Enter your role",
+      "ui:disabled": false
+    },
+    "whoIAm": {
+      "type": "object",
+      "title": "Who I Am",
+      "description": "Basic personal information",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Full Name",
+          "description": "Enter your full name",
+          "required": true,
+          "ui:widget": "text",
+          "ui:placeholder": "Enter your full name",
+          "ui:disabled": false,
+          "ui:verified": false
+        },
+        "gender": {
+          "type": "string",
+          "title": "Gender",
+          "description": "Enter your gender",
+          "required": true,
+          "ui:widget": "radio",
+          "enum": ["Male", "Female", "Other"],
+          "enumNames": ["Male", "Female", "Other"],
+          "ui:placeholder": "Select your gender",
+          "ui:disabled": false,
+          "ui:verified": false
+        },
+        "location": {
+          "type": "string",
+          "title": "Location",
+          "description": "Your current location",
+          "required": true,
+          "ui:widget": "text",
+          "ui:placeholder": "Enter your current location",
+          "ui:disabled": false,
+          "ui:hasLocationButton": true
+        },
+        "phone": {
+          "type": "string",
+          "title": "Phone Number",
+          "description": "Your contact phone number",
+          "required": true,
+          "pattern": "^[0-9]{10}$",
+          "ui:widget": "tel",
+          "ui:placeholder": "Enter phone number",
+          "ui:disabled": false,
+          "ui:verified": false
+        },
+        "age": {
+          "type": "integer",
+          "title": "Age",
+          "description": "Your age",
+          "minimum": 14,
+          "maximum": 65,
+          "ui:widget": "number",
+          "ui:placeholder": "Enter your age",
+          "ui:disabled": false
+        }
+      },
+      "required": ["name", "location", "phone", "age"],
+      "ui": {
+        "order": ["name", "gender", "location", "phone", "age"],
+        "description": "Enter your basic details or import from supported wallets for quick setup"
+      }
+    },
+    "whatIHave": {
+      "type": "object",
+      "title": "What I Have",
+      "description": "Your qualifications, skills, and experience",
+      "properties": {
+        "workExperience": {
+          "type": "string",
+          "title": "Work Experience",
+          "description": "Please select the option that best describes you based on your previous work experience",
+          "enum": ["Fresher", "Worked before", "Returning after a break"],
+          "enumNames": ["Fresher", "Worked before", "Returning after a break"],
+          "ui:widget": "select",
+          "ui:placeholder": "Select your work experience",
+          "ui:disabled": false
+        },
+        "workExperienceYearsConditional": {
+          "type": "array",
+          "title": "Years of Work Experience",
+          "description": "Select your years of work experience",
+          "items": {
+            "type": "string"
+          },
+          "enum": ["0", "< 1 Year", "1 Year", "2 Years", "3 Years", "3-5 Years", "5-10 Years", "10-15 Years", "15+ Years", "Other"],
+          "enumNames": ["0", "< 1 Year", "1 Year", "2 Years", "3 Years", "3-5 Years", "5-10 Years", "10-15 Years", "15+ Years", "Other"],
+          "ui:widget": "multiselect-dropdown",
+          "ui:placeholder": "Select years of work experience",
+          "ui:disabled": false,
+          "ui:hasOther": true,
+          "ui:conditional": {
+            "dependsOn": "workExperience",
+            "when": ["Worked before", "Returning after a break"]
+          }
+        },
+        "highestQualificationOrSkill": {
+          "type": "object",
+          "title": "Highest Qualification or Skill",
+          "description": "Choose from the dropdown or pick other and write a description of the highest qualification or skill you possess",
+          "properties": {
+            "category": {
+              "type": "string",
+              "title": "Category",
+              "enum": ["School", "College", "ITI / Other Vocational Trainings", "Certification / Learned on the job"],
+              "enumNames": ["School", "College", "ITI / Other Vocational Trainings", "Certification / Learned on the job"],
+              "ui:widget": "select",
+              "ui:placeholder": "Select category"
+            },
+            "subCategory": {
+              "type": "string",
+              "title": "Sub Category",
+              "ui:widget": "select",
+              "ui:placeholder": "Select sub category",
+              "ui:dependsOn": "category"
+            }
+          },
+          "ui:widget": "nested-dropdown",
+          "ui:disabled": false,
+          "ui:hasOther": true
+        },
+        "workExperienceYears": {
+          "type": "string",
+          "title": "Work Experience (Years)",
+          "description": "Select your years of work experience",
+          "enum": ["0", "< 1 Year", "1 Year", "2 Years", "3 Years", "3-5 Years", "5-10 Years", "10-15 Years", "15+ Years"],
+          "enumNames": ["0", "< 1 Year", "1 Year", "2 Years", "3 Years", "3-5 Years", "5-10 Years", "10-15 Years", "15+ Years"],
+          "ui:widget": "select",
+          "ui:placeholder": "Select years of work experience",
+          "ui:disabled": false
+        },
+        "nameOfLastRoleHeld": {
+          "type": "string",
+          "title": "Name of last role held",
+          "description": "Enter the name of your last role",
+          "ui:widget": "text",
+          "ui:placeholder": "Enter name of last role held",
+          "ui:disabled": false
+        }
+      },
+      "required": ["workExperience", "highestQualificationOrSkill"],
+      "ui": {
+        "order": [
+          "workExperience",
+          "workExperienceYearsConditional",
+          "highestQualificationOrSkill",
+          "workExperienceYears",
+          "nameOfLastRoleHeld"
+        ],
+        "description": "Add your qualifications, skills, and work history",
+        "sections": [
+          {
+            "title": "Work Experience",
+            "fields": ["workExperience", "workExperienceYearsConditional", "workExperienceYears", "nameOfLastRoleHeld"]
+          },
+          {
+            "title": "Education & Qualifications",
+            "fields": ["highestQualificationOrSkill"]
+          }
+        ]
+      }
+    },
+    "whatIWant": {
+      "type": "object",
+      "title": "What I Want",
+      "description": "Your job preferences and help needed",
+      "properties": {
+        "natureOfJobsInterestedIn": {
+          "type": "array",
+          "title": "Nature of Jobs Interested In",
+          "description": "Select the nature of jobs you are interested in",
+          "items": {
+            "type": "string"
+          },
+          "enum": ["Internship", "Apprenticeship", "Full-time", "Flexible"],
+          "enumNames": ["Internship", "Apprenticeship", "Full-time", "Flexible"],
+          "ui:widget": "multiselect-dropdown",
+          "ui:placeholder": "Select nature of jobs interested in",
+          "ui:disabled": false
+        },
+        "nameOfJobRolesInterestedIn": {
+          "type": "string",
+          "title": "Name of Job Role/s Interested in",
+          "description": "Enter the name(s) of job roles you are interested in",
+          "ui:widget": "text",
+          "ui:placeholder": "Enter name of job role(s) interested in",
+          "ui:disabled": false
+        },
+        "otherHelpNeeded": {
+          "type": "array",
+          "title": "Other Help Needed",
+          "description": "Select any additional help you need",
+          "items": {
+            "type": "string"
+          },
+          "enum": ["Training", "Accommodation", "Travel", "Other"],
+          "enumNames": ["Training", "Accommodation", "Travel", "Other"],
+          "ui:widget": "multiselect-dropdown",
+          "ui:placeholder": "Select other help needed",
+          "ui:disabled": false,
+          "ui:hasOther": true
+        }
+      },
+      "ui": {
+        "order": [
+          "natureOfJobsInterestedIn",
+          "nameOfJobRolesInterestedIn",
+          "otherHelpNeeded"
+        ],
+        "description": "Tell us about your job preferences and help needed",
+        "sections": [
+          {
+            "fields": ["natureOfJobsInterestedIn", "nameOfJobRolesInterestedIn", "otherHelpNeeded"]
+          }
+        ]
+      }
+    }
+  },
+  "ui": {
+    "steps": [
+      {
+        "id": "whoIAm",
+        "title": "Who I Am",
+        "description": "Basic personal information",
+        "icon": "User"
+      },
+      {
+        "id": "whatIHave",
+        "title": "What I Have",
+        "description": "Qualifications, skills, and experience",
+        "icon": "Briefcase"
+      },
+      {
+        "id": "whatIWant",
+        "title": "What I Want",
+        "description": "Salary expectations and preferences",
+        "icon": "Target"
+      }
+    ]
+  }
+}

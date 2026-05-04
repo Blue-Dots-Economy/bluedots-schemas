@@ -1,0 +1,300 @@
+{
+  "schemas": {
+    "tacPractitioner": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TAC Practitioner Profile Schema",
+      "description": "Complete profile schema for a TAC Practitioner on the Orange Dot network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "default": "TAC Practitioner",
+          "ui:widget": "hidden",
+          "ui:disabled": true
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Identity and location details",
+          "properties": {
+            "identity": {
+              "type": "object",
+              "title": "Identity",
+              "properties": {
+                "id": { "type": "string", "title": "ID", "required": true, "ui:widget": "text", "ui:placeholder": "Enter practitioner ID" },
+                "name": { "type": "string", "title": "Name", "required": true, "ui:widget": "text", "ui:placeholder": "Enter name" },
+                "websiteLink": { "type": "string", "title": "Website Link", "required": false, "ui:widget": "url", "ui:placeholder": "Enter website URL" },
+                "category": {
+                  "type": "string", "title": "Category", "required": true,
+                  "enum": ["Experience", "Food", "Shopping", "Commute", "Service"],
+                  "enumNames": ["Experience", "Food", "Shopping", "Commute", "Service"],
+                  "ui:widget": "radio"
+                },
+                "subCategory": { "type": "string", "title": "Sub-category", "required": false, "ui:widget": "text", "ui:placeholder": "Enter sub-category", "ui:dependsOn": "category" },
+                "about": { "type": "string", "title": "About / Significance", "required": false, "ui:widget": "textarea", "ui:placeholder": "Describe what makes this place or service significant" },
+                "contactDetails": {
+                  "type": "object", "title": "Contact Details",
+                  "properties": {
+                    "phone": { "type": "string", "title": "Phone Number", "pattern": "^[0-9]{10}$", "ui:widget": "tel", "ui:placeholder": "Enter phone number" },
+                    "email": { "type": "string", "title": "Email", "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", "ui:widget": "email", "ui:placeholder": "Enter email address" }
+                  },
+                  "ui:widget": "group"
+                },
+                "images": { "type": "array", "title": "Images", "required": false, "items": { "type": "string", "format": "uri" }, "ui:widget": "file-upload", "ui:accept": "image/*", "ui:multiple": true }
+              },
+              "required": ["id", "name", "category"],
+              "ui": { "order": ["id", "name", "websiteLink", "category", "subCategory", "about", "contactDetails", "images"] }
+            },
+            "location": {
+              "type": "object", "title": "Location",
+              "properties": {
+                "address": { "type": "string", "title": "Address", "required": true, "ui:widget": "textarea", "ui:placeholder": "Enter full address" },
+                "latLong": {
+                  "type": "object", "title": "Lat-Long",
+                  "properties": {
+                    "latitude": { "type": "number", "title": "Latitude", "ui:widget": "number" },
+                    "longitude": { "type": "number", "title": "Longitude", "ui:widget": "number" }
+                  },
+                  "ui:widget": "map-picker", "ui:hasLocationButton": true
+                },
+                "proximityToAttractions": { "type": "string", "title": "Proximity to Other Major Attractions", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. 2km from city centre, adjacent to X monument" }
+              },
+              "required": ["address"],
+              "ui": { "order": ["address", "latLong", "proximityToAttractions"] }
+            }
+          },
+          "ui": { "order": ["identity", "location"], "description": "Enter your identity and location details" }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Operational details, pricing, facilities, and reviews",
+          "properties": {
+            "operationalDetails": {
+              "type": "object", "title": "Operational Details",
+              "properties": {
+                "openingDaysAndHours": { "type": "string", "title": "Opening Days and Hours", "required": false, "ui:widget": "text", "ui:placeholder": "e.g. Mon–Sat, 9am–6pm" },
+                "bookingDetails": {
+                  "type": "object", "title": "Booking Details",
+                  "properties": {
+                    "bookingLink": { "type": "string", "title": "Link to Book", "ui:widget": "url", "ui:placeholder": "Enter booking URL" },
+                    "documentsRequired": { "type": "string", "title": "Documents Required", "ui:widget": "textarea", "ui:placeholder": "List any documents required for booking or entry" },
+                    "advanceBookingAvailable": { "type": "boolean", "title": "Advance Booking Available", "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" }
+                  },
+                  "ui:widget": "group"
+                },
+                "crowdPatterns": { "type": "string", "title": "Crowd Patterns", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. Busy on weekends and public holidays" },
+                "durationOfActivity": { "type": "string", "title": "Duration of Activity", "required": false, "ui:widget": "text", "ui:placeholder": "e.g. 1–2 hours" },
+                "safetyIndicator": { "type": "string", "title": "Safety Indicator", "required": false, "ui:widget": "textarea", "ui:placeholder": "Describe safety measures or considerations" },
+                "indoorOutdoor": { "type": "string", "title": "Indoor / Outdoor", "required": false, "enum": ["Indoor", "Outdoor", "Both"], "enumNames": ["Indoor", "Outdoor", "Both"], "ui:widget": "radio" },
+                "languagesSpokenByStaff": { "type": "array", "title": "Languages Spoken by Staff", "required": false, "items": { "type": "string" }, "ui:widget": "multiselect-dropdown", "ui:placeholder": "Select languages", "ui:hasOther": true },
+                "suitableForPhotography": { "type": "boolean", "title": "Suitability for Photography", "required": false, "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" },
+                "kidFriendly": {
+                  "type": "object", "title": "Kid Friendly",
+                  "properties": {
+                    "isKidFriendly": { "type": "boolean", "title": "Kid Friendly", "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" },
+                    "ageGroup": { "type": "string", "title": "Age Group", "ui:widget": "text", "ui:placeholder": "e.g. 5–12 years", "ui:conditional": { "dependsOn": "isKidFriendly", "when": [true] } }
+                  },
+                  "ui:widget": "group"
+                },
+                "oldAgeFriendly": { "type": "boolean", "title": "Old Age Friendly", "required": false, "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" },
+                "thingsToKeepInMind": { "type": "string", "title": "Things to Keep in Mind", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. Wear comfortable shoes, dress code applies" }
+              },
+              "ui": { "order": ["openingDaysAndHours", "bookingDetails", "crowdPatterns", "durationOfActivity", "safetyIndicator", "indoorOutdoor", "languagesSpokenByStaff", "suitableForPhotography", "kidFriendly", "oldAgeFriendly", "thingsToKeepInMind"] }
+            },
+            "pricingAndPayment": {
+              "type": "object", "title": "Pricing & Payment",
+              "properties": {
+                "price": { "type": "number", "title": "Price (INR)", "required": false, "minimum": 0, "ui:widget": "number", "ui:placeholder": "Enter price in INR" },
+                "discounts": { "type": "string", "title": "Group / Kid / Senior or Other Discounts", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. 20% off for groups of 10+, free for children under 5" },
+                "refundPolicy": { "type": "string", "title": "Refund Policy", "required": false, "ui:widget": "textarea", "ui:placeholder": "Describe your cancellation and refund policy" },
+                "pricePositioning": { "type": "string", "title": "Price Positioning", "required": false, "enum": ["Economical", "Moderate", "Premium"], "enumNames": ["Economical", "Moderate", "Premium"], "ui:widget": "radio" },
+                "paymentModesAccepted": { "type": "array", "title": "Payment Modes Accepted", "required": false, "items": { "type": "string" }, "enum": ["Cash", "UPI", "Credit Card", "Debit Card", "Net Banking", "Other"], "enumNames": ["Cash", "UPI", "Credit Card", "Debit Card", "Net Banking", "Other"], "ui:widget": "multiselect-dropdown", "ui:hasOther": true }
+              },
+              "ui": { "order": ["price", "discounts", "refundPolicy", "pricePositioning", "paymentModesAccepted"] }
+            },
+            "facilities": {
+              "type": "object", "title": "Facilities",
+              "properties": {
+                "parking": { "type": "boolean", "title": "Parking", "enum": [true, false], "enumNames": ["Available", "Not Available"], "ui:widget": "radio" },
+                "changingRooms": { "type": "boolean", "title": "Changing Rooms", "enum": [true, false], "enumNames": ["Available", "Not Available"], "ui:widget": "radio" },
+                "washrooms": { "type": "boolean", "title": "Washrooms", "enum": [true, false], "enumNames": ["Available", "Not Available"], "ui:widget": "radio" },
+                "locker": { "type": "boolean", "title": "Locker", "enum": [true, false], "enumNames": ["Available", "Not Available"], "ui:widget": "radio" },
+                "accessibilityOptions": { "type": "string", "title": "Accessibility Options", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. Wheelchair ramp, tactile paths, sign language support" },
+                "wifi": { "type": "boolean", "title": "Wifi", "enum": [true, false], "enumNames": ["Available", "Not Available"], "ui:widget": "radio" }
+              },
+              "ui": { "order": ["parking", "changingRooms", "washrooms", "locker", "accessibilityOptions", "wifi"] }
+            },
+            "reviews": {
+              "type": "object", "title": "Reviews",
+              "properties": {
+                "totalVisitors": { "type": "integer", "title": "How Many Travellers Have Visited or Availed This", "required": false, "minimum": 0, "ui:widget": "number" },
+                "averageRating": { "type": "number", "title": "Average Rating", "required": false, "minimum": 0, "maximum": 5, "ui:widget": "rating" },
+                "reviews": {
+                  "type": "array", "title": "Reviews", "required": false,
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "reviewerName": { "type": "string", "title": "Reviewer Name" },
+                      "rating": { "type": "number", "title": "Rating", "minimum": 0, "maximum": 5 },
+                      "comment": { "type": "string", "title": "Comment" },
+                      "date": { "type": "string", "title": "Date", "format": "date" }
+                    }
+                  },
+                  "ui:widget": "review-list", "ui:disabled": true
+                }
+              },
+              "ui": { "order": ["totalVisitors", "averageRating", "reviews"] }
+            }
+          },
+          "ui": {
+            "order": ["operationalDetails", "pricingAndPayment", "facilities", "reviews"],
+            "description": "Tell us about what you offer, your pricing, and facilities",
+            "sections": [
+              { "title": "Operational Details", "fields": ["operationalDetails"] },
+              { "title": "Pricing & Payment", "fields": ["pricingAndPayment"] },
+              { "title": "Facilities", "fields": ["facilities"] },
+              { "title": "Reviews", "fields": ["reviews"] }
+            ]
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          { "id": "whoIAm", "title": "Who I Am", "description": "Identity and location details", "icon": "MapPin" },
+          { "id": "whatIHave", "title": "What I Have", "description": "Operational details, pricing, facilities, and reviews", "icon": "Briefcase" }
+        ]
+      }
+    },
+
+    "traveller": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Traveller Profile Schema",
+      "description": "Complete profile schema for a Traveller on the Orange Dot network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "default": "Traveller",
+          "ui:widget": "hidden",
+          "ui:disabled": true
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Primary traveller identity and emergency profile",
+          "properties": {
+            "identity": {
+              "type": "object", "title": "Identity (Primary Traveller)",
+              "properties": {
+                "travellerId": { "type": "string", "title": "Traveller ID", "required": true, "ui:widget": "text", "ui:placeholder": "Enter traveller ID" },
+                "name": { "type": "string", "title": "Name", "required": true, "pii": true, "pii_visibility": "hidden_until_connection_accepted", "ui:widget": "text", "ui:placeholder": "Enter your full name" },
+                "age": { "type": "integer", "title": "Age", "required": true, "minimum": 1, "maximum": 120, "ui:widget": "number", "ui:placeholder": "Enter your age" },
+                "gender": { "type": "string", "title": "Gender", "required": false, "enum": ["Male", "Female", "Other"], "enumNames": ["Male", "Female", "Other"], "ui:widget": "radio" },
+                "nationality": { "type": "string", "title": "Nationality", "required": false, "ui:widget": "text", "ui:placeholder": "Enter your nationality" },
+                "languagesSpoken": { "type": "array", "title": "Languages Spoken", "required": false, "items": { "type": "string" }, "ui:widget": "multiselect-dropdown", "ui:placeholder": "Select languages spoken", "ui:hasOther": true },
+                "numberOfTravellers": {
+                  "type": "object", "title": "Number of Travellers",
+                  "properties": {
+                    "adults": { "type": "integer", "title": "Adults", "minimum": 1, "default": 1, "ui:widget": "number" },
+                    "kids": { "type": "integer", "title": "Kids", "minimum": 0, "default": 0, "ui:widget": "number" },
+                    "seniors": { "type": "integer", "title": "Seniors", "minimum": 0, "default": 0, "ui:widget": "number" }
+                  },
+                  "ui:widget": "group"
+                }
+              },
+              "required": ["travellerId", "name", "age"],
+              "ui": { "order": ["travellerId", "name", "age", "gender", "nationality", "languagesSpoken", "numberOfTravellers"] }
+            },
+            "emergencyProfile": {
+              "type": "object", "title": "Emergency Profile",
+              "properties": {
+                "bloodGroup": { "type": "string", "title": "Blood Group", "required": false, "pii": true, "pii_visibility": "emergency_only", "enum": ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"], "enumNames": ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"], "ui:widget": "select", "ui:placeholder": "Select blood group" },
+                "physicalLimitations": { "type": "string", "title": "Physical Limitations", "required": false, "pii": true, "pii_visibility": "emergency_only", "ui:widget": "textarea", "ui:placeholder": "e.g. Mobility impairment, cannot climb stairs" },
+                "medicalConditions": { "type": "string", "title": "Medical Conditions", "required": false, "pii": true, "pii_visibility": "emergency_only", "ui:widget": "textarea", "ui:placeholder": "e.g. Diabetes, heart condition, allergies" }
+              },
+              "ui": { "order": ["bloodGroup", "physicalLimitations", "medicalConditions"] }
+            }
+          },
+          "ui": {
+            "order": ["identity", "emergencyProfile"],
+            "description": "Tell us about the primary traveller and emergency details",
+            "sections": [
+              { "title": "Identity", "fields": ["identity"] },
+              { "title": "Emergency Profile", "fields": ["emergencyProfile"] }
+            ]
+          }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Your trip context and travel constraints",
+          "properties": {
+            "tripContext": {
+              "type": "object", "title": "Trip Context",
+              "properties": {
+                "originCity": { "type": "string", "title": "Origin City", "required": true, "ui:widget": "text", "ui:placeholder": "Enter your city of origin" },
+                "destination": { "type": "string", "title": "Destination", "required": true, "ui:widget": "text", "ui:placeholder": "Enter destination" },
+                "travelDates": {
+                  "type": "object", "title": "Travel Dates",
+                  "properties": {
+                    "from": { "type": "string", "title": "From", "format": "date", "ui:widget": "date" },
+                    "to": { "type": "string", "title": "To", "format": "date", "ui:widget": "date" }
+                  },
+                  "ui:widget": "date-range"
+                },
+                "durationOfStay": { "type": "string", "title": "Duration of Stay", "required": false, "ui:widget": "text", "ui:placeholder": "e.g. 3 nights" },
+                "tripStyle": { "type": "string", "title": "Trip Style", "required": false, "ui:widget": "text", "ui:placeholder": "e.g. Leisure, Business, Pilgrimage, Adventure" }
+              },
+              "required": ["originCity", "destination"],
+              "ui": { "order": ["originCity", "destination", "travelDates", "durationOfStay", "tripStyle"] }
+            },
+            "constraints": {
+              "type": "object", "title": "Constraints",
+              "properties": {
+                "physicalLimitations": { "type": "string", "title": "Physical Limitations", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. Cannot walk long distances" },
+                "medicalConditions": { "type": "string", "title": "Medical Conditions", "required": false, "ui:widget": "textarea", "ui:placeholder": "e.g. Vertigo, asthma" },
+                "ageOfChildrenIfTravelling": { "type": "string", "title": "Age of Children (if travelling with kids)", "required": false, "ui:widget": "text", "ui:placeholder": "e.g. 4 years, 8 years" },
+                "seniorCitizens": { "type": "boolean", "title": "Travelling with Senior Citizens", "required": false, "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" }
+              },
+              "ui": { "order": ["physicalLimitations", "medicalConditions", "ageOfChildrenIfTravelling", "seniorCitizens"] }
+            }
+          },
+          "ui": {
+            "order": ["tripContext", "constraints"],
+            "description": "Tell us about your trip and any constraints",
+            "sections": [
+              { "title": "Trip Context", "fields": ["tripContext"] },
+              { "title": "Constraints", "fields": ["constraints"] }
+            ]
+          }
+        },
+        "whatIWant": {
+          "type": "object",
+          "title": "What I Want",
+          "description": "Your travel preferences",
+          "properties": {
+            "dietaryPreference": { "type": "array", "title": "Dietary Preference", "required": false, "items": { "type": "string" }, "enum": ["Vegetarian", "Non-Vegetarian", "Vegan", "Jain", "Halal", "Other"], "enumNames": ["Vegetarian", "Non-Vegetarian", "Vegan", "Jain", "Halal", "Other"], "ui:widget": "multiselect-dropdown", "ui:placeholder": "Select dietary preference(s)", "ui:hasOther": true },
+            "tripBudget": { "type": "string", "title": "Trip Budget", "required": false, "enum": ["Economical", "Moderate", "Premium"], "enumNames": ["Economical", "Moderate", "Premium"], "ui:widget": "radio" },
+            "transportPreference": { "type": "array", "title": "Transport Preference", "required": false, "items": { "type": "string" }, "enum": ["Self-drive", "Cab", "Public Transport", "Two-wheeler"], "enumNames": ["Self-drive", "Cab", "Public Transport", "Two-wheeler"], "ui:widget": "multiselect-dropdown", "ui:placeholder": "Select transport preference(s)" },
+            "activityInterests": { "type": "array", "title": "Activity Interests", "required": false, "items": { "type": "string" }, "enum": ["Adventure", "Spiritual", "Cultural", "Nature", "Food & Cuisine", "Shopping", "Wellness", "Other"], "enumNames": ["Adventure", "Spiritual", "Cultural", "Nature", "Food & Cuisine", "Shopping", "Wellness", "Other"], "ui:widget": "multiselect-dropdown", "ui:placeholder": "Select activity interests", "ui:hasOther": true },
+            "soloFemaleSafetyConsiderations": { "type": "boolean", "title": "Solo Female Safety Considerations", "description": "Apply solo female traveller safety filters when showing recommendations", "required": false, "enum": [true, false], "enumNames": ["Yes", "No"], "ui:widget": "radio" }
+          },
+          "ui": {
+            "order": ["dietaryPreference", "tripBudget", "transportPreference", "activityInterests", "soloFemaleSafetyConsiderations"],
+            "description": "Tell us your travel preferences"
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          { "id": "whoIAm", "title": "Who I Am", "description": "Primary traveller details and emergency profile", "icon": "User" },
+          { "id": "whatIHave", "title": "What I Have", "description": "Your trip context and constraints", "icon": "Map" },
+          { "id": "whatIWant", "title": "What I Want", "description": "Your travel preferences", "icon": "Target" }
+        ]
+      }
+    }
+  }
+}

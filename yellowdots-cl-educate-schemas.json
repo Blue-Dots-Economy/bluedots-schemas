@@ -1,0 +1,817 @@
+{
+  "schemas": {
+    "student": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Student Profile Schema",
+      "description": "Complete profile schema for a Student on the CL Educate network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "description": "Your role on the network",
+          "default": "Student",
+          "ui:widget": "hidden",
+          "ui:disabled": true
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Basic personal information",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Full Name",
+              "description": "Enter your full name",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter your full name",
+              "ui:disabled": false
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone Number",
+              "description": "Your contact phone number",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[0-9]{10}$",
+              "ui:widget": "tel",
+              "ui:placeholder": "Enter phone number",
+              "ui:disabled": false
+            },
+            "email": {
+              "type": "string",
+              "title": "Email",
+              "description": "Your email address",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "ui:widget": "email",
+              "ui:placeholder": "Enter your email address",
+              "ui:disabled": false
+            },
+            "location": {
+              "type": "string",
+              "title": "Location (Pincode)",
+              "description": "Your current location pincode",
+              "required": true,
+              "pattern": "^[0-9]{6}$",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter your pincode",
+              "ui:disabled": false,
+              "ui:hasLocationButton": true
+            }
+          },
+          "required": ["name", "phone", "email", "location"],
+          "ui": {
+            "order": ["name", "phone", "email", "location"],
+            "description": "Enter your basic details"
+          }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Your current academic standing",
+          "properties": {
+            "gradeBand": {
+              "type": "string",
+              "title": "Grade Band",
+              "description": "Select your current grade band",
+              "required": true,
+              "enum": ["Class XI", "Class XII", "Post-XII"],
+              "enumNames": ["Class XI", "Class XII", "Post-XII"],
+              "ui:widget": "radio",
+              "ui:placeholder": "Select your grade band",
+              "ui:disabled": false
+            },
+            "academicStream": {
+              "type": "string",
+              "title": "Academic Stream",
+              "description": "Select your academic stream",
+              "required": true,
+              "enum": ["Science", "Commerce", "Arts", "Other"],
+              "enumNames": ["Science", "Commerce", "Arts", "Other"],
+              "ui:widget": "radio",
+              "ui:placeholder": "Select your stream",
+              "ui:disabled": false,
+              "ui:hasOther": true
+            }
+          },
+          "required": ["gradeBand", "academicStream"],
+          "ui": {
+            "order": ["gradeBand", "academicStream"],
+            "description": "Tell us about your current academic level"
+          }
+        },
+        "whatIWant": {
+          "type": "object",
+          "title": "What I Want",
+          "description": "The kind of support you are looking for",
+          "properties": {
+            "serviceTypeSought": {
+              "type": "array",
+              "title": "Service Type Sought",
+              "description": "Select the type(s) of support you are looking for",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Subject Tutoring", "Admissions Guidance", "Career Counselling", "Skills Workshop"],
+              "enumNames": ["Subject Tutoring", "Admissions Guidance", "Career Counselling", "Skills Workshop"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select service type(s)",
+              "ui:disabled": false
+            }
+          },
+          "required": ["serviceTypeSought"],
+          "ui": {
+            "order": ["serviceTypeSought"],
+            "description": "Tell us what kind of help you need"
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          {
+            "id": "whoIAm",
+            "title": "Who I Am",
+            "description": "Basic personal information",
+            "icon": "User"
+          },
+          {
+            "id": "whatIHave",
+            "title": "What I Have",
+            "description": "Your current academic level",
+            "icon": "BookOpen"
+          },
+          {
+            "id": "whatIWant",
+            "title": "What I Want",
+            "description": "The support you are looking for",
+            "icon": "Target"
+          }
+        ]
+      }
+    },
+
+    "clCentre": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CL Centre Profile Schema",
+      "description": "Complete profile schema for a CL Centre on the CL Educate network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "description": "Your role on the network",
+          "default": "CL Centre",
+          "ui:widget": "hidden",
+          "ui:disabled": true
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Centre and representative details",
+          "properties": {
+            "representativeName": {
+              "type": "string",
+              "title": "Representative Name",
+              "description": "Name of the centre representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter representative name",
+              "ui:disabled": false
+            },
+            "representativePhone": {
+              "type": "string",
+              "title": "Representative Phone",
+              "description": "Phone number of the centre representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[0-9]{10}$",
+              "ui:widget": "tel",
+              "ui:placeholder": "Enter phone number",
+              "ui:disabled": false
+            },
+            "representativeEmail": {
+              "type": "string",
+              "title": "Representative Email",
+              "description": "Email address of the centre representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "ui:widget": "email",
+              "ui:placeholder": "Enter email address",
+              "ui:disabled": false
+            },
+            "centreId": {
+              "type": "string",
+              "title": "Centre ID",
+              "description": "Unique identifier for the centre",
+              "required": true,
+              "ui:widget": "text",
+              "ui:placeholder": "Enter centre ID",
+              "ui:disabled": false
+            },
+            "centreName": {
+              "type": "string",
+              "title": "Centre Name",
+              "description": "Name of the CL Centre",
+              "required": true,
+              "ui:widget": "text",
+              "ui:placeholder": "Enter centre name",
+              "ui:disabled": false
+            },
+            "centrePincode": {
+              "type": "string",
+              "title": "Centre Pincode",
+              "description": "Pincode of the centre location",
+              "required": true,
+              "pattern": "^[0-9]{6}$",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter centre pincode",
+              "ui:disabled": false,
+              "ui:hasLocationButton": true
+            },
+            "coverageRadius": {
+              "type": "number",
+              "title": "Coverage Radius (km)",
+              "description": "Geographic radius within which the centre serves students",
+              "required": false,
+              "minimum": 1,
+              "ui:widget": "number",
+              "ui:placeholder": "Enter coverage radius in km",
+              "ui:disabled": false
+            }
+          },
+          "required": ["representativeName", "representativePhone", "representativeEmail", "centreId", "centreName", "centrePincode"],
+          "ui": {
+            "order": ["centreId", "centreName", "centrePincode", "coverageRadius", "representativeName", "representativePhone", "representativeEmail"],
+            "description": "Enter your centre details and representative contact information",
+            "sections": [
+              {
+                "title": "Centre Details",
+                "fields": ["centreId", "centreName", "centrePincode", "coverageRadius"]
+              },
+              {
+                "title": "Representative Contact",
+                "fields": ["representativeName", "representativePhone", "representativeEmail"]
+              }
+            ]
+          }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Services offered by the centre",
+          "properties": {
+            "serviceType": {
+              "type": "array",
+              "title": "Service Type",
+              "description": "Select the types of services your centre offers",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Subject Tutoring", "Admissions Guidance", "Career Counselling", "Skills Workshop"],
+              "enumNames": ["Subject Tutoring", "Admissions Guidance", "Career Counselling", "Skills Workshop"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select service type(s)",
+              "ui:disabled": false
+            }
+          },
+          "required": ["serviceType"],
+          "ui": {
+            "order": ["serviceType"],
+            "description": "Tell us what services your centre provides"
+          }
+        },
+        "whatIWant": {
+          "type": "object",
+          "title": "What I Want",
+          "description": "The type of students the centre is looking to serve",
+          "properties": {
+            "gradeBands": {
+              "type": "array",
+              "title": "Grade Bands",
+              "description": "Select the grade bands your centre serves",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Class XI", "Class XII", "Post-XII"],
+              "enumNames": ["Class XI", "Class XII", "Post-XII"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select grade band(s)",
+              "ui:disabled": false
+            },
+            "academicStream": {
+              "type": "array",
+              "title": "Academic Stream",
+              "description": "Select the academic streams your centre caters to",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Science", "Commerce", "Arts", "Other"],
+              "enumNames": ["Science", "Commerce", "Arts", "Other"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select stream(s)",
+              "ui:disabled": false,
+              "ui:hasOther": true
+            }
+          },
+          "required": ["gradeBands", "academicStream"],
+          "ui": {
+            "order": ["gradeBands", "academicStream"],
+            "description": "Tell us about the students you want to reach"
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          {
+            "id": "whoIAm",
+            "title": "Who I Am",
+            "description": "Centre and representative details",
+            "icon": "Building"
+          },
+          {
+            "id": "whatIHave",
+            "title": "What I Have",
+            "description": "Services your centre offers",
+            "icon": "Briefcase"
+          },
+          {
+            "id": "whatIWant",
+            "title": "What I Want",
+            "description": "Students you are looking to serve",
+            "icon": "Target"
+          }
+        ]
+      }
+    },
+
+    "individualTutor": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Individual Tutor / WEERA / Counsellor Profile Schema",
+      "description": "Complete profile schema for an Individual Tutor, WEERA, or Counsellor on the CL Educate network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "description": "Your role on the network",
+          "enum": ["Individual Tutor", "WEERA", "Counsellor"],
+          "enumNames": ["Individual Tutor", "WEERA", "Counsellor"],
+          "ui:widget": "radio",
+          "ui:placeholder": "Select your role",
+          "ui:disabled": false
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Basic personal information",
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Full Name",
+              "description": "Enter your full name",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter your full name",
+              "ui:disabled": false
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone Number",
+              "description": "Your contact phone number",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[0-9]{10}$",
+              "ui:widget": "tel",
+              "ui:placeholder": "Enter phone number",
+              "ui:disabled": false
+            },
+            "email": {
+              "type": "string",
+              "title": "Email",
+              "description": "Your email address",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "ui:widget": "email",
+              "ui:placeholder": "Enter your email address",
+              "ui:disabled": false
+            },
+            "location": {
+              "type": "string",
+              "title": "Location (Pincode)",
+              "description": "Your current location pincode",
+              "required": true,
+              "pattern": "^[0-9]{6}$",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter your pincode",
+              "ui:disabled": false,
+              "ui:hasLocationButton": true
+            },
+            "coverageRadius": {
+              "type": "number",
+              "title": "Coverage Radius (km)",
+              "description": "Geographic radius within which you can provide services",
+              "required": false,
+              "minimum": 1,
+              "ui:widget": "number",
+              "ui:placeholder": "Enter coverage radius in km",
+              "ui:disabled": false
+            }
+          },
+          "required": ["name", "phone", "email", "location"],
+          "ui": {
+            "order": ["name", "phone", "email", "location", "coverageRadius"],
+            "description": "Enter your basic contact and location details"
+          }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Services you offer",
+          "properties": {
+            "serviceType": {
+              "type": "array",
+              "title": "Service Type",
+              "description": "Select the types of services you offer",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Subject Tutoring", "Test Preparation", "Career Counselling", "Skills Workshop"],
+              "enumNames": ["Subject Tutoring", "Test Preparation", "Career Counselling", "Skills Workshop"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select service type(s)",
+              "ui:disabled": false
+            }
+          },
+          "required": ["serviceType"],
+          "ui": {
+            "order": ["serviceType"],
+            "description": "Tell us what services you provide"
+          }
+        },
+        "whatIWant": {
+          "type": "object",
+          "title": "What I Want",
+          "description": "The type of students you are looking to work with",
+          "properties": {
+            "gradeBands": {
+              "type": "array",
+              "title": "Grade Bands",
+              "description": "Select the grade bands you serve",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Class XI", "Class XII", "Post-XII"],
+              "enumNames": ["Class XI", "Class XII", "Post-XII"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select grade band(s)",
+              "ui:disabled": false
+            },
+            "academicStream": {
+              "type": "array",
+              "title": "Academic Stream",
+              "description": "Select the academic streams you cater to",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Science", "Commerce", "Arts", "Other"],
+              "enumNames": ["Science", "Commerce", "Arts", "Other"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select stream(s)",
+              "ui:disabled": false,
+              "ui:hasOther": true
+            }
+          },
+          "required": ["gradeBands", "academicStream"],
+          "ui": {
+            "order": ["gradeBands", "academicStream"],
+            "description": "Tell us about the students you want to work with"
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          {
+            "id": "whoIAm",
+            "title": "Who I Am",
+            "description": "Basic personal information",
+            "icon": "User"
+          },
+          {
+            "id": "whatIHave",
+            "title": "What I Have",
+            "description": "Services you offer",
+            "icon": "Briefcase"
+          },
+          {
+            "id": "whatIWant",
+            "title": "What I Want",
+            "description": "Students you want to work with",
+            "icon": "Target"
+          }
+        ]
+      }
+    },
+
+    "hei": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HEI Profile Schema",
+      "description": "Complete profile schema for a Higher Education Institution on the CL Educate network",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "title": "Role",
+          "description": "Your role at the institution",
+          "required": true,
+          "ui:widget": "text",
+          "ui:placeholder": "e.g. Admissions Head, Principal",
+          "ui:disabled": false
+        },
+        "whoIAm": {
+          "type": "object",
+          "title": "Who I Am",
+          "description": "Institution and representative details",
+          "properties": {
+            "institutionName": {
+              "type": "string",
+              "title": "Institution Name",
+              "description": "Full name of the institution",
+              "required": true,
+              "ui:widget": "text",
+              "ui:placeholder": "Enter institution name",
+              "ui:disabled": false
+            },
+            "cityAndPincode": {
+              "type": "string",
+              "title": "City / Campus Location + Pincode",
+              "description": "City and pincode of the main campus",
+              "required": true,
+              "ui:widget": "text",
+              "ui:placeholder": "Enter city and pincode",
+              "ui:disabled": false,
+              "ui:hasLocationButton": true
+            },
+            "catchmentRadius": {
+              "type": "number",
+              "title": "Catchment Radius (km)",
+              "description": "Override the default 5km catchment radius if needed",
+              "required": false,
+              "minimum": 1,
+              "default": 5,
+              "ui:widget": "number",
+              "ui:placeholder": "Enter catchment radius in km (default: 5)",
+              "ui:disabled": false
+            },
+            "accreditationStatus": {
+              "type": "array",
+              "title": "Accreditation Status",
+              "description": "Select all applicable accreditations",
+              "required": false,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["UGC", "AICTE", "NAAC Grade", "Autonomous", "Other"],
+              "enumNames": ["UGC", "AICTE", "NAAC Grade", "Autonomous", "Other"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select accreditation(s)",
+              "ui:disabled": false,
+              "ui:hasOther": true
+            },
+            "representativeName": {
+              "type": "string",
+              "title": "Representative Name",
+              "description": "Name of the institution representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "ui:widget": "text",
+              "ui:placeholder": "Enter representative name",
+              "ui:disabled": false
+            },
+            "representativePhone": {
+              "type": "string",
+              "title": "Representative Phone",
+              "description": "Phone number of the institution representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[0-9]{10}$",
+              "ui:widget": "tel",
+              "ui:placeholder": "Enter phone number",
+              "ui:disabled": false
+            },
+            "representativeEmail": {
+              "type": "string",
+              "title": "Representative Email",
+              "description": "Email address of the institution representative",
+              "required": true,
+              "pii": true,
+              "pii_visibility": "hidden_until_connection_accepted",
+              "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+              "ui:widget": "email",
+              "ui:placeholder": "Enter email address",
+              "ui:disabled": false
+            }
+          },
+          "required": ["institutionName", "cityAndPincode", "representativeName", "representativePhone", "representativeEmail"],
+          "ui": {
+            "order": ["institutionName", "cityAndPincode", "catchmentRadius", "accreditationStatus", "representativeName", "representativePhone", "representativeEmail"],
+            "description": "Enter your institution and representative details",
+            "sections": [
+              {
+                "title": "Institution Details",
+                "fields": ["institutionName", "cityAndPincode", "catchmentRadius", "accreditationStatus"]
+              },
+              {
+                "title": "Representative Contact",
+                "fields": ["representativeName", "representativePhone", "representativeEmail"]
+              }
+            ]
+          }
+        },
+        "whatIHave": {
+          "type": "object",
+          "title": "What I Have",
+          "description": "Programmes and support your institution offers",
+          "properties": {
+            "programmesOffered": {
+              "type": "array",
+              "title": "Programmes Offered",
+              "description": "Select all programmes offered by your institution",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": [
+                "B.Tech / B.E.",
+                "B.Sc",
+                "B.Sc (Hons)",
+                "B.Com",
+                "B.Com (Hons)",
+                "BA",
+                "BA (Hons)",
+                "BBA",
+                "BMS",
+                "BBS",
+                "BFM",
+                "BCA",
+                "B.Sc IT",
+                "BJMC",
+                "BFA",
+                "BPA",
+                "LLB",
+                "BA LLB",
+                "BBA LLB",
+                "MBBS",
+                "BDS",
+                "BAMS",
+                "BHMS",
+                "BPT",
+                "B.Sc Nursing",
+                "B.Arch",
+                "B.Des",
+                "B.Plan",
+                "BHM",
+                "BTTM"
+              ],
+              "enumNames": [
+                "B.Tech / B.E. – Engineering",
+                "B.Sc – Science",
+                "B.Sc (Hons) – Specialized Science",
+                "B.Com – Commerce",
+                "B.Com (Hons) – Advanced Commerce",
+                "BA – Arts",
+                "BA (Hons) – Specialized Arts",
+                "BBA – Business Management",
+                "BMS – Management Studies",
+                "BBS – Business Studies",
+                "BFM – Finance & Markets",
+                "BCA – Computer Applications",
+                "B.Sc IT – IT Systems",
+                "BJMC – Media & Journalism",
+                "BFA – Visual Arts",
+                "BPA – Performing Arts",
+                "LLB – Law",
+                "BA LLB – Law + Arts",
+                "BBA LLB – Law + Business",
+                "MBBS – Doctor",
+                "BDS – Dentist",
+                "BAMS – Ayurveda",
+                "BHMS – Homeopathy",
+                "BPT – Physiotherapy",
+                "B.Sc Nursing – Nursing",
+                "B.Arch – Architecture",
+                "B.Des – Design",
+                "B.Plan – Urban Planning",
+                "BHM – Hotel Management",
+                "BTTM – Travel & Tourism"
+              ],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select programme(s) offered",
+              "ui:disabled": false
+            },
+            "admissionPathway": {
+              "type": "string",
+              "title": "Admission Pathway",
+              "description": "Select how admissions are conducted",
+              "required": true,
+              "enum": ["Entrance-based", "Merit-based", "Both"],
+              "enumNames": ["Entrance-based", "Merit-based", "Both"],
+              "ui:widget": "radio",
+              "ui:placeholder": "Select admission pathway",
+              "ui:disabled": false
+            },
+            "scholarshipAvailable": {
+              "type": "string",
+              "title": "Scholarship / Financial Aid Available",
+              "description": "Does your institution offer scholarships or financial aid?",
+              "required": true,
+              "enum": ["Yes", "No", "Partial"],
+              "enumNames": ["Yes", "No", "Partial"],
+              "ui:widget": "radio",
+              "ui:placeholder": "Select scholarship availability",
+              "ui:disabled": false
+            }
+          },
+          "required": ["programmesOffered", "admissionPathway", "scholarshipAvailable"],
+          "ui": {
+            "order": ["programmesOffered", "admissionPathway", "scholarshipAvailable"],
+            "description": "Tell us about the programmes and support your institution offers"
+          }
+        },
+        "whatIWant": {
+          "type": "object",
+          "title": "What I Want",
+          "description": "The type of students your institution is looking to connect with",
+          "properties": {
+            "minimumStreamEligibility": {
+              "type": "array",
+              "title": "Minimum Stream Eligibility",
+              "description": "Select the streams from which you accept students",
+              "required": true,
+              "items": {
+                "type": "string"
+              },
+              "enum": ["Science", "Commerce", "Arts", "Any"],
+              "enumNames": ["Science", "Commerce", "Arts", "Any"],
+              "ui:widget": "multiselect-dropdown",
+              "ui:placeholder": "Select stream eligibility",
+              "ui:disabled": false
+            }
+          },
+          "required": ["minimumStreamEligibility"],
+          "ui": {
+            "order": ["minimumStreamEligibility"],
+            "description": "Tell us about the students you want to connect with"
+          }
+        }
+      },
+      "ui": {
+        "steps": [
+          {
+            "id": "whoIAm",
+            "title": "Who I Am",
+            "description": "Institution and representative details",
+            "icon": "University"
+          },
+          {
+            "id": "whatIHave",
+            "title": "What I Have",
+            "description": "Programmes and support offered",
+            "icon": "Briefcase"
+          },
+          {
+            "id": "whatIWant",
+            "title": "What I Want",
+            "description": "Students you want to connect with",
+            "icon": "Target"
+          }
+        ]
+      }
+    }
+  }
+}
