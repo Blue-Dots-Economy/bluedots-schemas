@@ -1,0 +1,139 @@
+{
+  "info": "Provider domain profile schema for a tutor or counsellor offering tutoring, career guidance, or skill development",
+  "name": "tutor_counsellor_profile",
+  "version": "1.0.0",
+  "details": {
+    "dot": "https://dot.example.com",
+    "domain": "https://education.example.com"
+  },
+  "schema_type": "profile",
+  "schema": {
+    "type": "object",
+    "description": "Tutor / Counsellor provider profile data stored in item_state",
+    "required": [
+      "provider_id",
+      "pincode",
+      "coverage_radius_km",
+      "provider_type",
+      "domain_specialisations",
+      "credentials",
+      "target_grade_band",
+      "target_subject_area",
+      "service_mode",
+      "session_structure"
+    ],
+    "properties": {
+      "provider_id": {
+        "type": "string",
+        "description": "Unique provider identifier",
+        "example": "PRV-2026-001"
+      },
+      "pincode": {
+        "type": "string",
+        "description": "Provider's base location pincode",
+        "example": "560001"
+      },
+      "coverage_radius_km": {
+        "type": "number",
+        "description": "Geographic coverage radius in kilometres",
+        "example": 10
+      },
+      "provider_type": {
+        "type": "string",
+        "description": "Category of the provider",
+        "enum": [
+          "Tutor",
+          "Career Counsellor",
+          "Mentor"
+        ],
+        "example": "Tutor"
+      },
+      "domain_specialisations": {
+        "type": "array",
+        "description": "Subjects or domains the provider specialises in",
+        "items": {
+          "type": "string"
+        },
+        "example": [
+          "Mathematics",
+          "College Admissions",
+          "Life Skills"
+        ]
+      },
+      "credentials": {
+        "type": "array",
+        "description": "Verifiable credentials held by the provider",
+        "items": {
+          "type": "object",
+          "required": [
+            "credential_type",
+            "issuing_body"
+          ],
+          "properties": {
+            "credential_type": {
+              "type": "string",
+              "description": "Type of credential",
+              "enum": [
+                "Certified Tutor",
+                "Licensed Counsellor",
+                "Accredited Assessor",
+                "Other"
+              ],
+              "example": "Certified Tutor"
+            },
+            "issuing_body": {
+              "type": "string",
+              "description": "Name of the organisation that issued the credential",
+              "example": "CBSE Board"
+            }
+          }
+        }
+      },
+      "target_grade_band": {
+        "type": "string",
+        "description": "Grade band of learners the provider wants to serve",
+        "enum": [
+          "Class XI",
+          "Class XII",
+          "Post-XII"
+        ],
+        "example": "Class XI"
+      },
+      "target_subject_area": {
+        "type": "string",
+        "description": "Subject or domain the provider wants to address",
+        "example": "Physics"
+      },
+      "target_capability_tier": {
+        "type": "string",
+        "description": "Approximate capability tier of learners the provider can serve",
+        "enum": [
+          "Low",
+          "Mid",
+          "High",
+          "Any"
+        ],
+        "example": "Any"
+      },
+      "service_mode": {
+        "type": "string",
+        "description": "Delivery mode of sessions",
+        "enum": [
+          "In-person",
+          "Online",
+          "Hybrid"
+        ],
+        "example": "Hybrid"
+      },
+      "session_structure": {
+        "type": "string",
+        "description": "Whether sessions are topic-based or on a regular schedule",
+        "enum": [
+          "Topic Based",
+          "Regular"
+        ],
+        "example": "Regular"
+      }
+    }
+  }
+}

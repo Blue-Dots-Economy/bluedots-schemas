@@ -1,0 +1,81 @@
+{
+  "info": "Seeker domain profile schema for a learner seeking tutoring, counselling, or skill development",
+  "name": "learner_profile",
+  "version": "1.0.0",
+  "details": {
+    "dot": "https://dot.example.com",
+    "domain": "https://education.example.com"
+  },
+  "schema_type": "profile",
+  "schema": {
+    "type": "object",
+    "description": "Learner seeker profile data stored in item_state",
+    "required": [
+      "learner_id",
+      "pincode",
+      "grade_band",
+      "capability_band",
+      "academic_stream",
+      "service_type",
+      "subject_or_domain"
+    ],
+    "properties": {
+      "learner_id": {
+        "type": "string",
+        "description": "Unique learner identifier",
+        "example": "LRN-2026-001"
+      },
+      "pincode": {
+        "type": "string",
+        "description": "Learner's location pincode",
+        "example": "560001"
+      },
+      "grade_band": {
+        "type": "string",
+        "description": "Current academic grade band of the learner",
+        "enum": [
+          "Class XI",
+          "Class XII",
+          "Post-XII"
+        ],
+        "example": "Class XI"
+      },
+      "capability_band": {
+        "type": "string",
+        "description": "Standardised cognitive-personality score range classification (e.g., mySATHI band)",
+        "enum": [
+          "Low",
+          "Mid",
+          "High"
+        ],
+        "example": "Mid"
+      },
+      "academic_stream": {
+        "type": "string",
+        "description": "Current academic stream",
+        "enum": [
+          "Science",
+          "Commerce",
+          "Arts"
+        ],
+        "example": "Science"
+      },
+      "service_type": {
+        "type": "string",
+        "description": "Type of service the learner is seeking",
+        "enum": [
+          "Tutoring",
+          "Admissions Counselling",
+          "Career Guidance",
+          "Skill Workshop"
+        ],
+        "example": "Tutoring"
+      },
+      "subject_or_domain": {
+        "type": "string",
+        "description": "Specific subject or domain of need",
+        "example": "Physics"
+      }
+    }
+  }
+}

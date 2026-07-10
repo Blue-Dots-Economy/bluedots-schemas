@@ -1,0 +1,11 @@
+{
+  "action": "connect",
+  "name": "connect learner to tutor or counsellor",
+  "rules": {
+    "from": "learner_profile",
+    "to": "tutor_counsellor_profile",
+    "requirement_schema": {
+      "$ref": "https://registry.example.com/schemas/connect/learner-tutor/1.0.0"
+    }
+  }
+}
