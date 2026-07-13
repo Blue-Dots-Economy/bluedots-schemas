@@ -1,0 +1,129 @@
+{
+  "info": "Sample domain profile schema for a student profile item_state",
+  "name": "student_profile",
+  "version": "1.0.0",
+  "details": {
+    "dot": "yellow-dot",
+    "domain": "student"
+  },
+  "schema_type": "profile",
+  "schema": {
+    "type": "object",
+    "description": "Student profile data stored in item_state",
+    "required": [
+      "student_id",
+      "full_name",
+      "date_of_birth",
+      "grade",
+      "email",
+      "guardian"
+    ],
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "description": "Unique student identifier",
+        "example": "STU-2026-001"
+      },
+      "full_name": {
+        "type": "string",
+        "example": "Aarav Sharma"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "example": "2010-08-14"
+      },
+      "grade": {
+        "type": "string",
+        "enum": ["6", "7", "8", "9", "10", "11", "12"],
+        "example": "10"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "example": "aarav.sharma@student.example.com"
+      },
+      "phone": {
+        "type": "string",
+        "example": "+91-9876543210"
+      },
+      "address": {
+        "type": "object",
+        "required": ["line1", "city", "state", "postal_code", "country"],
+        "properties": {
+          "line1": {
+            "type": "string",
+            "example": "14 Lake View Road"
+          },
+          "line2": {
+            "type": "string",
+            "example": "Near Central Library"
+          },
+          "city": {
+            "type": "string",
+            "example": "Bengaluru"
+          },
+          "state": {
+            "type": "string",
+            "example": "Karnataka"
+          },
+          "postal_code": {
+            "type": "string",
+            "example": "560001"
+          },
+          "country": {
+            "type": "string",
+            "example": "India"
+          }
+        }
+      },
+      "guardian": {
+        "type": "object",
+        "required": ["name", "relationship", "phone"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Neha Sharma"
+          },
+          "relationship": {
+            "type": "string",
+            "example": "Mother"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+91-9876500000"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "neha.sharma@example.com"
+          }
+        }
+      },
+      "academic_details": {
+        "type": "object",
+        "properties": {
+          "roll_number": {
+            "type": "string",
+            "example": "10-A-23"
+          },
+          "section": {
+            "type": "string",
+            "example": "A"
+          },
+          "admission_year": {
+            "type": "integer",
+            "example": 2021
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["Mathematics", "Science", "English"]
+          }
+        }
+      }
+    }
+  }
+}
