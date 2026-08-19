@@ -422,7 +422,9 @@
         "heading": "Complete your profile to reach people who need support",
         "body": "People looking for services can discover and connect with you only once your profile is live. Add your details below to start helping."
       },
-      "id": "service_provider",
+      "id": "provider",
+      "label": "Service Provider",
+      "plural_label": "Service Providers",
       "go_live_required": ["schema_required", "consent_required"],
       "my_items_label": "My Services",
       "card": {
@@ -456,7 +458,7 @@
       "instance_name": "Purple Dot Service Provider Local",
       "instance_url": "http://localhost:2742",
       "custom_item_schema_urls": {},
-      "domain_id": "service_provider"
+      "domain_id": "provider"
     }
   ],
   "actions": {
@@ -467,7 +469,7 @@
           "from_network": "purple_dot",
           "from_domain": "seeker",
           "to_network": "purple_dot",
-          "to_domain": "service_provider",
+          "to_domain": "provider",
           "requirement_schema": { "type": "object", "properties": {} },
           "event_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -503,7 +505,7 @@
         },
         {
           "from_network": "purple_dot",
-          "from_domain": "service_provider",
+          "from_domain": "provider",
           "to_network": "purple_dot",
           "to_domain": "seeker",
           "requirement_schema": { "type": "object", "properties": {} },
@@ -541,9 +543,9 @@
         },
         {
           "from_network": "purple_dot",
-          "from_domain": "service_provider",
+          "from_domain": "provider",
           "to_network": "purple_dot",
-          "to_domain": "service_provider",
+          "to_domain": "provider",
           "requirement_schema": { "type": "object", "properties": {} },
           "event_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
