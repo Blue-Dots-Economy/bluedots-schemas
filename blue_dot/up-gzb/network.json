@@ -935,6 +935,7 @@
         }
       },
       "id": "seeker",
+      "my_items_label": "My Actions",
       "go_live_required": ["schema_required", "consent_required"],
       "guardian_consent_required": true,
       "profile_completion_prompt": {
