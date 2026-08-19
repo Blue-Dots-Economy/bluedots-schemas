@@ -935,6 +935,7 @@
         }
       },
       "id": "seeker",
+      "my_items_label": "My Actions",
       "go_live_required": ["schema_required", "consent_required"],
       "guardian_consent_required": true,
       "profile_completion_prompt": {
@@ -2141,29 +2142,6 @@
     "connect": {
       "description": "Lets participants reach out to one another outside the application flow: provider to provider (partnership / referral), provider to seeker (interview invitation), seeker to service provider (service enquiry), service provider to seeker (programme offer), and provider to service provider either way (sourcing trained candidates). Either party can initiate; the receiver can accept or reject.",
       "interactions": [
-        {
-          "from_network": "blue_dot",
-          "from_domain": "provider",
-          "to_network": "blue_dot",
-          "to_domain": "provider",
-          "requirement_schema": { "type": "object", "properties": {} },
-          "event_schema": {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "title": "Provider To Provider Connect Event",
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["status", "remark"],
-            "properties": {
-              "status": {
-                "type": "string",
-                "enum": ["created", "accepted", "rejected", "cancelled"]
-              },
-              "remark": { "type": "string" }
-            }
-          },
-          "metric_categories": null,
-          "reveals_pii_on_status": ["accepted"]
-        },
         {
           "from_network": "blue_dot",
           "from_domain": "provider",
