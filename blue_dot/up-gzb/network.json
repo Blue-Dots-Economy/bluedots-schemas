@@ -1008,7 +1008,6 @@
                   "companyGstOrUdyamNumber",
                   "jobProviderLocation",
                   "role",
-                  "title",
                   "positions",
                   "natureOfJob",
                   "workingHours",
@@ -1120,7 +1119,7 @@
             },
             "role": {
               "type": "string",
-              "title": "Role",
+              "title": "Job Name / Role",
               "minLength": 1,
               "vectorize": true,
               "vector_weight": 2
@@ -1268,14 +1267,6 @@
                   "Returning after a break"
                 ]
               },
-              "vectorize": true
-            },
-            "title": {
-              "type": "string",
-              "title": "Job Title",
-              "description": "Job title (editable)",
-              "pattern": "^\\s*\\S+(\\s+\\S+)*\\s*$",
-              "minLength": 1,
               "vectorize": true
             },
             "minQualificationSchool": {
