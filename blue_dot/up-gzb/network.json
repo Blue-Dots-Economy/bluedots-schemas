@@ -28,6 +28,7 @@
                   "age",
                   "gender",
                   "phone",
+                  "email",
                   "location"
                 ]
               },
@@ -117,6 +118,13 @@
               "minimum": 10,
               "private": true
             },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "title": "Email",
+              "description": "Optional secondary contact; masked until an accepted connection",
+              "private": true
+            },
             "age": {
               "type": "integer",
               "title": "Age",
@@ -137,7 +145,6 @@
               "type": "string",
               "title": "Years of Work Experience",
               "enum": [
-                "0",
                 "< 1 Year",
                 "1 Year",
                 "2 Years",
@@ -145,8 +152,7 @@
                 "3-5 Years",
                 "5-10 Years",
                 "10-15 Years",
-                "15+ Years",
-                "Other"
+                "15+ Years"
               ],
               "x-show-if": {
                 "workExperience": [
@@ -732,14 +738,29 @@
                   "state"
                 ]
               },
-              "vectorize": true
+              "vectorize": true,
+              "x-show-if": {
+                "educationCategory": [
+                  "ITI",
+                  "Other Vocational Training",
+                  "Polytechnic",
+                  "Diploma",
+                  "College"
+                ]
+              }
             },
             "nameOfLastRoleHeld": {
               "type": "string",
               "title": "Name of last role held",
               "description": "Enter the name of your last role",
               "placeholder": "Enter the name of your last role",
-              "vectorize": true
+              "vectorize": true,
+              "x-show-if": {
+                "workExperience": [
+                  "Worked before",
+                  "Returning after a break"
+                ]
+              }
             },
             "languageSpoken": {
               "type": "array",
