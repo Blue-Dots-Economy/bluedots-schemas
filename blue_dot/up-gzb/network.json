@@ -178,7 +178,7 @@
             },
             "nameOfJobRolesInterestedIn": {
               "type": "string",
-              "title": "Job Role/s Interested In",
+              "title": "Job Roles Interested In",
               "minLength": 1,
               "vectorize": true,
               "vector_weight": 2
