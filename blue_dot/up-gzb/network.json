@@ -673,22 +673,22 @@
               "title": "Polytechnic / Diploma",
               "description": "Select your polytechnic/diploma",
               "enum": [
-                "Diploma in Mechanical",
-                "Diploma in Electrical",
-                "Diploma in Electronics",
-                "Diploma in Civil",
-                "Diploma in Computer Science",
-                "Diploma in Automobile",
-                "Diploma in Others"
+                "Mechanical",
+                "Electrical",
+                "Electronics",
+                "Civil",
+                "Computer Science",
+                "Automobile",
+                "Other"
               ],
               "enumNames": [
-                "Diploma in Mechanical",
-                "Diploma in Electrical",
-                "Diploma in Electronics",
-                "Diploma in Civil",
-                "Diploma in Computer Science",
-                "Diploma in Automobile",
-                "Diploma in Others"
+                "Mechanical",
+                "Electrical",
+                "Electronics",
+                "Civil",
+                "Computer Science",
+                "Automobile",
+                "Other"
               ],
               "x-show-if": {
                 "educationCategory": [
@@ -704,7 +704,7 @@
               "description": "Please specify your diploma",
               "x-show-if": {
                 "polytechnicDiploma": [
-                  "Diploma in Others"
+                  "Other"
                 ]
               }
             },
@@ -1469,13 +1469,13 @@
               "title": "Min. Highest Qualification (Polytechnic/Diploma)",
               "description": "Select the diploma stream completed",
               "enum": [
-                "Diploma in Mechanical",
-                "Diploma in Electrical",
-                "Diploma in Electronics",
-                "Diploma in Civil",
-                "Diploma in Computer Science",
-                "Diploma in Automobile",
-                "Diploma in Others"
+                "Mechanical",
+                "Electrical",
+                "Electronics",
+                "Civil",
+                "Computer Science",
+                "Automobile",
+                "Other"
               ],
               "x-show-if": {
                 "minEducationalInstitute": [
@@ -1491,7 +1491,7 @@
               "description": "Please specify your other diploma stream",
               "x-show-if": {
                 "minQualificationPolytechnic": [
-                  "Diploma in Others"
+                  "Other"
                 ]
               }
             },
