@@ -1127,7 +1127,7 @@
             },
             "positions": {
               "type": "integer",
-              "title": "Open Positions",
+              "title": "Number of Openings",
               "minimum": 1
             },
             "natureOfJob": {
@@ -1221,7 +1221,7 @@
             },
             "minEducationalInstitute": {
               "type": "string",
-              "title": "Min. Highest Educational Institute Attended",
+              "title": "Min. Qualification or Skill Required",
               "description": "Please select the preferred minimum of the highest kind of educational institute they have attended",
               "enum": [
                 "School",
@@ -1964,7 +1964,7 @@
             "targetSeekersNonEducational": {
               "vectorize": true,
               "type": "array",
-              "title": "Who do you serve? (Non-Educational)",
+              "title": "What type of job providers are you looking to serve?",
               "items": {
                 "type": "string",
                 "enum": [
