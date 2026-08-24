@@ -679,22 +679,22 @@
               "title": "Polytechnic / Diploma",
               "description": "Select your polytechnic/diploma",
               "enum": [
-                "Mechanical",
-                "Electrical",
-                "Electronics",
-                "Civil",
-                "Computer Science",
-                "Automobile",
-                "Other"
+                "Diploma in Mechanical",
+                "Diploma in Electrical",
+                "Diploma in Electronics",
+                "Diploma in Civil",
+                "Diploma in Computer Science",
+                "Diploma in Automobile",
+                "Diploma in Others"
               ],
               "enumNames": [
-                "Mechanical",
-                "Electrical",
-                "Electronics",
-                "Civil",
-                "Computer Science",
-                "Automobile",
-                "Other"
+                "Diploma in Mechanical",
+                "Diploma in Electrical",
+                "Diploma in Electronics",
+                "Diploma in Civil",
+                "Diploma in Computer Science",
+                "Diploma in Automobile",
+                "Diploma in Others"
               ],
               "x-show-if": {
                 "educationCategory": [
@@ -710,7 +710,7 @@
               "description": "Please specify your diploma",
               "x-show-if": {
                 "polytechnicDiploma": [
-                  "Other"
+                  "Diploma in Others"
                 ]
               }
             },
@@ -1058,6 +1058,7 @@
                 "title": "Additional Services Offered",
                 "fields": [
                   "benefitsOffered",
+                  "benefitsOfferedOther",
                   "servicesOffered",
                   "serviceDetails"
                 ]
@@ -1520,13 +1521,13 @@
               "title": "Min. Highest Qualification (Polytechnic/Diploma)",
               "description": "Select the diploma stream completed",
               "enum": [
-                "Mechanical",
-                "Electrical",
-                "Electronics",
-                "Civil",
-                "Computer Science",
-                "Automobile",
-                "Other"
+                "Diploma in Mechanical",
+                "Diploma in Electrical",
+                "Diploma in Electronics",
+                "Diploma in Civil",
+                "Diploma in Computer Science",
+                "Diploma in Automobile",
+                "Diploma in Others"
               ],
               "x-show-if": {
                 "minEducationalInstitute": [
@@ -1542,7 +1543,7 @@
               "description": "Please specify your other diploma stream",
               "x-show-if": {
                 "minQualificationPolytechnic": [
-                  "Other"
+                  "Diploma in Others"
                 ]
               }
             },
@@ -1611,9 +1612,41 @@
               }
             },
             "benefitsOffered": {
+              "vectorize": true,
+              "type": "array",
+              "title": "Benefits Provided",
+              "description": "Select the benefits this job provides",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Food Provided",
+                  "Travel / Transport Provided",
+                  "Travel Allowance",
+                  "PF / ESIC",
+                  "Accommodation Provided",
+                  "Other"
+                ],
+                "enumNames": [
+                  "Food Provided",
+                  "Travel / Transport Provided",
+                  "Travel Allowance",
+                  "PF / ESIC",
+                  "Accommodation Provided",
+                  "Other"
+                ]
+              }
+            },
+            "benefitsOfferedOther": {
               "type": "string",
-              "title": "Benefits Offered",
-              "vectorize": true
+              "title": "Other Benefits",
+              "description": "Please specify the other benefits provided",
+              "placeholder": "Please specify the other benefits provided",
+              "vectorize": true,
+              "x-show-if": {
+                "benefitsOffered": [
+                  "Other"
+                ]
+              }
             },
             "employeeFriendliness": {
               "vectorize": true,
