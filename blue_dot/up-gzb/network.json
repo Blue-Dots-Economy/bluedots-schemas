@@ -197,7 +197,7 @@
             "educationCategory": {
               "vectorize": true,
               "type": "string",
-              "title": "Education Category",
+              "title": "Highest Qualification or Skill",
               "description": "Select your education category",
               "enum": [
                 "School",
