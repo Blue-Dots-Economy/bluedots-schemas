@@ -1146,32 +1146,66 @@
             "stipendMin": {
               "type": "number",
               "title": "Monthly In-hand Stipend (INR) min",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Internship",
+                  "Apprenticeship"
+                ]
+              }
             },
             "stipendMax": {
               "type": "number",
               "title": "Monthly In-hand Stipend (INR) max",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Internship",
+                  "Apprenticeship"
+                ]
+              }
             },
             "salaryMin": {
               "type": "number",
               "title": "Monthly In-hand Salary (INR) min",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Full-time"
+                ]
+              }
             },
             "salaryMax": {
               "type": "number",
               "title": "Monthly In-hand Salary (INR) max",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Full-time"
+                ]
+              }
             },
             "taskRateMin": {
               "type": "number",
               "title": "Per Task (INR) min",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Flexible",
+                  "Gig Work"
+                ]
+              }
             },
             "taskRateMax": {
               "type": "number",
               "title": "Per Task (INR) max",
-              "minimum": 0
+              "minimum": 0,
+              "x-show-if": {
+                "natureOfJob": [
+                  "Flexible",
+                  "Gig Work"
+                ]
+              }
             },
             "candidateExperienceType": {
               "vectorize": true,
@@ -1207,7 +1241,6 @@
               "title": "Work Experience (Years)",
               "description": "Preferred minimum years of work experience",
               "enum": [
-                "0",
                 "< 1 Year",
                 "1 Year",
                 "2 Years",
@@ -1215,9 +1248,14 @@
                 "3-5 Years",
                 "5-10 Years",
                 "10-15 Years",
-                "15+ Years",
-                "Other"
-              ]
+                "15+ Years"
+              ],
+              "x-show-if": {
+                "candidateExperienceType": [
+                  "Worked before",
+                  "Returning after a break"
+                ]
+              }
             },
             "lastRoleHeld": {
               "type": "string",
@@ -1226,7 +1264,8 @@
               "placeholder": "Enter the names of roles the candidate should have last held",
               "x-show-if": {
                 "candidateExperienceType": [
-                  "Worked before"
+                  "Worked before",
+                  "Returning after a break"
                 ]
               },
               "vectorize": true
@@ -1551,7 +1590,12 @@
                 "Desk",
                 "On-Field",
                 "Standing"
-              ]
+              ],
+              "x-show-if": {
+                "candidateExperienceType": [
+                  "Worked before"
+                ]
+              }
             },
             "jobCategory": {
               "vectorize": true,
@@ -1568,7 +1612,12 @@
                 "Graphic Design",
                 "HR-Admin",
                 "Unskilled Labour"
-              ]
+              ],
+              "x-show-if": {
+                "candidateExperienceType": [
+                  "Worked before"
+                ]
+              }
             },
             "benefitsOffered": {
               "type": "string",
