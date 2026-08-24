@@ -163,7 +163,7 @@
             },
             "natureOfJobsInterestedIn": {
               "vectorize": true,
-              "title": "Nature of Jobs Interested In",
+              "title": "Nature of Job Interested In",
               "type": "array",
               "items": {
                 "type": "string",
@@ -178,7 +178,7 @@
             },
             "nameOfJobRolesInterestedIn": {
               "type": "string",
-              "title": "Job Roles Interested In",
+              "title": "Job Role/s Interested In",
               "minLength": 1,
               "vectorize": true,
               "vector_weight": 2
@@ -728,7 +728,7 @@
             },
             "itiInstitute": {
               "type": "string",
-              "title": "College / Institute Name",
+              "title": "College / Institution Name",
               "description": "Please specify your college or institute name",
               "placeholder": "Please specify your college or institute name",
               "x-reference-source": {
