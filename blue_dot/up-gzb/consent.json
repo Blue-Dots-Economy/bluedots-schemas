@@ -35,10 +35,10 @@
       ]
     },
     "profile_creation": {
-      "current_version": 1,
+      "current_version": 2,
       "versions": [
         {
-          "version": 1,
+          "version": 2,
           "statement": "The information collected will be used to match you with services and opportunities. Tap \"I agree to continue\".",
           "effective_from": "2026-06-01"
         }
@@ -48,20 +48,20 @@
   "actions": {
     "connect": {
       "initiate": {
-        "current_version": 1,
+        "current_version": 2,
         "versions": [
           {
-            "version": 1,
+            "version": 2,
             "statement": "I agree to share my contact details (name, email, phone) with this __COUNTERPARTY__ if they accept my request. The request may be cancelled at any time.",
             "effective_from": "2026-06-01"
           }
         ]
       },
       "accept": {
-        "current_version": 1,
+        "current_version": 2,
         "versions": [
           {
-            "version": 1,
+            "version": 2,
             "statement": "I agree to share my contact details (name, email, phone) with this __COUNTERPARTY__.",
             "effective_from": "2026-06-01"
           }
@@ -70,20 +70,20 @@
     },
     "apply": {
       "initiate": {
-        "current_version": 1,
+        "current_version": 2,
         "versions": [
           {
-            "version": 1,
+            "version": 2,
             "statement": "I agree to share my contact details (name, email, phone) with this __COUNTERPARTY__ if they accept my request. The request may be cancelled at any time.",
             "effective_from": "2026-06-01"
           }
         ]
       },
       "accept": {
-        "current_version": 1,
+        "current_version": 2,
         "versions": [
           {
-            "version": 1,
+            "version": 2,
             "statement": "I agree to share my contact details (name, email, phone) with this __COUNTERPARTY__.",
             "effective_from": "2026-06-01"
           }
