@@ -1,0 +1,73 @@
+# Active aggregator config for the running stack. Switched to orange_dot
+# for the third network rollout; the same docker image runs blue_dot,
+# purple_dot, or any other signalstack network by editing only this file.
+# Treat as deploy state; the .example.yaml sibling documents every
+# supported field.
+
+aggregator:
+  name: OneTAC Aggregator
+  contact_email: ops@onetac.local
+
+  network:
+    # Pin to a tag in production; develop is fine for local iteration.
+    source: https://raw.githubusercontent.com/Blue-Dots-Economy/Signals-DPG/refs/heads/develop/examples/schemas/orange_dot/network.json
+    # Mirror the purple_dot bulk-CSV array-delimiter for now — adjust
+    # if orange_dot's schemas use a different separator.
+    csv_array_delimiter: '|'
+    field_overrides:
+      tourist:
+        name: name
+        phone: phone_number
+      practitioner:
+        name: product_name
+        phone: contact_phone
+        email: email
+
+  brand:
+    short_name: OneTAC
+    long_name: OneTAC Aggregator Portal
+    tagline: Discovering verified practitioners for every traveller across the network.
+    url_slug: onetac
+    # Sienna palette from `config/orange_dot/brand.json`.theme — matches
+    # the OneTAC logo's burnt-sienna wordmark + Caramel accent.
+    primary_color: '#9c5b1f'
+    accent_color: '#c79670'
+
+  domain_labels:
+    tourist:
+      singular: Tourist
+      plural: Tourists
+      tab_label: Tourists
+    practitioner:
+      singular: Practitioner
+      plural: Practitioners
+      tab_label: Practitioners
+
+  onboarding:
+    # Bulk-upload only: when true, an adult bulk row is pushed to Signals with
+    # user_terms / user_privacy / profile_creation asserted on the participant's
+    # behalf, satisfying the consent_required go-live gate and publishing the
+    # profile immediately. false => compliance omitted, rows stay draft until the
+    # participant accepts. Minors are never presumed either way. The interactive
+    # registration-link flow always captures real consent.
+    presume_consent: false
+    bulk_max_rows: 10000
+
+  # Per-link registration modes. Each key names an admin-facing channel.
+  # `submission_shape` decides what the public form renders:
+  #   - account_only        : MinimalIdentityForm (name + phone OR email + consent).
+  #   - account_and_profile : full RJSF profile schema; partial submissions accepted.
+  # `public_hint_i18n_key` is the i18n key rendered beneath the form;
+  # null means no hint.
+  registration_modes:
+    voice:
+      label_i18n_key: registration_mode.voice.label
+      submission_shape: account_only
+      public_hint_i18n_key: registration_mode.voice.hint
+    form:
+      label_i18n_key: registration_mode.form.label
+      submission_shape: account_and_profile
+      public_hint_i18n_key: null
+
+  admin_emails:
+    - abhishekg@sanketika.in

@@ -1,0 +1,60 @@
+# Active aggregator config for the running stack. Switched to orange_dot
+# for the third network rollout; the same docker image runs blue_dot,
+# purple_dot, or any other signalstack network by editing only this file.
+# Treat as deploy state; the .example.yaml sibling documents every
+# supported field.
+
+aggregator:
+  name: Orange Dots Aggregator
+  contact_email: ops@orangedots.local
+
+  network:
+    # Pin to a tag in production; develop is fine for local iteration.
+    # Sourced from the signals-dpg `feature` branch until orange_dot/network.json
+    # lands on `develop`. Update to `refs/heads/develop` once merged.
+    source: https://raw.githubusercontent.com/Blue-Dots-Economy/Signals-DPG/refs/heads/develop/examples/schemas/orange_dot/network.json
+    # Mirror the purple_dot bulk-CSV array-delimiter for now — adjust
+    # if orange_dot's schemas use a different separator.
+    csv_array_delimiter: '|'
+    field_overrides:
+      tourist:
+        name: name
+        phone: phone_number
+      practitioner:
+        name: product_name
+        phone: contact_phone
+        email: email
+
+  brand:
+    short_name: Orange Dots
+    long_name: Orange Dot Aggregator Portal
+    tagline: Udupi tourism discovery — practitioners & travellers
+    url_slug: orange-dots
+    # Orange 500 — the vivid brand orange. Orange 700 (#c45a00)
+    # served as the original CTA dark variant but read as brown
+    # when applied to large brand panels.
+    primary_color: '#ff7a00'
+    accent_color: '#ffa54d'
+
+  domain_labels:
+    tourist:
+      singular: Tourist
+      plural: Tourists
+      tab_label: Tourists
+    practitioner:
+      singular: Practitioner
+      plural: Practitioners
+      tab_label: Practitioners
+
+  onboarding:
+    # Bulk-upload only: when true, an adult bulk row is pushed to Signals with
+    # user_terms / user_privacy / profile_creation asserted on the participant's
+    # behalf, satisfying the consent_required go-live gate and publishing the
+    # profile immediately. false => compliance omitted, rows stay draft until the
+    # participant accepts. Minors are never presumed either way. The interactive
+    # registration-link flow always captures real consent.
+    presume_consent: false
+    bulk_max_rows: 10000
+
+  admin_emails:
+    - abhishekg@sanketika.in
