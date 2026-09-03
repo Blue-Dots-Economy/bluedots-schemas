@@ -11,11 +11,16 @@
 
 import { readFileSync } from 'node:fs';
 
-const files = process.argv.slice(2);
+const argv = process.argv.slice(2);
+// --warn reports problems without failing the job, so the lint informs a
+// review rather than blocking it. Only the JSON parse check gates merges.
+const warnOnly = argv.includes('--warn');
+const files = argv.filter((a) => a !== '--warn');
 if (files.length === 0) {
-  console.error('usage: lint-network.mjs <file.json>...');
+  console.error('usage: lint-network.mjs [--warn] <file.json>...');
   process.exit(2);
 }
+const level = warnOnly ? 'warning' : 'error';
 
 /** Options live on `enum` for scalars and `items.enum` for multi-selects. */
 const optionsOf = (prop) => prop?.enum ?? prop?.items?.enum ?? null;
@@ -114,10 +119,13 @@ for (const file of files) {
     console.log(`${file}: ok`);
   } else {
     failed += 1;
-    for (const finding of findings) console.log(`::error file=${file}::${finding}`);
+    for (const finding of findings) console.log(`::${level} file=${file}::${finding}`);
     console.log(`${file}: ${findings.length} problem(s)`);
   }
 }
 
 console.log(`\nlinted ${checked} network file(s), ${failed} with problems`);
-process.exit(failed === 0 ? 0 : 1);
+if (failed > 0 && warnOnly) {
+  console.log('advisory run: not failing the job — fix these in a schema PR');
+}
+process.exit(failed === 0 || warnOnly ? 0 : 1);

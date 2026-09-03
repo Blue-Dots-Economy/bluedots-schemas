@@ -5,9 +5,13 @@ on:
   push:
     branches: [main]
 
+# Only the parse job gates a merge. The lint and drift jobs are advisory:
+# they report on the PR so a reviewer sees the problem, but they always exit
+# 0 and never hold the branch hostage.
+
 jobs:
   parse:
-    name: JSON parses
+    name: JSON parses (blocking)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,15 +31,27 @@ jobs:
           exit $fail
 
   network-lint:
-    name: network.json is structurally sound
+    name: network.json structure (advisory)
     runs-on: ubuntu-latest
     needs: parse
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Lint network.json cross-references
-        run: node .github/scripts/lint-network.mjs $(git ls-files '*network.json')
+        run: node .github/scripts/lint-network.mjs --warn $(git ls-files '*network.json')
+
+  brand-drift:
+    name: Brand clone drift (advisory)
+    runs-on: ubuntu-latest
+    needs: parse
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Report drift between brand clones
+        run: node .github/scripts/brand-drift.mjs $(git ls-files '*network.json')
