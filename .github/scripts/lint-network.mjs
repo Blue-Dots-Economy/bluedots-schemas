@@ -18,6 +18,9 @@
 import { readFileSync } from 'node:fs';
 import { fileList } from './lib/files.mjs';
 
+/** Workflow commands are line-based; an unescaped newline truncates them. */
+const esc = (s) => String(s).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+
 const warnOnly = process.argv.includes('--warn');
 const level = warnOnly ? 'warning' : 'error';
 
@@ -92,8 +95,12 @@ function lintSchema(where, schema, report) {
     }
   }
 
+  // schema-form.tsx does `layout.sections.map(...)` with no guard either.
   const sections = layout.sections;
-  if (!Array.isArray(sections)) return;
+  if (!Array.isArray(sections)) {
+    report(`${where}: x-form-layout has no sections array — the form renderer calls .map() on it and will throw`);
+    return;
+  }
 
   const placed = new Map(); // field -> [section titles]
   for (const [i, section] of sections.entries()) {
@@ -118,8 +125,16 @@ function lintSchema(where, schema, report) {
 }
 
 const files = await fileList();
+
+// A broken pathspec is a tooling failure, not a schema finding: --warn must
+// not turn it into a permanently green no-op.
+if (files.length === 0) {
+  console.log('::error::no network files were passed to the lint — the file list is broken');
+  process.exit(1);
+}
+
 let failed = 0;
-let checked = 0;
+let scanned = 0;
 
 for (const file of files) {
   let doc;
@@ -129,10 +144,12 @@ for (const file of files) {
     // The parse gate should have caught this. Say so rather than skipping in
     // silence — a file that vanishes from the lint with no annotation is how
     // a broken file reaches main looking checked.
-    console.log(`::${level} file=${file}::could not be linted, it does not parse: ${err.message}`);
+    console.log(`::${level} file=${esc(file)}::${esc(`could not be linted, it does not parse: ${err.message}`)}`);
     failed += 1;
+    scanned += 1;
     continue;
   }
+  scanned += 1;
   if (!Array.isArray(doc?.domains)) {
     console.log(`${file}: skipped (no domains array)`);
     continue;
@@ -143,22 +160,16 @@ for (const file of files) {
     lintSchema(where, schema, (msg) => findings.push(msg));
   }
 
-  checked += 1;
   if (findings.length === 0) {
     console.log(`${file}: ok`);
   } else {
     failed += 1;
-    for (const finding of findings) console.log(`::${level} file=${file}::${finding}`);
+    for (const finding of findings) console.log(`::${level} file=${esc(file)}::${esc(finding)}`);
     console.log(`${file}: ${findings.length} problem(s)`);
   }
 }
 
-if (files.length === 0) {
-  console.log(`::${level}::no network files were passed to the lint — the file list may be broken`);
-  process.exit(warnOnly ? 0 : 1);
-}
-
-console.log(`\nlinted ${checked} network file(s), ${failed} with problems`);
+console.log(`\nlinted ${scanned} network file(s), ${failed} with problems`);
 if (failed > 0 && warnOnly) {
   console.log('advisory run: not failing the job — fix these in a schema PR');
 }

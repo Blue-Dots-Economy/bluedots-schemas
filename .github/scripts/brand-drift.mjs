@@ -29,7 +29,7 @@ for (const path of files) {
   } catch (err) {
     // Don't drop it in silence: with only two brands under a dot, losing one
     // leaves nothing to compare and the report would claim there was no pair.
-    console.log(`::warning file=${path}::excluded from the drift report, it does not parse: ${err.message}`);
+    console.log(`::warning file=${esc(path)}::${esc(`excluded from the drift report, it does not parse: ${err.message}`)}`);
     continue;
   }
   const [dot, brand] = parts;
@@ -47,7 +47,10 @@ function show(v, other) {
     const label = `${v.length} item${v.length === 1 ? '' : 's'}`;
     if (!Array.isArray(other)) return label;
     const only = v.filter((x) => !other.some((y) => same(x, y)));
-    if (only.length === 0) return `${label} (reordered)`;
+    if (only.length === 0) {
+      // Nothing unique here, so this side is either a reorder or a subset.
+      return v.length === other.length ? `${label} (reordered)` : `${label} (all also present on the other side)`;
+    }
     const shown = only.slice(0, 4).map(elementLabel);
     return `${label}, only here: ${shown.join(', ')}${only.length > 4 ? `, +${only.length - 4}` : ''}`;
   }
@@ -57,6 +60,10 @@ function show(v, other) {
 }
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+/** Workflow commands are line-based; table cells must not break the row. */
+const esc = (s) => String(s).replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+const cell = (s) => String(s).replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 
 /** Name an array element so a reviewer can find it, rather than "{…}". */
 function elementLabel(x) {
@@ -70,15 +77,38 @@ function elementLabel(x) {
 /** Sorted union of two objects' keys. */
 const keysOf = (...objs) => [...new Set(objs.flatMap((o) => Object.keys(o ?? {})))].sort();
 
+// Keys walked in detail elsewhere; everything else is compared wholesale so
+// nothing can diverge unreported while the summary claims "identical".
+const WALKED_DOMAIN_KEYS = new Set(['item_schemas']);
+const WALKED_SCHEMA_KEYS = new Set(['properties', 'required', 'x-form-layout']);
+
 function compareSchemas(where, a, b, rows) {
+  for (const key of keysOf(a, b)) {
+    if (WALKED_SCHEMA_KEYS.has(key)) continue;
+    if (!same(a[key], b[key])) rows.push([`${where}.${key}`, show(a[key], b[key]), show(b[key], a[key])]);
+  }
+
   const pa = a.properties ?? {};
   const pb = b.properties ?? {};
+
+  // Property order drives render order for anything not placed in a section.
+  const orderA = Object.keys(pa);
+  const orderB = Object.keys(pb);
+  if (!same(orderA, orderB) && same([...orderA].sort(), [...orderB].sort())) {
+    rows.push([`${where} property order`, 'differs', 'differs']);
+  }
 
   for (const name of keysOf(pa, pb)) {
     const x = pa[name];
     const y = pb[name];
     if (x === undefined || y === undefined) {
       rows.push([`${where}.${name}`, x === undefined ? '—' : 'present', y === undefined ? '—' : 'present']);
+      continue;
+    }
+    // A null or non-object definition would make keysOf/x[key] throw, turning
+    // an advisory job red.
+    if (!x || typeof x !== 'object' || !y || typeof y !== 'object') {
+      if (!same(x, y)) rows.push([`${where}.${name}`, show(x, y), show(y, x)]);
       continue;
     }
     for (const key of keysOf(x, y)) {
@@ -108,6 +138,11 @@ function compareSchemas(where, a, b, rows) {
   };
   const sa = secs(a);
   const sb = secs(b);
+  const titlesA = Object.keys(sa);
+  const titlesB = Object.keys(sb);
+  if (!same(titlesA, titlesB) && same([...titlesA].sort(), [...titlesB].sort())) {
+    rows.push([`${where} section order`, titlesA.join(' → '), titlesB.join(' → ')]);
+  }
   for (const title of keysOf(sa, sb)) {
     if (!same(sa[title], sb[title])) {
       rows.push([`${where} layout "${title}"`, show(sa[title], sb[title]), show(sb[title], sa[title])]);
@@ -130,10 +165,22 @@ function compare(a, b) {
   const da = doms(a.doc);
   const db = doms(b.doc);
 
+  const orderA = Object.keys(da);
+  const orderB = Object.keys(db);
+  if (!same(orderA, orderB) && same([...orderA].sort(), [...orderB].sort())) {
+    rows.push(['domain order', orderA.join(' → '), orderB.join(' → ')]);
+  }
+
   for (const id of keysOf(da, db)) {
     if (!da[id] || !db[id]) {
       rows.push([`domain ${id}`, da[id] ? 'present' : '—', db[id] ? 'present' : '—']);
       continue;
+    }
+    for (const key of keysOf(da[id], db[id])) {
+      if (WALKED_DOMAIN_KEYS.has(key)) continue;
+      if (!same(da[id][key], db[id][key])) {
+        rows.push([`domain ${id}.${key}`, show(da[id][key], db[id][key]), show(db[id][key], da[id][key])]);
+      }
     }
     const ia = da[id].item_schemas ?? {};
     const ib = db[id].item_schemas ?? {};
@@ -169,7 +216,7 @@ for (const [dot, list] of [...brands].sort()) {
         continue;
       }
       out.push(`| Field | \`${a.brand}\` | \`${b.brand}\` |`, '|---|---|---|');
-      for (const [field, x, y] of rows.slice(0, 60)) out.push(`| ${field} | ${x} | ${y} |`);
+      for (const [field, x, y] of rows.slice(0, 60)) out.push(`| ${cell(field)} | ${cell(x)} | ${cell(y)} |`);
       if (rows.length > 60) out.push(`| _…and ${rows.length - 60} more_ | | |`);
       out.push('');
       console.log(`::notice::${dot}: ${a.brand} vs ${b.brand} — ${rows.length} difference(s); see the job summary`);
@@ -187,6 +234,8 @@ if (totalPairs === 0) {
     `Compared ${totalPairs} brand pair(s); ${totalRows} difference(s) total.`,
     '',
     'Differences are **not** errors — brands are expected to diverge. This is here so divergence is a decision someone made, not something that happened quietly.',
+    '',
+    '_Scope: `network.json` only, and only where two or more brands under a dot have one. Brand folders carrying just `brand.json` / `consent.json` (`blue_dot/upsdm`, `orange_dot/onetac`) are not compared._',
     '',
   ];
   const summary = [...header, ...out].join('\n');
