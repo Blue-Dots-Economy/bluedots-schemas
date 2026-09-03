@@ -27,6 +27,10 @@ const level = warnOnly ? 'warning' : 'error';
 /** Options live on `enum` for scalars and `items.enum` for multi-selects. */
 const optionsOf = (prop) => prop?.enum ?? prop?.items?.enum ?? null;
 
+/** `in` walks the prototype chain, so a field named toString or valueOf
+ *  would read as an existing property. */
+const has = (obj, name) => Object.hasOwn(obj, name);
+
 /** Every item_schema in a network.json, with a human-readable path. */
 function* itemSchemas(doc) {
   for (const [i, domain] of (doc.domains ?? []).entries()) {
@@ -42,7 +46,11 @@ function lintSchema(where, schema, report) {
   const at = (prop) => `${where}.${prop}`;
 
   for (const [name, prop] of Object.entries(props)) {
-    for (const [dep, raw] of Object.entries(prop?.['x-show-if'] ?? {})) {
+    const showIf = prop?.['x-show-if'];
+    if (showIf !== undefined && (showIf === null || typeof showIf !== 'object' || Array.isArray(showIf))) {
+      report(`${at(name)}: x-show-if is ${JSON.stringify(showIf)}, which is not an object of {property: [values]}`);
+    }
+    for (const [dep, raw] of Object.entries(showIf && typeof showIf === 'object' && !Array.isArray(showIf) ? showIf : {})) {
       // The UI bails on a non-array (show-if.ts: `if (!Array.isArray(allowed))
       // return false`), so a bare string hides the field permanently. Check
       // this before normalising, or the lint hides the bug it exists to find.
@@ -50,12 +58,16 @@ function lintSchema(where, schema, report) {
         report(`${at(name)}: x-show-if value for "${dep}" is ${JSON.stringify(raw)}, not an array — the UI treats a non-array as "never show"`);
         continue;
       }
-      if (!(dep in props)) {
+      if (!has(props, dep)) {
         report(`${at(name)}: x-show-if depends on "${dep}", which is not a property of this schema`);
         continue;
       }
       const options = optionsOf(props[dep]);
       if (options === null) continue; // free-text dependency: nothing to check against
+      if (!Array.isArray(options)) {
+        report(`${at(name)}: x-show-if depends on "${dep}", whose enum is not an array`);
+        continue;
+      }
       for (const value of raw) {
         if (!options.includes(value)) {
           report(`${at(name)}: x-show-if triggers on ${dep} === ${JSON.stringify(value)}, which is not one of its options`);
@@ -89,7 +101,7 @@ function lintSchema(where, schema, report) {
     report(`${where}: x-form-layout has no twoColumn array — the form renderer calls .includes() on it and will throw`);
   } else {
     for (const field of layout.twoColumn) {
-      if (!(field in props)) {
+      if (!has(props, field)) {
         report(`${where}: x-form-layout.twoColumn lists "${field}", which is not a property`);
       }
     }
@@ -105,12 +117,17 @@ function lintSchema(where, schema, report) {
   const placed = new Map(); // field -> [section titles]
   for (const [i, section] of sections.entries()) {
     const title = section?.title ?? `sections[${i}]`;
-    for (const field of section?.fields ?? []) {
+    const fields = section?.fields;
+    if (fields !== undefined && !Array.isArray(fields)) {
+      report(`${where}: x-form-layout section "${title}" has a non-array fields value — the renderer calls .map() on it and will throw`);
+      continue;
+    }
+    for (const field of fields ?? []) {
       placed.set(field, [...(placed.get(field) ?? []), title]);
     }
   }
   for (const [field, titles] of placed) {
-    if (!(field in props)) {
+    if (!has(props, field)) {
       report(`${where}: x-form-layout section "${titles[0]}" lists field "${field}", which is not a property — the renderer drops it silently`);
     }
     if (titles.length > 1) {
@@ -156,8 +173,14 @@ for (const file of files) {
   }
 
   const findings = [];
-  for (const [where, schema] of itemSchemas(doc)) {
-    lintSchema(where, schema, (msg) => findings.push(msg));
+  try {
+    for (const [where, schema] of itemSchemas(doc)) {
+      lintSchema(where, schema, (msg) => findings.push(msg));
+    }
+  } catch (err) {
+    // A shape the lint didn't anticipate must not abort the run and leave
+    // every later file silently unchecked.
+    findings.push(`could not be fully linted: ${err.message}`);
   }
 
   if (findings.length === 0) {

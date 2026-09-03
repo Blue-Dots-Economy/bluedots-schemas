@@ -32,9 +32,34 @@ function show(v, other) {
     const shown = only.slice(0, 4).map(elementLabel);
     return `${label}, only here: ${shown.join(', ')}${only.length > 4 ? `, +${only.length - 4}` : ''}`;
   }
-  if (typeof v === 'object') return `{${Object.keys(v).length} key${Object.keys(v).length === 1 ? '' : 's'}}`;
-  const s = String(v);
-  return '`' + (s.length > 48 ? s.slice(0, 45) + '…' : s) + '`';
+  if (typeof v === 'object') {
+    const n = Object.keys(v).length;
+    const label = `{${n} key${n === 1 ? '' : 's'}}`;
+    if (!other || typeof other !== 'object' || Array.isArray(other)) return label;
+    const diff = keysOf(v, other).filter((k) => !same(v[k], other[k]));
+    if (diff.length === 0) return label;
+    // Name the differing key *and* its value: two cells reading "differs: c"
+    // still leave the reviewer with no idea what changed.
+    const compact = (x) => {
+      const j = JSON.stringify(x) ?? 'undefined';
+      return j.length > 24 ? j.slice(0, 21) + '…' : j;
+    };
+    const parts = diff.slice(0, 3).map((k) => `${k}=${compact(v[k])}`);
+    return `${label} ${parts.join(', ')}${diff.length > 3 ? `, +${diff.length - 3}` : ''}`;
+  }
+  const str = String(v);
+  if (str.length <= 48) return '`' + str + '`';
+  // Truncating from the start renders two long strings that share a prefix as
+  // the same cell, which is the most likely shape of per-region copy drift.
+  if (typeof other === 'string') {
+    let i = 0;
+    while (i < str.length && i < other.length && str[i] === other[i]) i += 1;
+    if (i > 20) {
+      const from = Math.max(0, i - 12);
+      return '`…' + str.slice(from, from + 46) + (from + 46 < str.length ? '…' : '') + '`';
+    }
+  }
+  return '`' + str.slice(0, 45) + '…`';
 }
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -73,7 +98,7 @@ function compareSchemas(where, a, b, rows) {
   const orderA = Object.keys(pa);
   const orderB = Object.keys(pb);
   if (!same(orderA, orderB) && same([...orderA].sort(), [...orderB].sort())) {
-    rows.push([`${where} property order`, 'differs', 'differs']);
+    rows.push([`${where} property order`, orderA.join(' → '), orderB.join(' → ')]);
   }
 
   for (const name of keysOf(pa, pb)) {
@@ -111,7 +136,7 @@ function compareSchemas(where, a, b, rows) {
       const n = (seen.get(title) ?? 0) + 1;
       seen.set(title, n);
       if (n > 1) title = `${title} #${n}`;
-      return [title, x?.fields ?? []];
+      return [title, x ?? {}];
     }));
   };
   const sa = secs(a);
@@ -122,8 +147,27 @@ function compareSchemas(where, a, b, rows) {
     rows.push([`${where} section order`, titlesA.join(' → '), titlesB.join(' → ')]);
   }
   for (const title of keysOf(sa, sb)) {
-    if (!same(sa[title], sb[title])) {
-      rows.push([`${where} layout "${title}"`, show(sa[title], sb[title]), show(sb[title], sa[title])]);
+    const secA = sa[title];
+    const secB = sb[title];
+    if (secA === undefined || secB === undefined) {
+      rows.push([`${where} layout "${title}"`, secA === undefined ? '—' : 'present', secB === undefined ? '—' : 'present']);
+      continue;
+    }
+    // Every key on the section, so nothing beyond title/fields diverges unseen.
+    for (const key of keysOf(secA, secB)) {
+      if (!same(secA[key], secB[key])) {
+        rows.push([`${where} layout "${title}".${key}`, show(secA[key], secB[key]), show(secB[key], secA[key])]);
+      }
+    }
+  }
+
+  // Any x-form-layout key beyond sections/twoColumn, which are walked above.
+  const la = a['x-form-layout'] ?? {};
+  const lb = b['x-form-layout'] ?? {};
+  for (const key of keysOf(la, lb)) {
+    if (key === 'sections' || key === 'twoColumn') continue;
+    if (!same(la[key], lb[key])) {
+      rows.push([`${where} layout.${key}`, show(la[key], lb[key]), show(lb[key], la[key])]);
     }
   }
 }
@@ -139,9 +183,31 @@ function compare(a, b) {
     if (!same(a.doc[key], b.doc[key])) rows.push([key, show(a.doc[key], b.doc[key]), show(b.doc[key], a.doc[key])]);
   }
 
-  const doms = (d) => Object.fromEntries((d.domains ?? []).map((x, i) => [x?.id ?? String(i), x]));
-  const da = doms(a.doc);
-  const db = doms(b.doc);
+  // lint-network guards this with Array.isArray; drift must too, or an
+  // unexpected shape throws and the advisory job exits non-zero.
+  const doms = (d) => {
+    if (!Array.isArray(d?.domains)) return null;
+    const out = {};
+    const dupes = [];
+    for (const [i, x] of d.domains.entries()) {
+      const id = x?.id ?? String(i);
+      if (id in out) dupes.push(id);
+      out[id] = x;
+    }
+    return { map: out, dupes };
+  };
+  const ra = doms(a.doc);
+  const rb = doms(b.doc);
+  if (!ra || !rb) {
+    rows.push(['domains', ra ? `${Object.keys(ra.map).length} domain(s)` : 'not an array', rb ? `${Object.keys(rb.map).length} domain(s)` : 'not an array']);
+    return rows;
+  }
+  // F9: duplicate ids collapse, so a whole domain could vanish unreported.
+  for (const [side, r] of [[a.brand, ra], [b.brand, rb]]) {
+    for (const id of new Set(r.dupes)) rows.push([`domain id "${id}" appears more than once in ${side}`, '', '']);
+  }
+  const da = ra.map;
+  const db = rb.map;
 
   const orderA = Object.keys(da);
   const orderB = Object.keys(db);
@@ -223,6 +289,11 @@ for (const [dot, list] of [...brands].sort()) {
       console.log(`${dot}: ${a.brand} vs ${b.brand} — ${rows.length} difference(s)`);
     }
   }
+}
+
+if (files.length === 0) {
+  console.log('::error::no network files were passed to the drift report — the file list is broken');
+  process.exit(1);
 }
 
 if (totalPairs === 0) {
