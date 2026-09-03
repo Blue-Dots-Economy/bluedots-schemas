@@ -15,28 +15,6 @@
 import { readFileSync, appendFileSync } from 'node:fs';
 import { fileList } from './lib/files.mjs';
 
-const files = await fileList();
-
-// Brand files live at <dot>/<brand>/network.json. Anything shallower is the
-// dot's own base schema, not a brand clone.
-const brands = new Map(); // dot -> [{ brand, path, doc }]
-for (const path of files) {
-  const parts = path.split('/');
-  if (parts.length !== 3 || parts[2] !== 'network.json') continue;
-  let doc;
-  try {
-    doc = JSON.parse(readFileSync(path, 'utf8'));
-  } catch (err) {
-    // Don't drop it in silence: with only two brands under a dot, losing one
-    // leaves nothing to compare and the report would claim there was no pair.
-    console.log(`::warning file=${esc(path)}::${esc(`excluded from the drift report, it does not parse: ${err.message}`)}`);
-    continue;
-  }
-  const [dot, brand] = parts;
-  if (!brands.has(dot)) brands.set(dot, []);
-  brands.get(dot).push({ brand, path, doc });
-}
-
 /** Render a value compactly enough to sit in a table cell. */
 function show(v, other) {
   if (v === undefined) return '—';
@@ -193,6 +171,28 @@ function compare(a, b) {
     }
   }
   return rows;
+}
+
+const files = await fileList();
+
+// Brand files live at <dot>/<brand>/network.json. Anything shallower is the
+// dot's own base schema, not a brand clone.
+const brands = new Map(); // dot -> [{ brand, path, doc }]
+for (const path of files) {
+  const parts = path.split('/');
+  if (parts.length !== 3 || parts[2] !== 'network.json') continue;
+  let doc;
+  try {
+    doc = JSON.parse(readFileSync(path, 'utf8'));
+  } catch (err) {
+    // Don't drop it in silence: with only two brands under a dot, losing one
+    // leaves nothing to compare and the report would claim there was no pair.
+    console.log(`::warning file=${esc(path)}::${esc(`excluded from the drift report, it does not parse: ${err.message}`)}`);
+    continue;
+  }
+  const [dot, brand] = parts;
+  if (!brands.has(dot)) brands.set(dot, []);
+  brands.get(dot).push({ brand, path, doc });
 }
 
 const out = [];
