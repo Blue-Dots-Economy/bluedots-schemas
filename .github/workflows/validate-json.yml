@@ -25,3 +25,17 @@ jobs:
           done < <(git ls-files '*.json')
           echo "checked $count JSON file(s)"
           exit $fail
+
+  network-lint:
+    name: network.json is structurally sound
+    runs-on: ubuntu-latest
+    needs: parse
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Lint network.json cross-references
+        run: node .github/scripts/lint-network.mjs $(git ls-files '*network.json')
