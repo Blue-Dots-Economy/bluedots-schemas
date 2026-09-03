@@ -1,0 +1,27 @@
+name: validate-json
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  parse:
+    name: JSON parses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate every tracked JSON file
+        run: |
+          fail=0
+          count=0
+          while IFS= read -r f; do
+            count=$((count + 1))
+            if ! err=$(jq empty "$f" 2>&1); then
+              echo "::error file=$f::invalid JSON: ${err}"
+              fail=1
+            fi
+          done < <(git ls-files '*.json')
+          echo "checked $count JSON file(s)"
+          exit $fail
