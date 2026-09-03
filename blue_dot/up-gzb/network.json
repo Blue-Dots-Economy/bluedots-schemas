@@ -219,15 +219,12 @@
               ],
               "enumNames": [
                 "School",
-                "PU College",
                 "College",
                 "ITI",
-                "Other Vocational Training",
-                "Polytechnic",
-                "Diploma",
+                "Polytechnic / Diploma",
                 "Certification",
                 "Learned Informally",
-                "Not Available"
+                "Other Vocational Training"
               ]
             },
             "schoolQualification": {
