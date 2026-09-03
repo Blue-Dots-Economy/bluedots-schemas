@@ -13,8 +13,9 @@
 // wolf gets switched off.
 
 import { readFileSync, appendFileSync } from 'node:fs';
+import { fileList } from './lib/files.mjs';
 
-const files = process.argv.slice(2);
+const files = await fileList();
 
 // Brand files live at <dot>/<brand>/network.json. Anything shallower is the
 // dot's own base schema, not a brand clone.
@@ -25,8 +26,10 @@ for (const path of files) {
   let doc;
   try {
     doc = JSON.parse(readFileSync(path, 'utf8'));
-  } catch {
-    console.log(`${path}: skipped (does not parse)`);
+  } catch (err) {
+    // Don't drop it in silence: with only two brands under a dot, losing one
+    // leaves nothing to compare and the report would claim there was no pair.
+    console.log(`::warning file=${path}::excluded from the drift report, it does not parse: ${err.message}`);
     continue;
   }
   const [dot, brand] = parts;
@@ -35,16 +38,34 @@ for (const path of files) {
 }
 
 /** Render a value compactly enough to sit in a table cell. */
-function show(v) {
+function show(v, other) {
   if (v === undefined) return '—';
   if (v === null) return '`null`';
-  if (Array.isArray(v)) return `${v.length} item${v.length === 1 ? '' : 's'}`;
+  if (Array.isArray(v)) {
+    // A bare count renders same-length drift as two identical cells, which
+    // tells a reviewer there is a difference but not what it is.
+    const label = `${v.length} item${v.length === 1 ? '' : 's'}`;
+    if (!Array.isArray(other)) return label;
+    const only = v.filter((x) => !other.some((y) => same(x, y)));
+    if (only.length === 0) return `${label} (reordered)`;
+    const shown = only.slice(0, 4).map(elementLabel);
+    return `${label}, only here: ${shown.join(', ')}${only.length > 4 ? `, +${only.length - 4}` : ''}`;
+  }
   if (typeof v === 'object') return `{${Object.keys(v).length} key${Object.keys(v).length === 1 ? '' : 's'}}`;
   const s = String(v);
   return '`' + (s.length > 48 ? s.slice(0, 45) + '…' : s) + '`';
 }
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+/** Name an array element so a reviewer can find it, rather than "{…}". */
+function elementLabel(x) {
+  if (x === null || typeof x !== 'object') return String(x);
+  for (const key of ['instance_name', 'name', 'id', 'title', 'label']) {
+    if (typeof x[key] === 'string') return x[key];
+  }
+  return `{${Object.keys(x).slice(0, 2).join(', ')}…}`;
+}
 
 /** Sorted union of two objects' keys. */
 const keysOf = (...objs) => [...new Set(objs.flatMap((o) => Object.keys(o ?? {})))].sort();
@@ -61,21 +82,35 @@ function compareSchemas(where, a, b, rows) {
       continue;
     }
     for (const key of keysOf(x, y)) {
-      if (!same(x[key], y[key])) rows.push([`${where}.${name}.${key}`, show(x[key]), show(y[key])]);
+      if (!same(x[key], y[key])) rows.push([`${where}.${name}.${key}`, show(x[key], y[key]), show(y[key], x[key])]);
     }
   }
 
   if (!same(a.required, b.required)) {
-    rows.push([`${where}.required`, show(a.required), show(b.required)]);
+    rows.push([`${where}.required`, show(a.required, b.required), show(b.required, a.required)]);
   }
 
   // Layout: compare section titles, then the field list of shared sections.
-  const secs = (s) => Object.fromEntries((s['x-form-layout']?.sections ?? []).map((x, i) => [x?.title ?? `sections[${i}]`, x?.fields ?? []]));
+  const twoA = a['x-form-layout']?.twoColumn;
+  const twoB = b['x-form-layout']?.twoColumn;
+  if (!same(twoA, twoB)) rows.push([`${where} layout twoColumn`, show(twoA, twoB), show(twoB, twoA)]);
+
+  // Index duplicate titles so two sections sharing a name don't collapse.
+  const secs = (s) => {
+    const seen = new Map();
+    return Object.fromEntries((s['x-form-layout']?.sections ?? []).map((x, i) => {
+      let title = x?.title ?? `sections[${i}]`;
+      const n = (seen.get(title) ?? 0) + 1;
+      seen.set(title, n);
+      if (n > 1) title = `${title} #${n}`;
+      return [title, x?.fields ?? []];
+    }));
+  };
   const sa = secs(a);
   const sb = secs(b);
   for (const title of keysOf(sa, sb)) {
     if (!same(sa[title], sb[title])) {
-      rows.push([`${where} layout "${title}"`, show(sa[title]), show(sb[title])]);
+      rows.push([`${where} layout "${title}"`, show(sa[title], sb[title]), show(sb[title], sa[title])]);
     }
   }
 }
@@ -83,10 +118,12 @@ function compareSchemas(where, a, b, rows) {
 function compare(a, b) {
   const rows = [];
 
-  // Brand identity. Currently identical across brands, which is itself worth
-  // seeing; if these are meant to diverge they will show up here once.
-  for (const key of ['id', 'display_name', 'description', 'schema_standard', 'pause_enabled']) {
-    if (!same(a.doc[key], b.doc[key])) rows.push([key, show(a.doc[key]), show(b.doc[key])]);
+  // Every top-level key except domains, which is walked in detail below.
+  // A hand-picked list silently ignores instances, actions and
+  // dashboard_buckets while the summary claims the brands are identical.
+  for (const key of keysOf(a.doc, b.doc)) {
+    if (key === 'domains') continue;
+    if (!same(a.doc[key], b.doc[key])) rows.push([key, show(a.doc[key], b.doc[key]), show(b.doc[key], a.doc[key])]);
   }
 
   const doms = (d) => Object.fromEntries((d.domains ?? []).map((x, i) => [x?.id ?? String(i), x]));

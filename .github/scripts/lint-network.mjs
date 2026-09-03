@@ -7,19 +7,18 @@
 // vectorize (which signals-search throws on at registry load). None of that
 // is visible to a JSON parser, and all of it has bitten a review already.
 //
-// Failures print as ::error file=...:: so they land inline on the PR diff.
+// Scope: properties directly under domains[*].item_schemas[*]. Nested
+// object/array sub-properties are not walked — nothing in this repo uses
+// them today, and the top-level *-schema.json files (which do) are outside
+// the network.json glob. Widen both if that changes.
+//
+// --warn reports without failing, so the lint informs a review rather than
+// blocking it. Only the JSON parse gate holds up a merge.
 
 import { readFileSync } from 'node:fs';
+import { fileList } from './lib/files.mjs';
 
-const argv = process.argv.slice(2);
-// --warn reports problems without failing the job, so the lint informs a
-// review rather than blocking it. Only the JSON parse check gates merges.
-const warnOnly = argv.includes('--warn');
-const files = argv.filter((a) => a !== '--warn');
-if (files.length === 0) {
-  console.error('usage: lint-network.mjs [--warn] <file.json>...');
-  process.exit(2);
-}
+const warnOnly = process.argv.includes('--warn');
 const level = warnOnly ? 'warning' : 'error';
 
 /** Options live on `enum` for scalars and `items.enum` for multi-selects. */
@@ -40,34 +39,60 @@ function lintSchema(where, schema, report) {
   const at = (prop) => `${where}.${prop}`;
 
   for (const [name, prop] of Object.entries(props)) {
-    // 1 + 2: conditionals must name a real sibling and trigger on real options.
     for (const [dep, raw] of Object.entries(prop?.['x-show-if'] ?? {})) {
+      // The UI bails on a non-array (show-if.ts: `if (!Array.isArray(allowed))
+      // return false`), so a bare string hides the field permanently. Check
+      // this before normalising, or the lint hides the bug it exists to find.
+      if (!Array.isArray(raw)) {
+        report(`${at(name)}: x-show-if value for "${dep}" is ${JSON.stringify(raw)}, not an array — the UI treats a non-array as "never show"`);
+        continue;
+      }
       if (!(dep in props)) {
         report(`${at(name)}: x-show-if depends on "${dep}", which is not a property of this schema`);
         continue;
       }
       const options = optionsOf(props[dep]);
       if (options === null) continue; // free-text dependency: nothing to check against
-      for (const value of Array.isArray(raw) ? raw : [raw]) {
+      for (const value of raw) {
         if (!options.includes(value)) {
           report(`${at(name)}: x-show-if triggers on ${dep} === ${JSON.stringify(value)}, which is not one of its options`);
         }
       }
     }
 
-    // 4: signals-search throws on this at registry load, taking ingestion down.
+    // signals-search throws on this at registry load, taking ingestion down.
     if (prop?.vectorize === true && prop?.private === true) {
       report(`${at(name)}: is both private and vectorize — signals-search throws on this at registry load`);
     }
 
-    // 5: enum and enumNames are paired by position.
-    if (Array.isArray(prop?.enum) && Array.isArray(prop?.enumNames) && prop.enum.length !== prop.enumNames.length) {
-      report(`${at(name)}: enum has ${prop.enum.length} values but enumNames has ${prop.enumNames.length} labels`);
+    // enum and enumNames are paired by position, on the property itself for
+    // scalars and under items for multi-selects (languageSpoken carries 24
+    // of each, benefitsOffered 6).
+    for (const [holder, label] of [[prop, ''], [prop?.items, '.items']]) {
+      const values = holder?.enum;
+      const names = holder?.enumNames;
+      if (Array.isArray(values) && Array.isArray(names) && values.length !== names.length) {
+        report(`${at(name)}${label}: enum has ${values.length} values but enumNames has ${names.length} labels`);
+      }
     }
   }
 
-  // 3: layout and properties must agree in both directions.
-  const sections = schema['x-form-layout']?.sections;
+  const layout = schema['x-form-layout'];
+  if (!layout || typeof layout !== 'object') return;
+
+  // schema-form.tsx does `layout.twoColumn.includes(...)` with no guard, so a
+  // layout without it throws and blanks the whole form.
+  if (!Array.isArray(layout.twoColumn)) {
+    report(`${where}: x-form-layout has no twoColumn array — the form renderer calls .includes() on it and will throw`);
+  } else {
+    for (const field of layout.twoColumn) {
+      if (!(field in props)) {
+        report(`${where}: x-form-layout.twoColumn lists "${field}", which is not a property`);
+      }
+    }
+  }
+
+  const sections = layout.sections;
   if (!Array.isArray(sections)) return;
 
   const placed = new Map(); // field -> [section titles]
@@ -79,7 +104,7 @@ function lintSchema(where, schema, report) {
   }
   for (const [field, titles] of placed) {
     if (!(field in props)) {
-      report(`${where}: x-form-layout section "${titles[0]}" lists field "${field}", which is not a property`);
+      report(`${where}: x-form-layout section "${titles[0]}" lists field "${field}", which is not a property — the renderer drops it silently`);
     }
     if (titles.length > 1) {
       report(`${where}: field "${field}" is laid out in ${titles.length} sections (${titles.join(', ')})`);
@@ -87,11 +112,12 @@ function lintSchema(where, schema, report) {
   }
   for (const name of Object.keys(props)) {
     if (!placed.has(name)) {
-      report(`${where}: property "${name}" is in no x-form-layout section, so it never renders`);
+      report(`${where}: property "${name}" is in no x-form-layout section — it renders ungrouped at the end of the form instead of where it belongs`);
     }
   }
 }
 
+const files = await fileList();
 let failed = 0;
 let checked = 0;
 
@@ -100,8 +126,11 @@ for (const file of files) {
   try {
     doc = JSON.parse(readFileSync(file, 'utf8'));
   } catch (err) {
-    // The parse job already annotates this; don't double-report, just don't crash.
-    console.log(`${file}: skipped (does not parse)`);
+    // The parse gate should have caught this. Say so rather than skipping in
+    // silence — a file that vanishes from the lint with no annotation is how
+    // a broken file reaches main looking checked.
+    console.log(`::${level} file=${file}::could not be linted, it does not parse: ${err.message}`);
+    failed += 1;
     continue;
   }
   if (!Array.isArray(doc?.domains)) {
@@ -122,6 +151,11 @@ for (const file of files) {
     for (const finding of findings) console.log(`::${level} file=${file}::${finding}`);
     console.log(`${file}: ${findings.length} problem(s)`);
   }
+}
+
+if (files.length === 0) {
+  console.log(`::${level}::no network files were passed to the lint — the file list may be broken`);
+  process.exit(warnOnly ? 0 : 1);
 }
 
 console.log(`\nlinted ${checked} network file(s), ${failed} with problems`);

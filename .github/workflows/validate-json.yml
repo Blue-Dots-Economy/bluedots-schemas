@@ -8,6 +8,11 @@ on:
 # Only the parse job gates a merge. The lint and drift jobs are advisory:
 # they report on the PR so a reviewer sees the problem, but they always exit
 # 0 and never hold the branch hostage.
+#
+# File lists are piped NUL-delimited with core.quotePath disabled. Without -z
+# a path containing a space is word-split and silently skipped; without
+# quotePath=false git escapes non-ASCII paths into a form that fails to open,
+# which would report a valid file as invalid and block every merge.
 
 jobs:
   parse:
@@ -15,20 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Validate every tracked JSON file
-        run: |
-          fail=0
-          count=0
-          while IFS= read -r f; do
-            count=$((count + 1))
-            if ! err=$(jq empty "$f" 2>&1); then
-              echo "::error file=$f::invalid JSON: ${err}"
-              fail=1
-            fi
-          done < <(git ls-files '*.json')
-          echo "checked $count JSON file(s)"
-          exit $fail
+        run: git -c core.quotePath=false ls-files -z '*.json' | node .github/scripts/validate-json.mjs
 
   network-lint:
     name: network.json structure (advisory)
@@ -41,7 +38,7 @@ jobs:
           node-version: '20'
 
       - name: Lint network.json cross-references
-        run: node .github/scripts/lint-network.mjs --warn $(git ls-files '*network.json')
+        run: git -c core.quotePath=false ls-files -z '*network.json' | node .github/scripts/lint-network.mjs --warn
 
   brand-drift:
     name: Brand clone drift (advisory)
@@ -54,4 +51,4 @@ jobs:
           node-version: '20'
 
       - name: Report drift between brand clones
-        run: node .github/scripts/brand-drift.mjs $(git ls-files '*network.json')
+        run: git -c core.quotePath=false ls-files -z '*network.json' | node .github/scripts/brand-drift.mjs
