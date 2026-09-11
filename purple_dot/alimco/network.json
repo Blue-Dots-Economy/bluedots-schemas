@@ -41,15 +41,7 @@
           },
           "required": [
             "beneficiary_name",
-            "mobile_number",
-            "age",
-            "gender",
-            "disability_type",
-            "disability_percentage",
-            "looking_for",
-            "looking_for_details",
-            "documents_available",
-            "address"
+            "mobile_number"
           ],
           "properties": {
             "beneficiary_name": {
@@ -82,8 +74,7 @@
               "enum": [
                 "Male",
                 "Female",
-                "Other",
-                "Prefer not to say"
+                "Other / Prefer not to say"
               ]
             },
             "disability_type": {
@@ -110,12 +101,14 @@
                   "Multiple Sclerosis",
                   "Muscular Dystrophy",
                   "Parkinson's Disease",
-                  "Sickle Cell Anaemia",
+                  "Sickle Cell Disease",
                   "Specific Learning Disabilities",
                   "Speech and Language Disability",
                   "Thalassemia",
                   "Chronic Neurological Conditions",
-                  "Multiple Disabilities including deaf-blindness"
+                  "Deaf",
+                  "Multiple Disabilities including deaf-blindness",
+                  "Mental Retardation"
                 ]
               }
             },
@@ -155,7 +148,7 @@
             "looking_for_details": {
               "type": "string",
               "title": "Details",
-              "description": "Explain your choice in more detail",
+              "description": "Explain your needs in detail",
               "minLength": 1,
               "vectorize": true,
               "vector_weight": 2
@@ -163,7 +156,7 @@
             "address": {
               "type": "string",
               "title": "Address",
-              "description": "Full address — house/flat, street, area, city, state, and pincode",
+              "description": "Street, City or Village, District, where you can receive the service or support",
               "minLength": 1,
               "private": true,
               "location": "primary"
@@ -254,7 +247,7 @@
               },
               {
                 "title": "Organisation",
-                "fields": ["provider_category", "organisation_name", "official_address"]
+                "fields": ["provider_category", "organisation_name", "website", "official_address"]
               },
               {
                 "title": "Services & Coverage",
@@ -303,15 +296,11 @@
               "title": "Category",
               "description": "Select the category that applies to you",
               "enum": [
-                "NGO / Trust",
-                "Government Body",
+                "NGO",
+                "Government Entity",
                 "Private Company",
                 "Community Group",
-                "Private Individual Practice",
-                "Hospital / Clinic",
-                "Educational Institution",
-                "Professional Network",
-                "Digital Platform"
+                "Private Individual Practice"
               ]
             },
             "organisation_name": {
@@ -320,6 +309,13 @@
               "description": "Name of your organisation (or your name if individual)",
               "minLength": 1,
               "vectorize": true
+            },
+            "website": {
+              "type": "string",
+              "title": "Website",
+              "description": "Not required at signup; can be added or edited later",
+              "x-uri": true,
+              "maxLength": 2048
             },
             "disabilities_served": {
               "vectorize": true,
@@ -346,12 +342,14 @@
                   "Multiple Sclerosis",
                   "Muscular Dystrophy",
                   "Parkinson's Disease",
-                  "Sickle Cell Anaemia",
+                  "Sickle Cell Disease",
                   "Specific Learning Disabilities",
                   "Speech and Language Disability",
                   "Thalassemia",
                   "Chronic Neurological Conditions",
-                  "Multiple Disabilities including deaf-blindness"
+                  "Deaf",
+                  "Multiple Disabilities including deaf-blindness",
+                  "Mental Retardation"
                 ]
               }
             },
@@ -539,29 +537,6 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
-        },
-        {
-          "from_network": "purple_dot",
-          "from_domain": "provider",
-          "to_network": "purple_dot",
-          "to_domain": "provider",
-          "requirement_schema": { "type": "object", "properties": {} },
-          "event_schema": {
-            "$schema": "https://json-schema.org/draft/2020-12/schema",
-            "title": "Provider To Provider Connect Event",
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["status", "remark"],
-            "properties": {
-              "status": {
-                "type": "string",
-                "enum": ["created", "accepted", "rejected", "cancelled"]
-              },
-              "remark": { "type": "string" }
-            }
-          },
-          "metric_categories": null,
           "reveals_pii_on_status": ["accepted"]
         }
       ]
