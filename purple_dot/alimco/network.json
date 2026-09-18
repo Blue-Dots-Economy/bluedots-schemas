@@ -237,7 +237,6 @@
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "title": "PWD Service Provider Profile 1.0",
           "display_name_field": "organisation_name",
-          "offering_field": "services_offered",
           "type": "object",
           "additionalProperties": false,
           "x-form-layout": {
