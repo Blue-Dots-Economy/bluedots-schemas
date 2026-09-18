@@ -1,5 +1,5 @@
 {
-  "display_name": "Purple Dot",
+  "display_name": "Purple Dots",
   "description": "Discovery and services network for People with Disabilities.",
   "schema_standard": "https://json-schema.org/draft/2020-12/schema",
   "domains": [
@@ -237,6 +237,7 @@
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "title": "PWD Service Provider Profile 1.0",
           "display_name_field": "organisation_name",
+          "offering_field": "services_offered",
           "type": "object",
           "additionalProperties": false,
           "x-form-layout": {
