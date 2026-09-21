@@ -41,15 +41,7 @@
           },
           "required": [
             "beneficiary_name",
-            "mobile_number",
-            "age",
-            "gender",
-            "disability_type",
-            "disability_percentage",
-            "looking_for",
-            "looking_for_details",
-            "documents_available",
-            "address"
+            "mobile_number"
           ],
           "properties": {
             "beneficiary_name": {
@@ -110,12 +102,14 @@
                   "Multiple Sclerosis",
                   "Muscular Dystrophy",
                   "Parkinson's Disease",
-                  "Sickle Cell Anaemia",
+                  "Sickle Cell Disease",
                   "Specific Learning Disabilities",
                   "Speech and Language Disability",
                   "Thalassemia",
                   "Chronic Neurological Conditions",
-                  "Multiple Disabilities including deaf-blindness"
+                  "Deaf",
+                  "Multiple Disabilities including deaf-blindness",
+                  "Mental Retardation"
                 ]
               }
             },
@@ -346,12 +340,14 @@
                   "Multiple Sclerosis",
                   "Muscular Dystrophy",
                   "Parkinson's Disease",
-                  "Sickle Cell Anaemia",
+                  "Sickle Cell Disease",
                   "Specific Learning Disabilities",
                   "Speech and Language Disability",
                   "Thalassemia",
                   "Chronic Neurological Conditions",
-                  "Multiple Disabilities including deaf-blindness"
+                  "Deaf",
+                  "Multiple Disabilities including deaf-blindness",
+                  "Mental Retardation"
                 ]
               }
             },
