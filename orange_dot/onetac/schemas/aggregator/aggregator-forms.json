@@ -1,0 +1,684 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aggregator forms — orange_dot/onetac",
+  "description": "Form schemas the aggregator renders and validates against. Presentation lives in each schema under x-rjsf. Self-contained: a brand bundle repeats every form it serves, matching how network.json ships.",
+  "forms": {
+    "coordinator-registration": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://schemas.bluedots.org/aggregator/orange_dot/onetac/coordinator-registration.v1.json",
+      "title": "Aggregator Registration",
+      "description": "Signup payload for a new Aggregator account. Captures only the identity, contact, optional locations, and consent needed to create a Keycloak user and let the aggregator log in. Personas, services, verified certificates, and the contact-name label are filled in afterwards through the profile-completion flow.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "contact",
+        "consent"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Organisation Name",
+          "minLength": 2,
+          "maxLength": 200,
+          "examples": [
+            "ABC Limited"
+          ],
+          "x-rjsf": {
+            "placeholder": "e.g. ABC Limited",
+            "autofocus": true
+          }
+        },
+        "type": {
+          "type": "string",
+          "title": "Aggregator Type",
+          "enum": [
+            "seeker",
+            "provider"
+          ],
+          "x-rjsf": {
+            "widget": "select",
+            "placeholder": "Select aggregator type",
+            "enumNames": [
+              "Seeker",
+              "Provider"
+            ]
+          }
+        },
+        "url": {
+          "type": "string",
+          "title": "Website",
+          "format": "uri",
+          "maxLength": 2048,
+          "examples": [
+            "https://abclimited.org"
+          ],
+          "x-rjsf": {
+            "placeholder": "https://yourorg.in",
+            "options": {
+              "inputType": "url"
+            }
+          }
+        },
+        "locations": {
+          "type": "array",
+          "title": "Location",
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "geo",
+              "address"
+            ],
+            "properties": {
+              "geo": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "type",
+                  "coordinates"
+                ],
+                "default": {
+                  "type": "Point",
+                  "coordinates": [
+                    0,
+                    0
+                  ]
+                },
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "Point",
+                      "LineString",
+                      "Polygon",
+                      "MultiPoint",
+                      "MultiLineString",
+                      "MultiPolygon",
+                      "GeometryCollection"
+                    ],
+                    "default": "Point",
+                    "x-rjsf": {
+                      "widget": "hidden"
+                    }
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "default": [
+                      0,
+                      0
+                    ],
+                    "x-rjsf": {
+                      "widget": "hidden"
+                    }
+                  }
+                },
+                "x-rjsf": {
+                  "widget": "hidden",
+                  "title": ""
+                }
+              },
+              "address": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "streetAddress": {
+                    "type": "string",
+                    "title": "Street",
+                    "x-rjsf": {
+                      "placeholder": "Street"
+                    }
+                  },
+                  "addressLocality": {
+                    "type": "string",
+                    "title": "City",
+                    "x-rjsf": {
+                      "placeholder": "City"
+                    }
+                  },
+                  "addressRegion": {
+                    "type": "string",
+                    "title": "State",
+                    "x-rjsf": {
+                      "placeholder": "State"
+                    }
+                  },
+                  "postalCode": {
+                    "type": "string",
+                    "title": "PIN code",
+                    "x-rjsf": {
+                      "placeholder": "PIN"
+                    }
+                  },
+                  "addressCountry": {
+                    "type": "string",
+                    "title": "Country",
+                    "minLength": 1,
+                    "x-rjsf": {
+                      "placeholder": "India"
+                    }
+                  }
+                },
+                "x-rjsf": {
+                  "layout": "grid",
+                  "order": [
+                    "streetAddress",
+                    "addressLocality",
+                    "addressRegion",
+                    "postalCode",
+                    "addressCountry"
+                  ],
+                  "title": ""
+                }
+              }
+            },
+            "x-rjsf": {
+              "layout": "stack",
+              "order": [
+                "address",
+                "geo"
+              ],
+              "title": ""
+            }
+          },
+          "x-rjsf": {
+            "options": {
+              "addable": true,
+              "removable": true,
+              "orderable": false,
+              "itemLabel": "Location"
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "title": "Primary Contact",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "phone",
+            "email"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Contact Name",
+              "minLength": 2,
+              "maxLength": 200,
+              "examples": [
+                "Full Name"
+              ],
+              "x-rjsf": {
+                "placeholder": "Full name of the primary contact"
+              }
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone",
+              "pattern": "^(\\+?\\d{10,15}|\\d{10})$",
+              "examples": [
+                "+919876543210",
+                "9876543210"
+              ],
+              "x-rjsf": {
+                "placeholder": "+91 98765 43210",
+                "options": {
+                  "inputType": "tel"
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "title": "Email",
+              "format": "email",
+              "maxLength": 320,
+              "examples": [
+                "admin@abclimited.org"
+              ],
+              "x-rjsf": {
+                "placeholder": "admin@yourorg.in",
+                "options": {
+                  "inputType": "email"
+                }
+              }
+            }
+          },
+          "x-rjsf": {
+            "layout": "grid",
+            "order": [
+              "name",
+              "phone",
+              "email"
+            ]
+          }
+        },
+        "consent": {
+          "type": "object",
+          "title": "Terms & Privacy Consent",
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "boolean",
+              "title": "I have read and accept the terms and privacy policy",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "given_at": {
+              "type": "string",
+              "format": "date-time",
+              "x-rjsf": {
+                "widget": "hidden",
+                "options": {
+                  "label": false
+                }
+              }
+            },
+            "valid_till": {
+              "type": "string",
+              "format": "date-time",
+              "x-rjsf": {
+                "widget": "hidden",
+                "options": {
+                  "label": false
+                }
+              }
+            }
+          },
+          "x-rjsf": {
+            "layout": "stack",
+            "order": [
+              "value",
+              "given_at",
+              "valid_till"
+            ]
+          }
+        }
+      },
+      "x-rjsf": {
+        "layout": "stack",
+        "order": [
+          "name",
+          "type",
+          "url",
+          "contact",
+          "locations",
+          "consent"
+        ]
+      }
+    },
+    "org-registration": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://schemas.bluedots.org/aggregator/orange_dot/onetac/org-registration.v1.json",
+      "title": "Organisation Registration",
+      "description": "Signup payload for a new parent organisation (spec §6.1). Captures the org display name, optional state, the org owner's contact identity, and consent. The URL slug is generated by the server at submit and is not supplied by the client. Coordinators register separately and select an approved org.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "display_name",
+        "owner",
+        "consent"
+      ],
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "title": "Organisation Name",
+          "minLength": 2,
+          "maxLength": 200,
+          "examples": [
+            "ABC Limited"
+          ],
+          "x-rjsf": {
+            "placeholder": "e.g. ABC Limited",
+            "autofocus": true
+          }
+        },
+        "state": {
+          "type": "string",
+          "title": "State",
+          "maxLength": 200,
+          "examples": [
+            "State Name"
+          ],
+          "x-rjsf": {
+            "placeholder": "e.g. State Name"
+          }
+        },
+        "owner": {
+          "type": "object",
+          "title": "Organisation Owner",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "phone",
+            "email"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "title": "Owner Name",
+              "minLength": 2,
+              "maxLength": 200,
+              "examples": [
+                "Full Name"
+              ],
+              "x-rjsf": {
+                "placeholder": "Full name of the organisation owner"
+              }
+            },
+            "phone": {
+              "type": "string",
+              "title": "Phone",
+              "pattern": "^(\\+?\\d{10,15}|\\d{10})$",
+              "examples": [
+                "+919876543210",
+                "9876543210"
+              ],
+              "x-rjsf": {
+                "placeholder": "+91 98765 43210",
+                "options": {
+                  "inputType": "tel"
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "title": "Email",
+              "format": "email",
+              "maxLength": 320,
+              "examples": [
+                "owner@abclimited.org"
+              ],
+              "x-rjsf": {
+                "placeholder": "owner@yourorg.org",
+                "options": {
+                  "inputType": "email"
+                }
+              }
+            }
+          },
+          "x-rjsf": {
+            "layout": "grid",
+            "order": [
+              "name",
+              "phone",
+              "email"
+            ]
+          }
+        },
+        "consent": {
+          "type": "object",
+          "title": "Terms & Privacy Consent",
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ],
+          "properties": {
+            "value": {
+              "type": "boolean",
+              "title": "I have read and accept the terms and privacy policy",
+              "x-rjsf": {
+                "widget": "ConsentCheckbox"
+              }
+            },
+            "given_at": {
+              "type": "string",
+              "format": "date-time",
+              "x-rjsf": {
+                "widget": "hidden",
+                "options": {
+                  "label": false
+                }
+              }
+            },
+            "valid_till": {
+              "type": "string",
+              "format": "date-time",
+              "x-rjsf": {
+                "widget": "hidden",
+                "options": {
+                  "label": false
+                }
+              }
+            }
+          },
+          "x-rjsf": {
+            "layout": "stack",
+            "order": [
+              "value",
+              "given_at",
+              "valid_till"
+            ]
+          }
+        }
+      },
+      "x-rjsf": {
+        "layout": "stack",
+        "order": [
+          "display_name",
+          "state",
+          "owner",
+          "consent"
+        ]
+      }
+    },
+    "profile": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://schemas.bluedots.org/aggregator/orange_dot/onetac/profile.v1.json",
+      "title": "Aggregator Profile",
+      "description": "Post-login profile completion payload. Captures who the aggregator is, what they want from the network, and what they bring to it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "who_i_am",
+        "what_i_want",
+        "what_i_have"
+      ],
+      "properties": {
+        "who_i_am": {
+          "type": "object",
+          "title": "Who I Am",
+          "additionalProperties": false,
+          "required": [
+            "display_name",
+            "address"
+          ],
+          "properties": {
+            "display_name": {
+              "type": "string",
+              "title": "Display Name",
+              "description": "Public display name shown on the network.",
+              "minLength": 2,
+              "maxLength": 200,
+              "x-rjsf": {
+                "placeholder": "Public display name"
+              }
+            },
+            "address": {
+              "type": "string",
+              "title": "Office Address",
+              "minLength": 5,
+              "maxLength": 500,
+              "x-rjsf": {
+                "widget": "textarea",
+                "options": {
+                  "rows": 3
+                }
+              }
+            },
+            "logo_url": {
+              "type": "string",
+              "title": "Logo URL",
+              "format": "uri",
+              "maxLength": 500,
+              "x-rjsf": {
+                "placeholder": "https://...",
+                "options": {
+                  "inputType": "url"
+                }
+              }
+            }
+          }
+        },
+        "what_i_want": {
+          "type": "object",
+          "title": "What I Want",
+          "additionalProperties": false,
+          "required": [
+            "beneficiary_groups",
+            "geographies"
+          ],
+          "properties": {
+            "beneficiary_groups": {
+              "type": "array",
+              "title": "Beneficiary Groups",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "minItems": 1,
+              "maxItems": 12,
+              "x-rjsf": {
+                "options": {
+                  "addable": true,
+                  "removable": true
+                }
+              }
+            },
+            "geographies": {
+              "type": "array",
+              "title": "Geographies Served",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "minItems": 1,
+              "maxItems": 36,
+              "x-rjsf": {
+                "options": {
+                  "addable": true,
+                  "removable": true
+                }
+              }
+            },
+            "sectors": {
+              "type": "array",
+              "title": "Sectors of Interest",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "maxItems": 24,
+              "x-rjsf": {
+                "options": {
+                  "addable": true,
+                  "removable": true
+                }
+              }
+            }
+          }
+        },
+        "what_i_have": {
+          "type": "object",
+          "title": "What I Have",
+          "additionalProperties": false,
+          "required": [
+            "network_size"
+          ],
+          "properties": {
+            "network_size": {
+              "type": "integer",
+              "title": "Approximate Network Size",
+              "minimum": 0,
+              "maximum": 10000000,
+              "x-rjsf": {
+                "placeholder": "0"
+              }
+            },
+            "capabilities": {
+              "type": "array",
+              "title": "Capabilities Offered",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "maxItems": 24,
+              "x-rjsf": {
+                "options": {
+                  "addable": true,
+                  "removable": true
+                }
+              }
+            }
+          }
+        },
+        "consent": {
+          "type": "object",
+          "title": "Consent",
+          "additionalProperties": false,
+          "properties": {
+            "profile_creation": {
+              "type": "boolean",
+              "title": "Profile creation & representation",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "data_sharing": {
+              "type": "boolean",
+              "title": "Sharing information with relevant parties",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "notifications": {
+              "type": "boolean",
+              "title": "Receive notifications",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "analytics": {
+              "type": "boolean",
+              "title": "Anonymous analytics",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "marketing": {
+              "type": "boolean",
+              "title": "Marketing communications",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            },
+            "retention": {
+              "type": "boolean",
+              "title": "Data retention per policy",
+              "x-rjsf": {
+                "widget": "checkbox"
+              }
+            }
+          }
+        }
+      },
+      "x-rjsf": {
+        "order": [
+          "who_i_am",
+          "what_i_want",
+          "what_i_have",
+          "consent"
+        ]
+      }
+    }
+  }
+}
