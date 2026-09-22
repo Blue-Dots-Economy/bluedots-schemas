@@ -23,12 +23,10 @@
           "minLength": 2,
           "maxLength": 200,
           "examples": [
-            "SkillBridge Network",
-            "TRRAIN",
-            "Pankh Foundation"
+            "ABC Limited"
           ],
           "x-rjsf": {
-            "placeholder": "e.g. SkillBridge Network",
+            "placeholder": "e.g. ABC Limited",
             "autofocus": true
           }
         },
@@ -56,11 +54,11 @@
           "description": "Any specific sub-identity needed for identification and tracking. May be the same as the organisation name.",
           "maxLength": 200,
           "examples": [
-            "GarvSe Centre, Ghaziabad"
+            "ABC Centre"
           ],
           "x-updatable": true,
           "x-rjsf": {
-            "placeholder": "e.g. GarvSe Centre, Ghaziabad"
+            "placeholder": "e.g. ABC Centre"
           }
         },
         "url": {
@@ -69,7 +67,7 @@
           "format": "uri",
           "maxLength": 2048,
           "examples": [
-            "https://skillbridge.in"
+            "https://abclimited.org"
           ],
           "x-updatable": true,
           "x-rjsf": {
@@ -227,7 +225,7 @@
               "minLength": 2,
               "maxLength": 200,
               "examples": [
-                "Rajesh Kumar"
+                "Full Name"
               ],
               "x-rjsf": {
                 "placeholder": "Full name of the primary contact"
@@ -254,7 +252,7 @@
               "format": "email",
               "maxLength": 320,
               "examples": [
-                "admin@skillbridge.in"
+                "admin@abclimited.org"
               ],
               "x-rjsf": {
                 "placeholder": "admin@yourorg.in",
@@ -354,11 +352,10 @@
           "minLength": 2,
           "maxLength": 200,
           "examples": [
-            "Enable India",
-            "Pankh Foundation"
+            "ABC Limited"
           ],
           "x-rjsf": {
-            "placeholder": "e.g. Enable India",
+            "placeholder": "e.g. ABC Limited",
             "autofocus": true
           }
         },
@@ -368,7 +365,7 @@
           "description": "Derived from the address block on this instance; not asked for separately.",
           "maxLength": 200,
           "examples": [
-            "Uttar Pradesh"
+            "State Name"
           ],
           "x-rjsf": {
             "widget": "hidden",
@@ -384,7 +381,7 @@
           "maxLength": 2048,
           "description": "Not required at signup; can be added or edited later.",
           "examples": [
-            "https://enableindia.org"
+            "https://abclimited.org"
           ],
           "x-updatable": true,
           "x-rjsf": {
@@ -616,7 +613,7 @@
               "minLength": 2,
               "maxLength": 200,
               "examples": [
-                "Rajesh Kumar"
+                "Full Name"
               ],
               "x-rjsf": {
                 "placeholder": "Full name of the organisation owner"
@@ -643,7 +640,7 @@
               "format": "email",
               "maxLength": 320,
               "examples": [
-                "owner@enableindia.org"
+                "owner@abclimited.org"
               ],
               "x-rjsf": {
                 "placeholder": "owner@yourorg.org",
