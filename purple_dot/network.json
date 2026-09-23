@@ -65,12 +65,14 @@
             "age": {
               "type": "integer",
               "title": "Age",
+              "private": true,
               "minimum": 1,
               "maximum": 100
             },
             "gender": {
               "type": "string",
               "title": "Gender",
+              "private": true,
               "enum": [
                 "Male",
                 "Female",
