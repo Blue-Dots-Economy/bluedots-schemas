@@ -1398,7 +1398,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted"],
+          "export": { "requester_domains": ["provider"] }
         }
       ]
     },
@@ -1426,7 +1427,8 @@
             }
           },
           "metric_categories": null,
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted"],
+          "export": { "requester_domains": ["provider"] }
         },
         {
           "from_network": "blue_dot",
@@ -1496,7 +1498,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted"],
+          "export": { "requester_domains": ["provider"] }
         }
       ]
     }
