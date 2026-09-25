@@ -1,0 +1,52 @@
+name: security
+
+# Thin caller. All scanning logic lives once in bluedots-automation so the repos
+# consuming it cannot drift apart; see that repo's
+# .github/workflows/security-scan.yml.
+#
+# What runs here (language: none, no image-refs, gitleaks on):
+#   * trivy-fs    — dependency CVEs + IaC misconfig + filesystem secret
+#                   detection -> SARIF
+#   * gitleaks    — git-history secret scan. Native GitHub secret scanning is
+#                   NOT a substitute: on a free public repository it matches
+#                   partner patterns (provider-registered token formats) and not
+#                   custom high-entropy secrets, which is the class most of this
+#                   estate's credentials fall into. Trivy's secret scanner above
+#                   only sees the working tree at HEAD; a credential committed
+#                   and later deleted is invisible to it and is exactly what
+#                   gitleaks exists to find.
+#   * deps-audit  — SKIPPED: language: none, no npm or python manifest to audit.
+#   * image-scan  — SKIPPED: no image-refs passed.
+#   * workflow-lint — zizmor, including the action-pinning gate that fails a PR
+#                   using an action not pinned to a full commit SHA.
+#
+# Report-only (`block: false`): findings land in Security > Code scanning and the
+# job still passes. **Green means "the scan ran", NOT "nothing was found".**
+# Verify a non-zero `N commits scanned` in the run log. Flip to `block: true`
+# only after triage, otherwise a pre-existing backlog red-walls every PR.
+#
+# Pinned @feature: the fail-closed fix (bluedots-automation#253) has landed on
+# that branch but has not yet promoted. Repin to @main once it reaches main.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    permissions:
+      contents: read
+      security-events: write
+      packages: read
+    uses: Blue-Dots-Economy/bluedots-automation/.github/workflows/security-scan.yml@d6a39c5b22be14b4b4aeaa78fc1d86c1f67bb555  # feature 2026-09-25 -- repin to @main once promoted
+    with:
+      language: "none"
+      block: false
