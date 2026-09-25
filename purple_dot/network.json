@@ -484,6 +484,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -499,7 +500,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider"] }
         },
         {
           "from_network": "purple_dot",
@@ -522,6 +524,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -537,7 +540,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider"] }
         },
         {
           "from_network": "purple_dot",
@@ -554,13 +558,14 @@
             "properties": {
               "status": {
                 "type": "string",
-                "enum": ["created", "accepted", "rejected", "cancelled"]
+                "enum": ["created", "accepted", "completed", "rejected", "cancelled"]
               },
               "remark": { "type": "string" }
             }
           },
           "metric_categories": null,
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider"] }
         }
       ]
     }
