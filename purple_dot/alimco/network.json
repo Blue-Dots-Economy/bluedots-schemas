@@ -486,6 +486,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -501,7 +502,7 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"],
+          "reveals_pii_on_status": ["accepted", "completed"],
           "export": { "requester_domains": ["provider"] }
         },
         {
@@ -525,6 +526,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -540,7 +542,7 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"],
+          "reveals_pii_on_status": ["accepted", "completed"],
           "export": { "requester_domains": ["provider"] }
         }
       ]
