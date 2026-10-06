@@ -16,4 +16,6 @@ pnpm --filter ns-catalogue generate <path-to-bluedots-schemas>
 
 Commit the regenerated files here. The command prints any copy keys it could not place and any directory that borrows its parent's `network.json`. Output is deterministic: re-running without input changes leaves the files unchanged except the `version` stamp, which defaults to `<schemas HEAD sha>-<date>`. Pass `--version <v>` to pin it.
 
+Each catalogue also carries the email `login_otp` template that Keycloak's `http` email provider sends by `template_key`; its sign-off is the network's Keycloak theme sign-off.
+
 Guardian OTP policies name the SMS `login_otp` template alongside their email template. Configure `login_otp` for the active SMS vendor before the first NS boot that loads `NS_SEED_FILE`: `SMS_LOGIN_OTP_TEMPLATE_ID` for msg91, or `PINNACLE_LOGIN_OTP_TEMPLATE_ID` together with `SMS_LOGIN_OTP_BODY` for pinnacle. On a cluster where it was configured later, publish the guardian policy drafts through `/v1/admin/policies`. This applies to every cluster that sends guardian OTP, by email or SMS.

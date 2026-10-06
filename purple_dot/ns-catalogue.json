@@ -866,6 +866,21 @@
       ]
     },
     {
+      "body_html": "<html lang=\"en\" dir=\"ltr\">\n<body>\n<p>Hi!</p><p>Use the following One-Time Password (OTP) to sign in:</p><p><b>{{message}}</b></p><p>This OTP is valid for 5 mins. Do not share it with anyone.</p><p>- Team ALIMCO</p>\n</body>\n</html>\n",
+      "body_text": "Hi!\n\nUse the following One-Time Password (OTP) to sign in:\n\n{{message}}\n\nThis OTP is valid for 5 mins. Do not share it with anyone.\n\n- Team ALIMCO\n",
+      "channel": "email",
+      "subject": "OTP to verify access",
+      "template_key": "login_otp",
+      "variables": [
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
       "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your offer is now live, {{name}}. Seekers can discover and connect with it.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your offer</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#7c3aed;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
       "channel": "email",
       "subject": "Your offer is published",
