@@ -1,0 +1,1525 @@
+{
+  "policies": [
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "guardian.account"
+        },
+        {
+          "channel": "sms",
+          "template_key": "login_otp"
+        }
+      ],
+      "domain": null,
+      "event_type": "guardian.otp.account",
+      "mode": "first_available"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "guardian.action"
+        },
+        {
+          "channel": "sms",
+          "template_key": "login_otp"
+        }
+      ],
+      "domain": null,
+      "event_type": "guardian.otp.action",
+      "mode": "first_available"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "guardian.action_bulk"
+        },
+        {
+          "channel": "sms",
+          "template_key": "login_otp"
+        }
+      ],
+      "domain": null,
+      "event_type": "guardian.otp.action_bulk",
+      "mode": "first_available"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "otp.generic"
+        },
+        {
+          "channel": "sms",
+          "template_key": "login_otp"
+        }
+      ],
+      "domain": null,
+      "event_type": "guardian.otp.generic",
+      "mode": "first_available"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "guardian.profile"
+        },
+        {
+          "channel": "sms",
+          "template_key": "login_otp"
+        }
+      ],
+      "domain": null,
+      "event_type": "guardian.otp.profile",
+      "mode": "first_available"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "support.request"
+        }
+      ],
+      "domain": null,
+      "event_type": "support.request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "welcome"
+        },
+        {
+          "channel": "whatsapp",
+          "template_key": "welcome"
+        }
+      ],
+      "domain": null,
+      "event_type": "user.welcome",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.inbound_request"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.apply.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.inbound_status"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.apply.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.outbound_request"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.apply.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.outbound_status"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.apply.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "retire.cancel"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.cancelled_by_retire",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.inbound_request"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.connect.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.inbound_status"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.connect.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.outbound_request"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.connect.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.outbound_status"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "action.connect.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.create"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.created",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.create_incomplete"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.created_draft",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "account.aggregator_init.provider"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.onboarded_by_aggregator",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.pause"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.paused",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.retire"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.retired",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.update"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "item.updated",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "welcome.provider"
+        },
+        {
+          "channel": "whatsapp",
+          "template_key": "welcome"
+        }
+      ],
+      "domain": "provider",
+      "event_type": "user.welcome",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.seeker.inbound_request"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.apply.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.seeker.inbound_status"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.apply.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.seeker.outbound_request"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.apply.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.seeker.outbound_status"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.apply.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "retire.cancel"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.cancelled_by_retire",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.seeker.inbound_request"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.connect.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.seeker.inbound_status"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.connect.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.seeker.outbound_request"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.connect.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.seeker.outbound_status"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "action.connect.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "profile.create"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.created",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "profile.create_incomplete"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.created_draft",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "account.aggregator_init.seeker"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.onboarded_by_aggregator",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "profile.pause"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.paused",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "profile.retire"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.retired",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "profile.update"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "item.updated",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "welcome.seeker"
+        },
+        {
+          "channel": "whatsapp",
+          "template_key": "welcome"
+        }
+      ],
+      "domain": "seeker",
+      "event_type": "user.welcome",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.inbound_request"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.apply.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.inbound_status"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.apply.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.outbound_request"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.apply.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.apply.provider.outbound_status"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.apply.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "retire.cancel"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.cancelled_by_retire",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.inbound_request"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.connect.inbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.inbound_status"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.connect.inbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.outbound_request"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.connect.outbound_request",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "action.connect.provider.outbound_status"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "action.connect.outbound_status",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.create"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.created",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.create_incomplete"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.created_draft",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "account.aggregator_init.provider"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.onboarded_by_aggregator",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.pause"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.paused",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.retire"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.retired",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "offer.update"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "item.updated",
+      "mode": "all"
+    },
+    {
+      "channels": [
+        {
+          "channel": "email",
+          "template_key": "welcome.provider"
+        },
+        {
+          "channel": "whatsapp",
+          "template_key": "welcome"
+        }
+      ],
+      "domain": "service_provider",
+      "event_type": "user.welcome",
+      "mode": "all"
+    }
+  ],
+  "templates": [
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your details have been added to {{networkName}} by {{aggregatorOrg}}.</p><p>Please visit the app to activate your account and start offering your services near you.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Activate your account</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your account is ready — activate it to get started",
+      "template_key": "account.aggregator_init.provider",
+      "variables": [
+        {
+          "name": "aggregatorOrg",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "networkName",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your details have been added to {{networkName}} by {{aggregatorOrg}}.</p><p>Please visit the app to activate your account and start discovering jobs and services near you.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Activate your account</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your account is ready — activate it to get started",
+      "template_key": "account.aggregator_init.seeker",
+      "variables": [
+        {
+          "name": "aggregatorOrg",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "networkName",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>A job seeker has applied for the opportunity you are offering. Review their profile and take the next step.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the application</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "A job seeker has applied to the opportunity you posted",
+      "template_key": "action.apply.provider.inbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>The job seeker has responded to your shortlisting action. Check the update and take the next step.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View their response</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "The job seeker has responded to your shortlisting action",
+      "template_key": "action.apply.provider.inbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your shortlisting action has been sent to the job seeker. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Track this action</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your shortlisting action has been sent to the job seeker",
+      "template_key": "action.apply.provider.outbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your response has been sent to the job seeker. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the details</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your response has been sent to the job seeker",
+      "template_key": "action.apply.provider.outbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>{{name}} has reviewed your profile and taken an action. This could be an important step towards your next opportunity.</p><p>Click below to view what they have done and respond.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View what they’ve done and respond</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "{{name}} has shown interest in your profile",
+      "template_key": "action.apply.seeker.inbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>{{name}} has responded to your application. Check the update to know your next step.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the response</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "{{name}} has updated the status of your application",
+      "template_key": "action.apply.seeker.inbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your application has been sent to {{name}}. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Track your application</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your application has been sent to {{name}}",
+      "template_key": "action.apply.seeker.outbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your response has been sent to {{name}}. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the details</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your response has been sent to {{name}}",
+      "template_key": "action.apply.seeker.outbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>A job seeker is interested in the service you are offering and wants to connect with you.</p><p>Click below to view their details and respond.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View their details and respond</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "A seeker is interested in your service",
+      "template_key": "action.connect.provider.inbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>The job seeker has responded to your connection request. Check the update and take the next step.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View their response</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "The seeker has responded to your connection request",
+      "template_key": "action.connect.provider.inbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your connection request has been sent to the seeker. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Track your request</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your connection request has been sent to the seeker",
+      "template_key": "action.connect.provider.outbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your response has been sent to the seeker. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the details</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your response has been sent to the seeker",
+      "template_key": "action.connect.provider.outbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>{{name}} is interested in connecting with you. They may have an opportunity that is right for you.</p><p>Click below to view the details and respond.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the details and respond</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "A service provider wants to connect with you",
+      "template_key": "action.connect.seeker.inbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>{{name}} has responded to your connection request. Check the update and take the next step.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View their response</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "{{name}} has responded to your connection request",
+      "template_key": "action.connect.seeker.inbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your connection request has been sent to {{name}}. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Track your request</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your connection request has been sent to {{name}}",
+      "template_key": "action.connect.seeker.outbound_request",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your response to {{name}} has been sent. They have been notified. You can track the status here.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View the details</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your response has been sent to {{name}}",
+      "template_key": "action.connect.seeker.outbound_status",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi {{parentName}},</p><p>Your ward has requested registration on <b>{{domain}}</b>. This website shows services and opportunities relevant to your ward. Use the given OTP to agree to create their account.</p><div style=\"\n      font-size: 20px;\n      font-weight: bold;\n      background-color: #f4f4f4;\n      padding: 10px 15px;\n      border-radius: 6px;\n      display: inline-block;\n      font-family: 'Courier New', monospace;\n      margin: 10px 0;\n    \">{{message}}</div><p style=\"font-size: 13px; color: #555;\">This OTP is valid for 10 minutes. Do not share it with anyone.</p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "Approve your ward's account — OTP",
+      "template_key": "guardian.account",
+      "variables": [
+        {
+          "name": "domain",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        },
+        {
+          "name": "parentName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi {{parentName}},</p><p>Your ward has requested to connect to <b>{{org}}</b>. This will share your ward's profile details, along with name, phone, and email with the organisation. Use the given OTP to allow <b>{{org}}</b> to access your ward's details.</p><div style=\"\n      font-size: 20px;\n      font-weight: bold;\n      background-color: #f4f4f4;\n      padding: 10px 15px;\n      border-radius: 6px;\n      display: inline-block;\n      font-family: 'Courier New', monospace;\n      margin: 10px 0;\n    \">{{message}}</div><p style=\"font-size: 13px; color: #555;\">This OTP is valid for 10 minutes. Do not share it with anyone.</p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "OTP to share information of your ward",
+      "template_key": "guardian.action",
+      "variables": [
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        },
+        {
+          "name": "org",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "parentName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi {{parentName}},</p><p>Your ward has requested to apply to {{noun}} provided by:</p>{{orgList}}<p>This application will share your ward's profile details, along with name, phone, and email with the organisations. Use the given OTP to allow provider organisations to access your ward's details.</p><div style=\"\n      font-size: 20px;\n      font-weight: bold;\n      background-color: #f4f4f4;\n      padding: 10px 15px;\n      border-radius: 6px;\n      display: inline-block;\n      font-family: 'Courier New', monospace;\n      margin: 10px 0;\n    \">{{message}}</div><p style=\"font-size: 13px; color: #555;\">This OTP is valid for 10 minutes. Do not share it with anyone.</p><p>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Approve your ward's requests — OTP",
+      "template_key": "guardian.action_bulk",
+      "variables": [
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        },
+        {
+          "name": "noun",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "orgList",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "parentName",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi {{parentName}},</p><p>Your ward has requested to create a profile on <b>{{domain}}</b>. This profile will help your ward in discovering, and matching to relevant services and opportunities. Use the given OTP to agree to create their profile.</p><div style=\"\n      font-size: 20px;\n      font-weight: bold;\n      background-color: #f4f4f4;\n      padding: 10px 15px;\n      border-radius: 6px;\n      display: inline-block;\n      font-family: 'Courier New', monospace;\n      margin: 10px 0;\n    \">{{message}}</div><p style=\"font-size: 13px; color: #555;\">This OTP is valid for 10 minutes. Do not share it with anyone.</p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "OTP to verify access of your ward",
+      "template_key": "guardian.profile",
+      "variables": [
+        {
+          "name": "domain",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        },
+        {
+          "name": "parentName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "<html lang=\"en\" dir=\"ltr\">\n<body>\n<p>Hi!</p><p>Use the following One-Time Password (OTP) to sign in:</p><p><b>{{message}}</b></p><p>This OTP is valid for 5 mins. Do not share it with anyone.</p><p>- Team EkStep</p>\n</body>\n</html>\n",
+      "body_text": "Hi!\n\nUse the following One-Time Password (OTP) to sign in:\n\n{{message}}\n\nThis OTP is valid for 5 mins. Do not share it with anyone.\n\n- Team EkStep\n",
+      "channel": "email",
+      "subject": "OTP to verify access",
+      "template_key": "login_otp",
+      "variables": [
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your offer is now live, {{name}}. Seekers can discover and connect with it.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your offer</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your offer is published",
+      "template_key": "offer.create",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Thanks, {{name}} — your offer has been saved but isn't live yet. Complete the remaining details to make it discoverable to seekers.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Complete your offer</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Complete your offer",
+      "template_key": "offer.create_incomplete",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your offer is now paused, {{name}} — hidden from seekers until you reactivate it.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Reactivate your offer</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your offer is paused",
+      "template_key": "offer.pause",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your offer has been retired, {{name}}, and is no longer visible to seekers.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Browse your offers</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your offer has been retired",
+      "template_key": "offer.retire",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your offer has been updated successfully, {{name}}.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your offer</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your offer has been updated",
+      "template_key": "offer.update",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Use this OTP: <b>{{message}}</b></p><p>This OTP is valid for 10 minutes. Do not share it with anyone.</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your One-Time Password (OTP)",
+      "template_key": "otp.generic",
+      "variables": [
+        {
+          "name": "message",
+          "required": true,
+          "sensitive": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your profile is live, {{name}}. You can now discover and connect with opportunities and services near you.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your profile</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your profile is ready",
+      "template_key": "profile.create",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Thanks, {{name}} — your profile has been saved but isn't live yet. Complete the remaining details to make it discoverable so you can connect with opportunities and services near you.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Complete your profile</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Complete your profile",
+      "template_key": "profile.create_incomplete",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your profile is now paused, {{name}} — hidden from search and the map, and not receiving new requests. You can reactivate it anytime.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Reactivate your profile</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your profile is paused",
+      "template_key": "profile.pause",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your profile has been retired, {{name}}, and removed from the platform. Any active connections were closed. You can create a new profile anytime.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">Create a new profile</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your profile has been retired",
+      "template_key": "profile.retire",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>Your profile has been updated successfully, {{name}}.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your profile</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Your profile has been updated",
+      "template_key": "profile.update",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p>\n    <p>A profile you were connected with has been retired and is no longer available, so your active connection with it has been cancelled. No action is needed on your part.</p>\n    <p style=\"margin: 20px 0;\">\n      <a href=\"{{ctaUrl}}\" style=\"background-color:#2563eb;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:6px;display:inline-block;\">View your connections</a>\n    </p>\n    <p style=\"font-size:13px;color:#555;\">Or open this link: <a href=\"{{ctaUrl}}\" style=\"color:#2563eb;\">{{ctaUrl}}</a></p>\n    <p style=\"margin-top:24px;\">Thanks,<br/>Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "A connection has been cancelled",
+      "template_key": "retire.cancel",
+      "variables": [
+        {
+          "name": "ctaUrl",
+          "required": true,
+          "type": "url"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>The below {{type}} has been raised by {{name}}</p><p style=\"white-space:pre-wrap\">{{details}}</p><hr /><p style=\"margin:0 0 4px;font-weight:600\">Contact details</p><table style=\"border-collapse:collapse;font-size:13px\"><tr><td style=\"padding:2px 8px;color:#666\">Reference</td><td style=\"padding:2px 8px\">{{reference}}</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Name</td><td style=\"padding:2px 8px\">{{name}}</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Phone</td><td style=\"padding:2px 8px\">{{phone}}</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Email</td><td style=\"padding:2px 8px\">{{email}}</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Submitted at</td><td style=\"padding:2px 8px\">{{submittedAt}}</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Consent to share contact</td><td style=\"padding:2px 8px\">Yes</td></tr><tr><td style=\"padding:2px 8px;color:#666\">Attachments</td><td style=\"padding:2px 8px\">{{attachmentsSummary}}</td></tr></table><hr /><p style=\"margin:8px 0 0\">Regards,<br />Team {{teamName}}</p>\n  </div>",
+      "channel": "email",
+      "subject": "Issue Number: {{reference}} — {{type}} from {{name}}{{fromSite}}",
+      "template_key": "support.request",
+      "variables": [
+        {
+          "name": "attachmentsSummary",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "details",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "email",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "fromSite",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "phone",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "reference",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "submittedAt",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "teamName",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "type",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p><p>You have successfully registered on Blue Dot. You are one step away from finding jobs and services near you.</p><p>Complete your profile to get job matches that are right for you.</p><p><a href=\"{{siteUrl}}\" style=\"color: #1a56db; text-decoration: underline;\">{{siteUrl}}</a></p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "Welcome to Blue Dot – Complete your profile to get started",
+      "template_key": "welcome",
+      "variables": [
+        {
+          "name": "siteUrl",
+          "required": true,
+          "type": "url"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p><p>You have successfully registered on Blue Dot. You are one step away from offering your services near you.</p><p>Complete your profile to start connecting with the right people.</p><p><a href=\"{{siteUrl}}\" style=\"color: #1a56db; text-decoration: underline;\">{{siteUrl}}</a></p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "Welcome to Blue Dot – Complete your profile to get started",
+      "template_key": "welcome.provider",
+      "variables": [
+        {
+          "name": "siteUrl",
+          "required": true,
+          "type": "url"
+        }
+      ]
+    },
+    {
+      "body_html": "\n  <div style=\"font-family: Arial, sans-serif; font-size: 15px; color: #333;\">\n    <p>Hi!</p><p>You have successfully registered on Blue Dot. You are one step away from finding jobs and services near you.</p><p>Complete your profile to get job matches that are right for you.</p><p><a href=\"{{siteUrl}}\" style=\"color: #1a56db; text-decoration: underline;\">{{siteUrl}}</a></p><p>Thanks<br/>Team EkStep</p>\n  </div>",
+      "channel": "email",
+      "subject": "Welcome to Blue Dot – Complete your profile to get started",
+      "template_key": "welcome.seeker",
+      "variables": [
+        {
+          "name": "siteUrl",
+          "required": true,
+          "type": "url"
+        }
+      ]
+    },
+    {
+      "channel": "whatsapp",
+      "provider": "twilio",
+      "provider_template_id": "HX3f2a5d7e4a18e5664124592a12a154eb",
+      "template_key": "welcome",
+      "variables": [
+        {
+          "name": "1",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "version": "a886e57-20261006"
+}
