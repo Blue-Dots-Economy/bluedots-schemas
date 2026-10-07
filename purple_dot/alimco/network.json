@@ -310,7 +310,7 @@
               "type": "string",
               "title": "CRR Number",
               "description": "Your Central Rehabilitation Register (CRR) number from RCI",
-              "pattern": "^[0-9]+$",
+              "pattern": "^$|^[0-9]+$",
               "x-error-message": "Enter your CRR number using digits only.",
               "x-show-if": { "provider_category": ["RCI"] }
             },
