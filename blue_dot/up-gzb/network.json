@@ -2189,6 +2189,10 @@
           "from_domain": "seeker",
           "to_network": "blue_dot",
           "to_domain": "provider",
+          "column_fields": {
+            "from": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"],
+            "to": ["role", "natureOfJob", "positions"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Job Application Requirement",
@@ -2213,6 +2217,7 @@
                   "created",
                   "submitted",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2228,7 +2233,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider"] }
         }
       ]
     },
@@ -2240,6 +2246,10 @@
           "from_domain": "provider",
           "to_network": "blue_dot",
           "to_domain": "seeker",
+          "column_fields": {
+            "from": ["role", "natureOfJob", "positions"],
+            "to": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Interview Invitation Requirement",
@@ -2288,6 +2298,7 @@
                   "created",
                   "invited",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2303,13 +2314,18 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider"] }
         },
         {
           "from_network": "blue_dot",
           "from_domain": "seeker",
           "to_network": "blue_dot",
           "to_domain": "service_provider",
+          "column_fields": {
+            "from": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"],
+            "to": ["organisationName", "institutionType", "serviceAreas"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Service Enquiry Requirement",
@@ -2333,6 +2349,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2348,13 +2365,18 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["service_provider"] }
         },
         {
           "from_network": "blue_dot",
           "from_domain": "service_provider",
           "to_network": "blue_dot",
           "to_domain": "seeker",
+          "column_fields": {
+            "from": ["organisationName", "institutionType", "serviceAreas"],
+            "to": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Service Offer Requirement",
@@ -2383,6 +2405,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2398,13 +2421,18 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["service_provider"] }
         },
         {
           "from_network": "blue_dot",
           "from_domain": "provider",
           "to_network": "blue_dot",
           "to_domain": "service_provider",
+          "column_fields": {
+            "from": ["role", "natureOfJob", "positions"],
+            "to": ["organisationName", "institutionType", "serviceAreas"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Employer To Service Provider Connect Requirement",
@@ -2433,6 +2461,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2448,13 +2477,18 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider", "service_provider"] }
         },
         {
           "from_network": "blue_dot",
           "from_domain": "service_provider",
           "to_network": "blue_dot",
           "to_domain": "provider",
+          "column_fields": {
+            "from": ["organisationName", "institutionType", "serviceAreas"],
+            "to": ["role", "natureOfJob", "positions"]
+          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Service Provider To Employer Connect Requirement",
@@ -2483,6 +2517,7 @@
                 "enum": [
                   "created",
                   "accepted",
+                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -2498,7 +2533,8 @@
             "reject": ["rejected"],
             "cancel": ["cancelled"]
           },
-          "reveals_pii_on_status": ["accepted"]
+          "reveals_pii_on_status": ["accepted", "completed"],
+          "export": { "requester_domains": ["provider", "service_provider"] }
         }
       ]
     }
