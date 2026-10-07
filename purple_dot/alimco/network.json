@@ -273,6 +273,18 @@
             "official_address",
             "service_details"
           ],
+          "allOf": [
+            {
+              "if": {
+                "properties": { "provider_category": { "const": "RCI" } },
+                "required": ["provider_category"]
+              },
+              "then": {
+                "required": ["crr_number", "professional_type"],
+                "properties": { "crr_number": { "minLength": 1 } }
+              }
+            }
+          ],
           "properties": {
             "contact_name": {
               "type": "string",
