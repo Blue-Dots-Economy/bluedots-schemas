@@ -471,7 +471,17 @@
       "card": {
         "title_field": "organisation_name",
         "avatar_from": "organisation_name",
-        "default_fields": ["provider_category", "professional_type", "services_offered", "service_cities", "disabilities_served"]
+        "default_fields": ["provider_category", "professional_type", "services_offered", "service_cities", "disabilities_served"],
+        "extra_fields": [
+          "contact_name",
+          "contact_phone",
+          "contact_email",
+          "organisation_name",
+          "website",
+          "official_address",
+          "service_details",
+          "catalog_url"
+        ]
       },
       "contact_fields": { "name": "contact_name", "phone": "contact_phone", "email": "contact_email" },
       "dashboard_tiles": {
