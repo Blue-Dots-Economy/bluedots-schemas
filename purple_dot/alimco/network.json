@@ -249,7 +249,7 @@
               },
               {
                 "title": "Organisation",
-                "fields": ["provider_category", "crr_number", "professional_type", "organisation_name", "website", "official_address"]
+                "fields": ["provider_category", "organisation_name", "website", "official_address"]
               },
               {
                 "title": "Services & Coverage",
@@ -272,18 +272,6 @@
             "service_cities",
             "official_address",
             "service_details"
-          ],
-          "allOf": [
-            {
-              "if": {
-                "properties": { "provider_category": { "const": "RCI" } },
-                "required": ["provider_category"]
-              },
-              "then": {
-                "required": ["crr_number", "professional_type"],
-                "properties": { "crr_number": { "minLength": 1 } }
-              }
-            }
           ],
           "properties": {
             "contact_name": {
@@ -311,40 +299,11 @@
               "description": "Select the category that applies to you",
               "enum": [
                 "NGO",
-                "RCI",
                 "Government Entity",
                 "Private Company",
                 "Community Group",
                 "Private Individual Practice"
               ]
-            },
-            "crr_number": {
-              "type": "string",
-              "title": "CRR Number",
-              "pattern": "^$|^[0-9]+$",
-              "x-error-message": "Enter your CRR number using digits only.",
-              "x-show-if": { "provider_category": ["RCI"] }
-            },
-            "professional_type": {
-              "type": "string",
-              "title": "Type of Professional",
-              "enum": [
-                "Prosthetist & Orthotist (P&O)",
-                "Special Educator",
-                "Rehabilitation Counsellor",
-                "Audiologist and Speech-Language Pathologist (ASLP)",
-                "Rehabilitation Social Worker",
-                "Community-Based Rehabilitation Professional",
-                "Rehabilitation Psychologist",
-                "Orientation & Mobility Specialist",
-                "Multipurpose Rehabilitation Therapist",
-                "Vocational Counsellor / Placement Officer",
-                "Physical Therapist",
-                "Recreational Therapist",
-                "Clinical Psychologist",
-                "Other"
-              ],
-              "x-show-if": { "provider_category": ["RCI"] }
             },
             "organisation_name": {
               "type": "string",
@@ -471,17 +430,7 @@
       "card": {
         "title_field": "organisation_name",
         "avatar_from": "organisation_name",
-        "default_fields": ["provider_category", "professional_type", "services_offered", "service_cities", "disabilities_served"],
-        "extra_fields": [
-          "contact_name",
-          "contact_phone",
-          "contact_email",
-          "organisation_name",
-          "website",
-          "official_address",
-          "service_details",
-          "catalog_url"
-        ]
+        "default_fields": ["provider_category", "services_offered", "service_cities", "disabilities_served"]
       },
       "contact_fields": { "name": "contact_name", "phone": "contact_phone", "email": "contact_email" },
       "dashboard_tiles": {
