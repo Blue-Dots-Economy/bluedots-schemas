@@ -8,10 +8,54 @@
       "description": "People looking for jobs.",
       "minimum_cache_ttl_seconds": 300,
       "status_rules": [
-        { "status": "new",      "label": "New",      "description": "Joined within the last 7 days",            "when": { "item_age_days": { "lte": 7 } } },
-        { "status": "active",   "label": "Active",   "description": "Applied to a job in the last 30 days",     "when": { "days_since_last": { "buckets": ["create", "accept"], "lte": 30 } } },
-        { "status": "at_risk",  "label": "At Risk",  "description": "No applications for 30–90 days",           "when": { "days_since_last": { "buckets": ["create", "accept", "reject"], "between": [31, 90] } } },
-        { "status": "inactive", "label": "Inactive", "description": "No activity 90+ days",                     "when": "default" }
+        {
+          "status": "new",
+          "label": "New",
+          "description": "Joined within the last 7 days",
+          "when": {
+            "item_age_days": {
+              "lte": 7
+            }
+          }
+        },
+        {
+          "status": "active",
+          "label": "Active",
+          "description": "Applied to a job in the last 30 days",
+          "when": {
+            "days_since_last": {
+              "buckets": [
+                "create",
+                "accept"
+              ],
+              "lte": 30
+            }
+          }
+        },
+        {
+          "status": "at_risk",
+          "label": "At Risk",
+          "description": "No applications for 30–90 days",
+          "when": {
+            "days_since_last": {
+              "buckets": [
+                "create",
+                "accept",
+                "reject"
+              ],
+              "between": [
+                31,
+                90
+              ]
+            }
+          }
+        },
+        {
+          "status": "inactive",
+          "label": "Inactive",
+          "description": "No activity 90+ days",
+          "when": "default"
+        }
       ],
       "item_schemas": {
         "profile_1.0": {
@@ -23,7 +67,13 @@
             "sections": [
               {
                 "title": "Personal Details",
-                "fields": ["name", "age", "gender", "phone", "location"]
+                "fields": [
+                  "name",
+                  "age",
+                  "gender",
+                  "phone",
+                  "location"
+                ]
               },
               {
                 "title": "Work Experience & Preferences",
@@ -67,8 +117,6 @@
           },
           "required": [
             "name",
-            "location",
-            "age",
             "phone"
           ],
           "properties": {
@@ -86,7 +134,8 @@
                 "Female",
                 "Other",
                 "Don't want to share"
-              ]
+              ],
+              "filterable": true
             },
             "location": {
               "type": "string",
@@ -97,7 +146,7 @@
             "phone": {
               "type": "string",
               "title": "Mobile Number",
-              "pattern": "^(\\+91[6-9][0-9]{9}|[6-9][0-9]{9}|\\+[1-8][0-9]{9,14}|\\+9[02-9][0-9]{8,13})$",
+              "minimum": 10,
               "private": true
             },
             "age": {
@@ -131,11 +180,13 @@
                 "15+ Years",
                 "Other"
               ],
-               "x-show-if": {
+              "x-show-if": {
                 "workExperience": [
-                  "Worked before", "Returning after a break"
+                  "Worked before",
+                  "Returning after a break"
                 ]
-              }
+              },
+              "filterable": true
             },
             "natureOfJobsInterestedIn": {
               "vectorize": true,
@@ -146,7 +197,8 @@
                 "Apprenticeship",
                 "Full-time",
                 "Flexible"
-              ]
+              ],
+              "filterable": true
             },
             "nameOfJobRolesInterestedIn": {
               "type": "string",
@@ -172,23 +224,34 @@
               "title": "Education Category",
               "description": "Select your education category",
               "enum": [
-                "School",
-                "College",
+                "Upto 9th",
+                "10th Pass",
+                "12th Pass",
                 "ITI",
-                "Polytechnic / Diploma",
-                "Certification",
-                "Learned Informally",
-                "Other Vocational Training"
+                "Diploma After 10th",
+                "Diploma After 12th",
+                "Graduate",
+                "Post Graduate",
+                "PG Diploma",
+                "PHD / Super Specialist",
+                "NotSpecified",
+                "No Schooling"
               ],
               "enumNames": [
-                "School",
-                "College",
+                "Upto 9th",
+                "10th Pass",
+                "12th Pass",
                 "ITI",
-                "Polytechnic / Diploma",
-                "Certification",
-                "Learned Informally",
-                "Other Vocational Training"
-              ]
+                "Diploma After 10th",
+                "Diploma After 12th",
+                "Graduate",
+                "Post Graduate",
+                "PG Diploma",
+                "PHD / Super Specialist",
+                "NotSpecified",
+                "No Schooling"
+              ],
+              "filterable": true
             },
             "schoolQualification": {
               "vectorize": true,
@@ -693,7 +756,13 @@
               "title": "College / Institute Name",
               "description": "Please specify your college or institute name",
               "placeholder": "Please specify your college or institute name",
-              "x-reference-source": { "source": "colleges", "subtitle": ["district", "state"] }
+              "x-reference-source": {
+                "source": "colleges",
+                "subtitle": [
+                  "district",
+                  "state"
+                ]
+              }
             },
             "nameOfLastRoleHeld": {
               "type": "string",
@@ -768,9 +837,10 @@
         }
       },
       "id": "seeker",
-      "go_live_required": ["schema_required", "consent_required"],
-      "guardian_consent_required": true,
-      "max_profiles_per_user": 5,
+      "go_live_required": [
+        "schema_required"
+      ],
+      "guardian_consent_required": false,
       "profile_completion_prompt": {
         "heading": "Complete your profile to get discovered",
         "body": "Employers can find and connect with you only once your profile is live. Fill in the details below to start getting job opportunities."
@@ -778,30 +848,124 @@
       "card": {
         "title_field": "name",
         "avatar_from": "name",
-        "default_fields": ["location", "natureOfJobsInterestedIn", "educationCategory", "workExperience"]
+        "default_fields": [
+          "location",
+          "natureOfJobsInterestedIn",
+          "educationCategory",
+          "workExperience"
+        ]
       },
-      "contact_fields": { "name": "name", "phone": "phone" },
+      "contact_fields": {
+        "name": "name",
+        "phone": "phone"
+      },
       "dashboard_tiles": {
         "profile": [
-          { "field": "total_items", "label": "Profiles Registered" },
-          { "field": "complete_profiles", "label": "Profiles Complete" },
-          { "field": "has_applications", "label": "Applied for Jobs" }
+          {
+            "field": "total_items",
+            "label": "Profiles Registered"
+          },
+          {
+            "field": "complete_profiles",
+            "label": "Profiles Complete"
+          },
+          {
+            "field": "has_applications",
+            "label": "Applied for Jobs"
+          }
         ],
         "user": [
-          { "field": "total_users", "label": "Total Job Seekers" },
-          { "field": "avg_items_per_user", "label": "Avg Profiles per User" },
-          { "field": "avg_actions_per_user", "label": "Avg Actions per User" }
+          {
+            "field": "total_users",
+            "label": "Total Job Seekers"
+          },
+          {
+            "field": "avg_items_per_user",
+            "label": "Avg Profiles per User"
+          },
+          {
+            "field": "avg_actions_per_user",
+            "label": "Avg Actions per User"
+          }
         ]
-      }
+      },
+      "max_profiles_per_user": 999999
     },
     {
       "description": "Employers and recruiters posting jobs.",
       "minimum_cache_ttl_seconds": 300,
       "status_rules": [
-        { "status": "new",      "label": "New",      "description": "Job posted within the last 7 days",                                "when": { "item_age_days": { "lte": 7 } } },
-        { "status": "active",   "label": "Active",   "description": "Received applications and shortlisted or rejected in last 30 days", "when": { "all": [ { "count": { "buckets": ["create"], "gt": 0 } }, { "days_since_last": { "buckets": ["accept", "reject"], "lte": 30 } } ] } },
-        { "status": "at_risk",  "label": "At Risk",  "description": "No applications shortlisted or rejected for 30–90 days",            "when": { "all": [ { "count": { "buckets": ["create"], "gt": 0 } }, { "days_since_last": { "buckets": ["accept", "reject"], "between": [31, 90] } } ] } },
-        { "status": "inactive", "label": "Inactive", "description": "No activity for 90+ days",                                          "when": "default" }
+        {
+          "status": "new",
+          "label": "New",
+          "description": "Job posted within the last 7 days",
+          "when": {
+            "item_age_days": {
+              "lte": 7
+            }
+          }
+        },
+        {
+          "status": "active",
+          "label": "Active",
+          "description": "Received applications and shortlisted or rejected in last 30 days",
+          "when": {
+            "all": [
+              {
+                "count": {
+                  "buckets": [
+                    "create"
+                  ],
+                  "gt": 0
+                }
+              },
+              {
+                "days_since_last": {
+                  "buckets": [
+                    "accept",
+                    "reject"
+                  ],
+                  "lte": 30
+                }
+              }
+            ]
+          }
+        },
+        {
+          "status": "at_risk",
+          "label": "At Risk",
+          "description": "No applications shortlisted or rejected for 30–90 days",
+          "when": {
+            "all": [
+              {
+                "count": {
+                  "buckets": [
+                    "create"
+                  ],
+                  "gt": 0
+                }
+              },
+              {
+                "days_since_last": {
+                  "buckets": [
+                    "accept",
+                    "reject"
+                  ],
+                  "between": [
+                    31,
+                    90
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "status": "inactive",
+          "label": "Inactive",
+          "description": "No activity for 90+ days",
+          "when": "default"
+        }
       ],
       "item_schemas": {
         "job_posting_1.0": {
@@ -814,21 +978,40 @@
             "sections": [
               {
                 "title": "Job Details",
-                "fields": ["jobProviderName", "jobProviderLocation", "role", "title", "positions", "natureOfJob"]
+                "fields": [
+                  "jobProviderName",
+                  "jobProviderLocation",
+                  "role",
+                  "title",
+                  "positions",
+                  "natureOfJob"
+                ]
               },
               {
                 "title": "Hiring Contact",
-                "fields": ["hiringManagerName", "hiringManagerPhoneNumber", "hiringManagerEmail"]
+                "fields": [
+                  "hiringManagerName",
+                  "hiringManagerPhoneNumber",
+                  "hiringManagerEmail"
+                ]
               },
               {
                 "title": "Compensation",
-                "fields": ["stipendMin", "stipendMax", "salaryMin", "salaryMax", "taskRateMin", "taskRateMax"]
+                "fields": [
+                  "stipendMin",
+                  "stipendMax",
+                  "salaryMin",
+                  "salaryMax",
+                  "taskRateMin",
+                  "taskRateMax"
+                ]
               },
               {
                 "title": "Candidate Requirements",
                 "fields": [
                   "candidateExperienceType",
-                  "workExperienceYears",
+                  "minExperienceYears",
+                  "maxExperienceYears",
                   "lastRoleHeld",
                   "minEducationalInstitute",
                   "minQualificationSchool",
@@ -841,6 +1024,16 @@
                   "minQualificationCert",
                   "minQualificationInformal"
                 ]
+              },
+              {
+                "title": "Diversity & Inclusion",
+                "fields": [
+                  "genderPreference",
+                  "exServicemanPreferred",
+                  "pwdCandidateWelcome",
+                  "isGovernmentJob",
+                  "category"
+                ]
               }
             ],
             "twoColumn": [
@@ -852,7 +1045,9 @@
               "salaryMin",
               "salaryMax",
               "taskRateMin",
-              "taskRateMax"
+              "taskRateMax",
+              "minExperienceYears",
+              "maxExperienceYears"
             ]
           },
           "required": [
@@ -885,14 +1080,12 @@
             },
             "hiringManagerPhoneNumber": {
               "type": "string",
-              "title": "Hiring Manager Phone Number",
-              "pattern": "^(\\+91[1-9][0-9]{9}|0?[1-9][0-9]{9}|\\+[1-8][0-9]{9,14}|\\+9[02-9][0-9]{8,13})$",
+              "title": "Hiring Manager Mobile Number",
               "private": true
             },
             "hiringManagerEmail": {
               "type": "string",
               "title": "Hiring Manager Email",
-              "format": "email",
               "private": true
             },
             "role": {
@@ -912,12 +1105,16 @@
               "type": "string",
               "title": "Nature of Job",
               "enum": [
-                "Internship",
-                "Apprenticeship",
                 "Full-time",
+                "Part-time",
+                "Contract",
+                "Internship",
+                "Freelance",
+                "Apprenticeship",
                 "Flexible",
                 "Not Available"
-              ]
+              ],
+              "filterable": true
             },
             "stipendMin": {
               "type": "number",
@@ -931,12 +1128,48 @@
             },
             "salaryMin": {
               "type": "number",
-              "title": "Monthly In-hand Salary (INR) min",
-              "minimum": 0
+              "title": "Annual Salary (INR) min",
+              "minimum": 0,
+              "filterable": true,
+              "x-range-filter": {
+                "title": "Salary Ranges",
+                "max_field": "salaryMax",
+                "buckets": [
+                  {
+                    "label": "0-3 LPA",
+                    "min": 0,
+                    "max": 300000
+                  },
+                  {
+                    "label": "3-6 LPA",
+                    "min": 300000,
+                    "max": 600000
+                  },
+                  {
+                    "label": "6-10 LPA",
+                    "min": 600000,
+                    "max": 1000000
+                  },
+                  {
+                    "label": "10-15 LPA",
+                    "min": 1000000,
+                    "max": 1500000
+                  },
+                  {
+                    "label": "15-25 LPA",
+                    "min": 1500000,
+                    "max": 2500000
+                  },
+                  {
+                    "label": "25+ LPA",
+                    "min": 2500000
+                  }
+                ]
+              }
             },
             "salaryMax": {
               "type": "number",
-              "title": "Monthly In-hand Salary (INR) max",
+              "title": "Annual Salary (INR) max",
               "minimum": 0
             },
             "taskRateMin": {
@@ -973,31 +1206,61 @@
                 "Other Vocational Training",
                 "Certifications",
                 "Learned Informally"
-            ]
-            },
-            "workExperienceYears": {
-              "type": "string",
-              "title": "Work Experience (Years)",
-              "description": "Preferred minimum years of work experience",
-              "enum": [
-                "0",
-                "< 1 Year",
-                "1 Year",
-                "2 Years",
-                "3 Years",
-                "3-5 Years",
-                "5-10 Years",
-                "10-15 Years",
-                "15+ Years",
-                "Other"
               ]
+            },
+            "minExperienceYears": {
+              "type": "integer",
+              "title": "Min. Experience (Years)",
+              "description": "Minimum years of experience required (from NCS min_experience column)",
+              "minimum": 0,
+              "filterable": true,
+              "x-range-filter": {
+                "title": "Experience Levels",
+                "max_field": "maxExperienceYears",
+                "buckets": [
+                  {
+                    "label": "Fresher (0-1 years)",
+                    "min": 0,
+                    "max": 1
+                  },
+                  {
+                    "label": "Junior (1-3 years)",
+                    "min": 1,
+                    "max": 3
+                  },
+                  {
+                    "label": "Mid-level (3-6 years)",
+                    "min": 3,
+                    "max": 6
+                  },
+                  {
+                    "label": "Senior (6-10 years)",
+                    "min": 6,
+                    "max": 10
+                  },
+                  {
+                    "label": "Lead (10+ years)",
+                    "min": 10
+                  }
+                ]
+              }
+            },
+            "maxExperienceYears": {
+              "type": "integer",
+              "title": "Max. Work Experience (Years)",
+              "description": "Maximum years of experience required (from NCS max_experience column)",
+              "minimum": 0
             },
             "lastRoleHeld": {
               "type": "string",
               "title": "Name of last role held",
               "description": "Enter the names of roles the candidate should have last held",
               "placeholder": "Enter the names of roles the candidate should have last held",
-              "x-show-if": { "candidateExperienceType": ["Worked before"] },
+              "x-show-if": {
+                "candidateExperienceType": [
+                  "Worked before"
+                ]
+              },
               "vectorize": true
             },
             "title": {
@@ -1305,15 +1568,91 @@
                   "Learned Informally"
                 ]
               }
+            },
+            "ncsJobId": {
+              "type": "string",
+              "title": "NCS Job ID",
+              "description": "Original NCS job post ID for reference"
+            },
+            "educationLevel": {
+              "type": "string",
+              "title": "Education Level",
+              "description": "Education level required for the job (from NCS education_types column, e.g. Graduate, Diploma After 12th)",
+              "filterable": true,
+              "enum": [
+                "Upto 9th",
+                "10th Pass",
+                "12th Pass",
+                "ITI",
+                "Diploma After 10th",
+                "Diploma After 12th",
+                "Graduate",
+                "Post Graduate",
+                "PG Diploma",
+                "PHD / Super Specialist",
+                "NotSpecified",
+                "No Schooling"
+              ]
+            },
+            "genderPreference": {
+              "type": "string",
+              "title": "Gender Preference",
+              "description": "Gender preference for the job (from NCS gender_preference column)",
+              "enum": [
+                "Male",
+                "Female",
+                "Transgender",
+                "Any"
+              ],
+              "filterable": true,
+              "x-filter-include-values": [
+                "Any"
+              ]
+            },
+            "exServicemanPreferred": {
+              "type": "boolean",
+              "title": "Ex-Serviceman Preferred",
+              "description": "Whether the job prefers ex-serviceman candidates (from NCS ex_serviceman_preferred column)",
+              "filterable": true
+            },
+            "pwdCandidateWelcome": {
+              "type": "boolean",
+              "title": "PWD Candidate Welcome",
+              "description": "Whether the job welcomes PWD / differently abled candidates (from NCS pwd_candidate_welcome column)",
+              "filterable": true
+            },
+            "isGovernmentJob": {
+              "type": "boolean",
+              "title": "Government Job",
+              "description": "Whether this is a government/PSU job (from NCS is_government_job column)",
+              "filterable": false
+            },
+            "category": {
+              "type": "string",
+              "title": "Reservation Category",
+              "description": "Candidate reservation category (from NCS category column)",
+              "enum": [
+                "GEN",
+                "OBC",
+                "SC",
+                "ST",
+                "EWS",
+                "PWD",
+                "Ex-Serviceman",
+                "Private",
+                "MNC",
+                "Any"
+              ]
             }
           }
         }
       },
       "id": "provider",
-      "go_live_required": ["schema_required", "consent_required"],
+      "go_live_required": [
+        "schema_required"
+      ],
       "my_items_label": "My Jobs",
       "guardian_consent_required": false,
-      "max_profiles_per_user": 5,
       "profile_completion_prompt": {
         "heading": "Complete your profile to start hiring",
         "body": "Seekers can see and apply to your postings only once your profile is live. Add the details below to reach candidates."
@@ -1321,21 +1660,56 @@
       "card": {
         "title_field": "jobProviderName",
         "avatar_from": "jobProviderName",
-        "default_fields": ["role", "jobProviderLocation", "natureOfJob", "positions"]
+        "default_fields": [
+          "role",
+          "jobProviderLocation",
+          "natureOfJob",
+          "positions",
+          "ncsJobId",
+          "genderPreference",
+          "isGovernmentJob",
+          "exServicemanPreferred",
+          "pwdCandidateWelcome",
+          "category",
+          "maxExperienceYears"
+        ]
       },
-      "contact_fields": { "name": "jobProviderName", "phone": "hiringManagerPhoneNumber", "email": "hiringManagerEmail" },
+      "contact_fields": {
+        "name": "jobProviderName",
+        "phone": "hiringManagerPhoneNumber",
+        "email": "hiringManagerEmail"
+      },
       "dashboard_tiles": {
         "profile": [
-          { "field": "total_items", "label": "Postings Registered" },
-          { "field": "complete_profiles", "label": "Postings Complete" },
-          { "field": "has_applications", "label": "Received Applications" }
+          {
+            "field": "total_items",
+            "label": "Postings Registered"
+          },
+          {
+            "field": "complete_profiles",
+            "label": "Postings Complete"
+          },
+          {
+            "field": "has_applications",
+            "label": "Received Applications"
+          }
         ],
         "user": [
-          { "field": "total_users", "label": "Total Employers" },
-          { "field": "avg_items_per_user", "label": "Avg Profiles per User" },
-          { "field": "avg_actions_per_user", "label": "Avg Actions per User" }
+          {
+            "field": "total_users",
+            "label": "Total Employers"
+          },
+          {
+            "field": "avg_items_per_user",
+            "label": "Avg Profiles per User"
+          },
+          {
+            "field": "avg_actions_per_user",
+            "label": "Avg Actions per User"
+          }
         ]
-      }
+      },
+      "max_profiles_per_user": 999999
     }
   ],
   "instances": [
@@ -1361,10 +1735,6 @@
           "from_domain": "seeker",
           "to_network": "blue_dot",
           "to_domain": "provider",
-          "column_fields": {
-            "from": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"],
-            "to": ["role", "natureOfJob", "positions"]
-          },
           "requirement_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Job Application Requirement",
@@ -1389,7 +1759,6 @@
                   "created",
                   "submitted",
                   "accepted",
-                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -1400,13 +1769,23 @@
             }
           },
           "metric_categories": {
-            "create": ["created", "submitted"],
-            "accept": ["accepted"],
-            "reject": ["rejected"],
-            "cancel": ["cancelled"]
+            "create": [
+              "created",
+              "submitted"
+            ],
+            "accept": [
+              "accepted"
+            ],
+            "reject": [
+              "rejected"
+            ],
+            "cancel": [
+              "cancelled"
+            ]
           },
-          "reveals_pii_on_status": ["accepted", "completed"],
-          "export": { "requester_domains": ["provider"] }
+          "reveals_pii_on_status": [
+            "accepted"
+          ]
         }
       ]
     },
@@ -1418,39 +1797,76 @@
           "from_domain": "provider",
           "to_network": "blue_dot",
           "to_domain": "provider",
-          "column_fields": {
-            "from": ["role", "natureOfJob", "positions"],
-            "to": ["role", "natureOfJob", "positions"]
+          "requirement_schema": {
+            "type": "object",
+            "properties": {}
           },
-          "requirement_schema": { "type": "object", "properties": {} },
           "event_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Provider To Provider Connect Event",
             "type": "object",
             "additionalProperties": false,
-            "required": ["status", "remark"],
+            "required": [
+              "status",
+              "remark"
+            ],
             "properties": {
               "status": {
                 "type": "string",
-                "enum": ["created", "accepted", "completed", "rejected", "cancelled"]
+                "enum": [
+                  "created",
+                  "accepted",
+                  "rejected",
+                  "cancelled"
+                ]
               },
-              "remark": { "type": "string" }
+              "remark": {
+                "type": "string"
+              }
             }
           },
           "metric_categories": null,
-          "reveals_pii_on_status": ["accepted", "completed"],
-          "export": { "requester_domains": ["provider"] }
+          "reveals_pii_on_status": [
+            "accepted"
+          ]
         },
         {
           "from_network": "blue_dot",
           "from_domain": "provider",
           "to_network": "blue_dot",
           "to_domain": "seeker",
-          "column_fields": {
-            "from": ["role", "natureOfJob", "positions"],
-            "to": ["educationCategory", "workExperience", "natureOfJobsInterestedIn", "languageSpoken"]
+          "requirement_schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "title": "Interview Invitation Requirement",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "interview_time",
+              "interview_mode"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "interview_time": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "interview_mode": {
+                "type": "string",
+                "enum": [
+                  "in_person",
+                  "online",
+                  "phone"
+                ]
+              },
+              "message_to_candidate": {
+                "type": "string"
+              }
+            }
           },
-          "requirement_schema": { "type": "object", "properties": {} },
           "event_schema": {
             "$schema": "https://json-schema.org/draft/2020-12/schema",
             "title": "Interview Invitation Event",
@@ -1467,7 +1883,6 @@
                   "created",
                   "invited",
                   "accepted",
-                  "completed",
                   "rejected",
                   "cancelled"
                 ]
@@ -1478,13 +1893,23 @@
             }
           },
           "metric_categories": {
-            "create": ["created", "invited"],
-            "accept": ["accepted"],
-            "reject": ["rejected"],
-            "cancel": ["cancelled"]
+            "create": [
+              "created",
+              "invited"
+            ],
+            "accept": [
+              "accepted"
+            ],
+            "reject": [
+              "rejected"
+            ],
+            "cancel": [
+              "cancelled"
+            ]
           },
-          "reveals_pii_on_status": ["accepted", "completed"],
-          "export": { "requester_domains": ["provider"] }
+          "reveals_pii_on_status": [
+            "accepted"
+          ]
         }
       ]
     }
@@ -1509,5 +1934,6 @@
       "reject": "Rejected",
       "cancel": "Cancelled"
     }
-  }
+  },
+  "max_profiles_per_user": 999999
 }
