@@ -1744,6 +1744,7 @@
         }
       },
       "id": "provider",
+      "profile_limits": { "live": 200, "total": 300 },
       "go_live_required": ["schema_required", "consent_required"],
       "my_items_label": "My Jobs",
       "guardian_consent_required": false,

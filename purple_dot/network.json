@@ -421,6 +421,7 @@
         "body": "People looking for services can discover and connect with you only once your profile is live. Add your details below to start helping."
       },
       "id": "provider",
+      "profile_limits": { "live": 200, "total": 300 },
       "label": "Service Provider",
       "plural_label": "Service Providers",
       "go_live_required": ["schema_required", "consent_required"],

@@ -770,7 +770,6 @@
       "id": "seeker",
       "go_live_required": ["schema_required", "consent_required"],
       "guardian_consent_required": true,
-      "max_profiles_per_user": 5,
       "profile_completion_prompt": {
         "heading": "Complete your profile to get discovered",
         "body": "Employers can find and connect with you only once your profile is live. Fill in the details below to start getting job opportunities."
@@ -1313,7 +1312,7 @@
       "go_live_required": ["schema_required", "consent_required"],
       "my_items_label": "My Jobs",
       "guardian_consent_required": false,
-      "max_profiles_per_user": 5,
+      "profile_limits": { "live": 200, "total": 300 },
       "profile_completion_prompt": {
         "heading": "Complete your profile to start hiring",
         "body": "Seekers can see and apply to your postings only once your profile is live. Add the details below to reach candidates."
