@@ -44,6 +44,7 @@
     { "input": "XX:+1", "valid": false },
     { "input": "IN:+91,IN:+91", "valid": false },
     { "input": "US:+1,CA:+1", "valid": false },
-    { "input": "IN:+91,FO:+298", "valid": false }
+    { "input": "IN:+91,FO:+298", "valid": false },
+    { "input": "IN:+91,AD:+376", "valid": false }
   ]
 }
