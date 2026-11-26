@@ -956,6 +956,7 @@
         }
       },
       "id": "seeker",
+      "profile_limits": { "live": 5, "total": 10 },
       "my_items_label": "My Actions",
       "go_live_required": ["schema_required", "consent_required"],
       "guardian_consent_required": true,
