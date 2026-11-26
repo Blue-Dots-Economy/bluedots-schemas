@@ -2138,6 +2138,7 @@
         }
       },
       "id": "service_provider",
+      "profile_limits": { "live": 200, "total": 300 },
       "go_live_required": ["schema_required", "consent_required"],
       "my_items_label": "My Services",
       "guardian_consent_required": false,
