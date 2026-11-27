@@ -6,6 +6,7 @@
   "domains": [
     {
       "name": "seeker",
+      "profile_limits": { "live": 200, "total": 300 },
       "description": "People looking for jobs.",
       "minimum_cache_ttl_seconds": 300,
       "item_schemas": {
@@ -102,6 +103,7 @@
     },
     {
       "name": "provider",
+      "profile_limits": { "live": 200, "total": 300 },
       "description": "Employers and recruiters posting jobs.",
       "minimum_cache_ttl_seconds": 300,
       "item_schemas": {

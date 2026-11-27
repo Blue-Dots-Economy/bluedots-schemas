@@ -87,6 +87,7 @@
         "body": "Tutors and counsellors can find and connect with you only once your profile is live. Fill in the details below to get matched."
       },
       "id": "student",
+      "profile_limits": { "live": 200, "total": 300 },
       "contact_fields": { "name": "Full Name", "phone": "Phone Number", "email": "Email Address" },
       "go_live_required": ["schema_required", "consent_required"],
       "card": {
@@ -202,6 +203,7 @@
         "body": "Students can find and connect with you only once your profile is live. Add your details below to start getting learners."
       },
       "id": "individual_tutor_weera_counsellor",
+      "profile_limits": { "live": 200, "total": 300 },
       "contact_fields": { "name": "Full Name", "phone": "Phone Number", "email": "Email Address" },
       "go_live_required": ["schema_required", "consent_required"],
       "card": {
